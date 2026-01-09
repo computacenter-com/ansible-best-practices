@@ -59,5 +59,5 @@ Those guidelines are **opinionated** and are based on the experience of many pro
 
 !!! success
     **If you have good and best practices yourself, please share them, we all can learn.**  
-    Open a [documentation request](https://github.com/TimGrt/Ansible-Best-Practices/issues/new/choose) or fork the repository and open a Pull Request afterwards.  
-    Take a look at our [Contributing guidelines](https://github.com/TimGrt/Ansible-Best-Practices/blob/main/.github/CONTRIBUTING.md) on how to setup a development environment and additional information.
+    Open a [documentation request](https://github.com/computacenter-com/ansible-best-practices/issues/new/choose) or fork the repository and open a Pull Request afterwards.  
+    Take a look at our [Contributing guidelines](https://github.com/computacenter-com/ansible-best-practices/blob/main/.github/CONTRIBUTING.md) on how to setup a development environment and additional information.

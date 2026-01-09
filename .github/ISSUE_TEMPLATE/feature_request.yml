@@ -10,7 +10,7 @@ body:
 
         💡 **Please note**
         This Issue type is meant for suggesting features to the Zenscial deployment itself. For missing
-        documentation or guidance, please use the [Documentation request](https://github.com/TimGrt/Ansible-Best-Practices/issues/new?assignees=&labels=feature&template=documentation_request.yml) issue type.
+        documentation or guidance, please use the [Documentation request](https://github.com/computacenter-com/ansible-best-practices/issues/new?assignees=&labels=feature&template=documentation_request.yml) issue type.
 
   - type: input
     id: contact
