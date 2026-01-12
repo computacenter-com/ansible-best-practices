@@ -125,11 +125,6 @@ icon = "simple/githubactions"
 link = "https://github.com/computacenter-com/ansible-best-practices/actions"
 name = "CI/CD Pipelines"
 
-[[project.extra.social]]
-icon = "fontawesome/brands/docker"
-link = "https://github.com/computacenter-com/ansible-best-practices/pkgs/container/ansible-best-practices"
-name = "Docker Container in Github Container Repository"
-
 # ----------------------------------------------------------------------------
 # Markdown Extensions
 # ----------------------------------------------------------------------------
