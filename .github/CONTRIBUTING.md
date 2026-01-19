@@ -1,8 +1,15 @@
 # Contributing Guidelines
 
-Thank you for taking the time to contribute to the *Ansible Best Practice Guide*!
+❤️ **Thank you, for taking the time to contribute to the *Ansible Best Practice Guide*!**
 
-## Create development environment
+## Documentation Guidelines
+
+The Guidelines are written in Markdown and built with the *static-site generator* [Zensical](https://zensical.org/docs/get-started/), take a look at the [basics](https://zensical.org/docs/setup/basics/) and some [advanced features](https://zensical.org/docs/authoring/markdown/).  
+Use all available features from Zensical, if it helps with visualizing and describing Good and Best Practices!
+
+To ensure that the *Best Practice Guide* has a common *look and feel* take a look and follow the next guidelines when contributing to the documentation.  
+
+### Create development environment
 
 Run the provided *Makefile*, the `all` target creates a Python VE with all requirements and installs the provided *pre-commit* hooks:
 
@@ -20,17 +27,21 @@ When you are done with your work, run the *Makefile* with the `clean` target:
 make clean
 ```
 
-## Pull Request Guidelines
+### Preview changes
 
-Before opening a *pull request* make sure you followed the next couple of steps.
+Use the *live preview* for Zensical for all changes to the guidelines!
 
-1. Use the provided `Makefile` to create a development environment!
-2. Always **preview** the changes you made thoroughly, only commit your changes if everything looks as intended!
-3. Use the provided *pre-commit* configuration, it will lint your Markdown files and also check for spelling errors!
+After creating the [development environment](#create-development-environment), you can start a [local webserver to preview all changes](https://zensical.org/docs/usage/preview/) with the following command:
 
-## Documentation Guidelines
+```console
+zensical serve
+```
 
-To ensure that the *Best Practice Guide* has a common *look and feel* take a look and follow the next guidelines when contributing to the documentation.
+By default, the webserver is served on [localhost:8000](localhost:8000).
+
+> [!IMPORTANT]
+> **Ensure you have the latest version for all requirements!**
+> If in doubt, remove the development environment (`make clean`) and create a fresh one (`make all`).
 
 ### Basic rules
 
@@ -115,3 +126,11 @@ By default, every code block has a small *copy* button in the top-right corner, 
 > If not, it should not by copyable!
 
 Additional information can be found in the [Zensical documentation](https://zensical.org/docs/authoring/code-blocks/#code-copy-button).
+
+## Pull Request Guidelines
+
+Before opening a *pull request* make sure you followed the next couple of steps.
+
+1. Use the provided `Makefile` to create a development environment!
+2. Always **preview** the changes you made thoroughly, only commit your changes if everything looks as intended!
+3. Use the provided *pre-commit* configuration, it will lint your Markdown files and also check for spelling errors!

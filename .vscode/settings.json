@@ -1,8 +1,4 @@
 {
-  "cSpell.words": [
-      "FQCN",
-      "whitespaces"
-  ],
   "yaml.customTags": [
     "!ENV scalar",
     "!ENV sequence",
