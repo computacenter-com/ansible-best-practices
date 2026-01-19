@@ -1,4 +1,4 @@
-# ansible-best-practices
+# Ansible Best Practices
 
 [![Integration](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml/badge.svg)](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml) [![Deploy to Github pages](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/cd.yml/badge.svg)](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/cd.yml) [![Zensical Badge](https://img.shields.io/badge/Made_with_Zensical-orange?style=flat-square)](https://zensical.org/about/)
 
