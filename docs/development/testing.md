@@ -82,6 +82,7 @@ Molecule plugins contains the following provider:
 * docker
 * ec2
 * gce
+* openstack
 * podman
 * vagrant
 
@@ -335,20 +336,51 @@ platforms:
       Scenario Name: hardening
     ```
 
+#### Scenario definition
+
+A scenario is a self-contained **directory** containing everything necessary for testing the content in a particular way.  
+The default *scenario* is named `default`, **but you can define additional ones.** The **scenario name will be the directory name** hosting the files.  
+For example, you can have a default scenario which uses Podman containers as infrastructure and another scenario which uses the libvirt driver.
+
+``` { .console hl_lines="6 9" .no-copy }
+roles/
+└── webserver_demo
+    ├── defaults
+    │   └── main.yml
+    ├── molecule
+    │   ├── default
+    │   |   ├── converge.yml
+    │   |   └── molecule.yml
+    │   └── libvirt
+    │       ├── converge.yml
+    │       └── molecule.yml
+    ├── tasks
+    │   └── main.yml
+    └── templates
+        └── index.html
+```
+
 ### Usage
 
-In a *collection* project, you can execute Molecule directly from the project root directory.  
-If your are using Molecule in a *classic* project, it is executed from **within the role** you want to test, change directory:
+Activating your Python VE with molecule:
+
+```console
+source molecule-venv/bin/activate
+```
+
+In a *collection* project, you can execute Molecule **directly from the project root directory**.  
+If your are using Molecule in a *classic* project, it is executed from **within the role** you want to test. Change directory:
 
 ``` { .console .no-copy }
 cd roles/webserver_demo
 ```
 
-From here, run the molecule scenario, after activating your Python VE with molecule:
+!!! tip
+    To run a specific scenario (other than the default one), you'll need to provide the name with the `--scenario-name` (or `-s`) parameter.  
 
-```console
-source molecule-venv/bin/activate
-```
+    ```console
+    molecule test -s libvirt
+    ```
 
 To **only create** the defined containers, but not run the Ansible tasks:
 
@@ -380,6 +412,19 @@ If you want to login to a running container instance:
 molecule login
 ```
 
+??? example
+
+    If you multiple instances, you'll need to provide the *name* of the desired instance with the `--host` (or `-h`) parameter:
+
+    ``` { .console .no-copy }
+    $ molecule login -h rhel9-instance1
+    [root@rhel9-instance1 /]# grep PRETTY_NAME /etc/os-release
+    PRETTY_NAME="Red Hat Enterprise Linux 9.7 (Plow)"
+    ```
+
+    !!! info
+        You will be logged in as the root user!
+
 #### Temporary files
 
 Molecule writes a couple of temporary files to indicate which steps of a *sequence* were already performed. For example, if a test instance was already *created* and *prepared*, this state is written to a `state.yml` file. All temporary files are written to `~/.ansible/tmp/molecule.<hash>.<scenario-name>/`.
@@ -395,6 +440,27 @@ Molecule writes a couple of temporary files to indicate which steps of a *sequen
     ├── molecule.yml
     └── state.yml
     ```
+
+#### Instance *unreachable*
+
+In some cases, you may encounter the following error:
+
+```console
+TASK [Gathering Facts] *********************************************************
+fatal: [rhel9-instance]: UNREACHABLE! =>
+    changed: false
+    msg: 'Failed to create temporary directory. In some cases, you may have been able
+        to authenticate and did not have permissions on the target directory. Consider
+        changing the remote tmp path in ansible.cfg to a path rooted in "/tmp", for more
+        error information use -vvv. Failed command was: ( umask 77 && mkdir -p "` echo
+        ~/.ansible/tmp `"&& mkdir "` echo ~/.ansible/tmp/ansible-tmp-1768236855.049918-34546-5922621697359
+        `" && echo ansible-tmp-1768236855.049918-34546-5922621697359="` echo ~/.ansible/tmp/ansible-tmp-1768236855.049918-34546-5922621697359
+        `" ), exited with result 125'
+    unreachable: true
+```
+
+This can happen if the container was removed, but the temporary files were not cleaned up correctly.  
+Run `molecule reset` or `molecule destroy` to cleanup the potentially still existing resources. Afterwards, run a new test sequence.
 
 ## Minimal testing environment
 

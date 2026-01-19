@@ -4,7 +4,7 @@ icon: lucide/folder-git-2
 
 # Project
 
-Your Ansible project needs more than just a playbook and an inventory. Before starting it is useful to ship a custom configuration
+Your Ansible project needs more than just a playbook and an inventory. Before starting it is useful to ship a custom configuration. You should keep files to indicate necessary Python requirements and Ansible collections. The following topics also describe filename syntax and how to structure the project folder. Some basic YAML syntax is given which every developer should follow.
 
 ## Version Control
 

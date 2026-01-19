@@ -1,0 +1,14 @@
+name: Scheduled
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * 1'
+jobs:
+  md-dead-link-check:
+    name: Check external links weekly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: AlexanderDokuchaev/md-dead-link-check@v1.2.0
+        with:
+          config: .config/md_dead_link_check.ini
