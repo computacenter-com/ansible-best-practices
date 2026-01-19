@@ -22,6 +22,6 @@ USER docs
 WORKDIR /tmp
 COPY --from=builder /tmp/site ./site
 EXPOSE 8080
-HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
+HEALTHCHECK CMD wget --no-verbose --tries=1 --spider http://localhost:8080 || exit 1
 # Run webserver
 CMD ["python", "-m", "http.server", "8080", "-d", "site/"]
