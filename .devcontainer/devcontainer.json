@@ -1,21 +1,27 @@
 {
 	"name": "Zensical Dev-Container",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"context": "..",
-		// Update 'VARIANT' to pick a Python version. Rebuild the container
-		// if it already exists to update. Available variants: 3, 3.6, 3.7, 3.8
-		"args": { "VARIANT": "3" }
-	},
-	"features": {
-		"ghcr.io/devcontainers/features/git:1": {}
-	},
-	"runArgs": [
-		"--userns=keep-id"
-	  ],
-	"containerUser": "vscode",
-	"containerEnv": {
-		"HOME": "/home/vscode"
-	},
-	"postAttachCommand": ["echo", "Run 'zensical serve' to preview the documentation in a local webserver."]
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {
+            "toolsToInstall": "pipenv,virtualenv"
+        }
+    },
+    "mounts": [
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+	],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+				"yzhang.markdown-all-in-one",
+				"davidanson.vscode-markdownlint",
+                "tamasfe.even-better-toml"
+            ],
+            "settings": {
+                "workbench.colorTheme": "Default Dark+",
+                "workbench.iconTheme": "vscode-icons",
+                "python.defaultInterpreterPath": "./ve-docs-dev/bin/python"
+            }
+        }
+    },
+	"postCreateCommand": "make all && sudo cp .devcontainer/welcome.txt /usr/local/etc/vscode-dev-containers/first-run-notice.txt"
 }
