@@ -1,6 +1,12 @@
 # PR Description
 
-...
+<!---
+Describe your Pull Request here. below the comment!
+-->
+
+<!---
+You can fill out the PR Checklist AFTER creating the PR!
+-->
 
 ## PR Checklist
 
@@ -9,7 +15,9 @@
 > [!IMPORTANT]
 > **Please make sure you followed our [Pull Request Guidelines](CONTRIBUTING.md#pull-request-guidelines).**
 
-Put an `x` in the boxes that apply. **You can also fill these out after creating the PR.**
+<!---
+Put an `x` in the boxes that apply.
+-->
 
 - [ ] The PR has a **useful and descriptive title**!
 - [ ] You chose an *appropriate Rwviewer* in the section to the right (click the ⚙️ icon)!
