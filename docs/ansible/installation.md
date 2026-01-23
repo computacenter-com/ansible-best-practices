@@ -14,17 +14,85 @@ The latest version can only be obtained via the Python package manager, the *ans
 pip3 install ansible-core
 ```
 
-The included modules can be listed with `ansible-doc --list ansible.builtin`.  
-If more special modules are needed, the complete *ansible* package can be installed, this corresponds to the "old" installation method (*batteries included*).
+!!! failure "`error: externally-managed-environment`"
 
-```console
-pip3 install ansible
-```
+    **Newer Python versions prevent you from using `pip`** (even when using `--user`).  
+
+    <div class="grid" markdown>
+
+    !!! success "Python Virtual Environment"
+
+        **This is the most basic solution and is recommended if you need to install additional Python dependencies.**  
+        If it is not present, install it via your OS package manager, e.g.:
+
+        ```console
+        sudo apt install python3-venv
+        ```
+
+        Create a VE, for example, in your home directory:
+
+        ```console
+        python3 -m venv ~/ve-ansible-dev
+        ```
+
+        Activate your Python VE:
+
+        ```console
+        source ~/ve-ansible-dev/bin/activate
+        ```
+
+        Now, you can use `pip3` to install `ansible-core` (and other Python packages):
+
+        ```console
+        pip3 install ansible-core
+        ```
+
+        This will install Ansible into your Python VE.
+
+        ```{ .console .no-copy }
+        $ which ansible-playbook
+        home/timgrt/ve-ansible-dev/bin/ansible-playbook
+        ```
+
+    !!! success "pipx"
+
+        **Strongly recommended for installing applications!**  
+        It installs and runs Python Applications in isolated environments out of the box, without the need to create a Python VE.  
+        If it is not present, install it via your OS package manager, e.g.:
+
+        ```console
+        sudo apt install pipx
+        ```
+
+        Install `ansible-core` with `pipx`:
+
+        ```console
+        pipx install ansible-core
+        ```
+
+        The Ansible binaries are installed to `~/.local/bin`, run the following command to ensure it is added to your PATH variable:
+
+        ```console
+        pipx ensurepath
+        ```
+
+        !!! info
+            If you need **additional Python dependencies**, you'll most likely need a Python VE!  
+            Take a look at the [dependencies section](project.md#python-packages)
+
+    </div>
+
+The included modules can be listed with `ansible-doc --list ansible.builtin`.  
+If more special modules are needed, the complete *ansible* package **can** be installed, this corresponds to the "old" installation method (*batteries included*).
 
 !!! tip
     It makes sense to install **only the *ansible-core* package**. Afterwards, install the few collections necessary for your project via `ansible-galaxy`.
     This way you have an up-to-date, lean installation without unnecessary modules and plugins.  
-    Take a look at the following section for the recommended installation.
+    Take a look at the [following section](#install-collections) for the recommended installation.
+
+```console
+pip3 install ansible
+```
 
 Most OS package managers like *apt* or *yum* also provide the `ansible-core` or `ansible` packages, these versions are not latest but a couple of minor versions behind.
 
