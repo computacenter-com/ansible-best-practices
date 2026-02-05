@@ -164,6 +164,7 @@ You may use this (minimal) example configuration as a starting point.
         platforms: # (1)!
           - name: rhel9-instance1 # (2)!
             image: ghcr.io/timgrt/rhel9-molecule-test-image:main # (3)!
+            pre_build_image: true
             volumes: # (4)!
               - /sys/fs/cgroup:/sys/fs/cgroup:ro
             command: "/usr/sbin/init"
