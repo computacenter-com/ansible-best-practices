@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: AlexanderDokuchaev/md-dead-link-check@v1.2.0
+      - uses: AlexanderDokuchaev/md-dead-link-check@v1.3.0
         with:
           config: .config/md_dead_link_check.ini
