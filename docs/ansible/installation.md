@@ -51,7 +51,7 @@ pip3 install ansible-core
 
         ```{ .console .no-copy }
         $ which ansible-playbook
-        home/timgrt/ve-ansible-dev/bin/ansible-playbook
+        /home/timgrt/ve-ansible-dev/bin/ansible-playbook
         ```
 
     !!! success "pipx"
@@ -386,7 +386,7 @@ Install the `ansible-navigator` binary and its dependencies with the Python pack
 pip3 install ansible-navigator
 ```
 
-If you want to use the Navigator with EEs, you'll need a *container runtime*, install Docker or Podman an your system.
+If you want to use the Navigator with EEs, you'll need a *container runtime*, install Docker or Podman on your system.
 
 With the Navigator you, for example, can inspect **all locally available* Execution Environments
 
