@@ -1,4 +1,4 @@
-# PR Description
+# Pull Request
 
 <!---
 Describe your Pull Request here. below the comment!
@@ -24,3 +24,8 @@ Put an `x` in the boxes that apply.
 - [ ] All [Issues are linked](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue) which this PR resolves!
 - [ ] Changes are [previewed and verified in your development environment](CONTRIBUTING.md#create-development-environment)!
 - [ ] All [integration checks](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml) succeeded!
+
+## Release info
+
+After your PR is reviewed, accepcted and merged to `main`, your changes will **not** by visible directly in the Github pages deployment.  
+We are publishing a new [release](https://github.com/computacenter-com/ansible-best-practices/releases) of the Best Practice Guide once a *reasonable* amount of additional/fixed content is available.
