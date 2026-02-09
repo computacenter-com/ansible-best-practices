@@ -134,3 +134,7 @@ Before opening a *pull request* make sure you followed the next couple of steps.
 1. Use the provided `Makefile` to create a development environment!
 2. Always **preview** the changes you made thoroughly, only commit your changes if everything looks as intended!
 3. Use the provided *pre-commit* configuration, it will lint your Markdown files and also check for spelling errors!
+
+> [!NOTE]
+> After your PR is reviewed, accepcted and merged to `main`, your changes will **not** by visible directly in the Github pages deployment.  
+> We are publishing a new [release](https://github.com/computacenter-com/ansible-best-practices/releases) of the Best Practice Guide once a *reasonable* amount of additional/fixed content is available.  
