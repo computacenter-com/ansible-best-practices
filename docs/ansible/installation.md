@@ -16,7 +16,7 @@ pip3 install ansible-core
 
 !!! failure "`error: externally-managed-environment`"
 
-    **Newer Python versions prevent you from using `pip`** (even when using `--user`).  
+    **Newer Python versions prevent you from using `pip`** (even when using `--user`) **and recommending *Python virtual environments* or `pipx`.**  
 
     <div class="grid" markdown>
 
@@ -54,6 +54,11 @@ pip3 install ansible-core
         /home/timgrt/ve-ansible-dev/bin/ansible-playbook
         ```
 
+        Install additional packages with `pip3` if necessary.
+
+        !!! tip
+            Take a look at the [dependencies section](project.md#dependencies) for additional information.
+
     !!! success "pipx"
 
         **Strongly recommended for installing applications!**  
@@ -77,24 +82,29 @@ pip3 install ansible-core
         ```
 
         !!! info
-            If you need **additional Python dependencies**, you'll most likely need a Python VE!  
-            Take a look at the [dependencies section](project.md#python-packages)
+            If you need **additional Python dependencies**, you'll most likely need a Python VE!
+
+        You can *inject* packages into the existing pipx environment (here the `pynetbox` package is installed into the `ansible-core` environment):
+
+        ```console
+        pipx inject ansible-core pynetbox
+        ```
 
     </div>
 
 The included modules can be listed with `ansible-doc --list ansible.builtin`.  
 If more special modules are needed, the complete *ansible* package **can** be installed, this corresponds to the "old" installation method (*batteries included*).
 
+```console
+pip3 install ansible
+```
+
 !!! tip
     It makes sense to install **only the *ansible-core* package**. Afterwards, install the few collections necessary for your project via `ansible-galaxy`.
     This way you have an up-to-date, lean installation without unnecessary modules and plugins.  
     Take a look at the [following section](#install-collections) for the recommended installation.
 
-```console
-pip3 install ansible
-```
-
-Most OS package managers like *apt* or *yum* also provide the `ansible-core` or `ansible` packages, these versions are not latest but a couple of minor versions behind.
+Most OS package managers like *apt* or *yum* also provide the `ansible-core` or `ansible` packages, these versions are **not latest but a couple of minor versions behind**.
 
 ??? example "Installing Ansible with OS package manager"
     Even in fairly recent distributions the Ansible versions are not up to date:
