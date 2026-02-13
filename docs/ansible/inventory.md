@@ -86,7 +86,7 @@ There are already loads of [inventory plugins](https://docs.ansible.com/ansible/
 
 ### Custom dynamic inventory
 
-In case no suitable inventory plugin exists, you can easily write your own. Take a look at the [Ansible Development - Extending](extending.md#inventory-plugins) section for additional information.
+In case no suitable inventory plugin exists, you can easily write your own. Take a look at the [Ansible Development - Extending](../development/extending.md#inventory-plugins) section for additional information.
 
 ## Configuration
 

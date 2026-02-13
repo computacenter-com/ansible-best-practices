@@ -49,6 +49,8 @@ nav = [
       {"Monitoring & Troubleshooting" = "development/monitoring.md"},
   ]},
 ]
+[project.extra.status]
+new = "Recently added"
 # ----------------------------------------------------------------------------
 # Section for configuring theme options
 # ----------------------------------------------------------------------------

@@ -69,4 +69,4 @@ During the playbook run, Ansible will try to template the values which will fail
 --8<-- "example-custom-credential-task.yml"
 ```
 
-Take a look at [Disable variable templating](variables.md#disable-variable-templating) for additional information.
+Take a look at [Disable variable templating](../ansible/variables.md#disable-variable-templating) for additional information.

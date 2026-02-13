@@ -24,7 +24,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     Use the **Search** at the top!
 
 !!! info "Versioning"
-    This guide is updated constantly, last update on **01/2026**.
+    This guide is updated constantly, last update on **02/2026**.
 
 </div>
 
