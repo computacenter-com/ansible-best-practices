@@ -44,5 +44,5 @@ repos:
     rev: "v1.2.0"
     hooks:
       - id: md-dead-link-check
-        name: 🔭 Check external links
+        name: 🔭 Check internal and external links
         args: ['--config', '.config/md_dead_link_check.ini']
