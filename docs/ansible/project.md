@@ -13,7 +13,7 @@ Keep your playbooks and inventory file in git (or another version control system
 !!! tip
     Always use version control!
 
-Take a look at the [Development section](git.md) for additional information.
+Take a look at the [Development section](../development/git.md) for additional information.
 
 ## Directory structure
 

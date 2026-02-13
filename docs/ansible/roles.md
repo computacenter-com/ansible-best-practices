@@ -98,7 +98,7 @@ At least the folders (and content) `tests` (a sample inventory and playbook for 
 !!! tip
     Use a custom role skeleton which is used by `ansible-galaxy`!
 
-Consider the following role skeleton, note the missing *vars* and *test* folder and the newly added [Molecule folder](testing.md#molecule).
+Consider the following role skeleton, note the missing *vars* and *test* folder and the newly added [Molecule folder](../development/testing.md#molecule).
 
 ``` { .console .no-copy }
 roles/role_skeleton/
