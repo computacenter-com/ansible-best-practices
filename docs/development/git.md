@@ -314,12 +314,58 @@ The most convenient way is the use of the [pre-commit framework](https://pre-com
 pip3 install pre-commit
 ```
 
+!!! tip "prek as drop-in replacement for pre-commit"
+    [prek](https://prek.j178.dev/){:target="_blank"} is a reimagined version of pre-commit, built in Rust.  
+    It is designed to be a **faster**, **dependency-free** alternative for it, while also providing some additional features.
+
+    ??? example "Installation & Usage"
+        `prek` can be installed with `pip` or `pipx` as well:
+
+        === "pip"
+
+            ```console
+            pip3 install prek
+            ```
+
+        === "pipx"
+
+            ```console
+            pipx install prek
+            ```
+
+        Pretty much all commands from pre-commit do work with prek, use `--help` for additional information.
+
+        ```{ .console .no-copy }
+        $ prek auto-update
+        [https://github.com/AlexanderDokuchaev/md-dead-link-check] already up to date
+        [https://github.com/ansible-community/ansible-lint] already up to date
+        [https://github.com/codespell-project/codespell] already up to date
+        [https://github.com/igorshubovych/markdownlint-cli] already up to date
+        [https://github.com/pre-commit/pre-commit-hooks] already up to date
+        [https://github.com/python-jsonschema/check-jsonschema] already up to date
+        $ prek install
+        prek installed at `.git/hooks/pre-commit`
+        $ prek run -a
+        📝 Remove trailing whitespaces...........................................Passed
+        🐍 Sort entries in requirements.txt......................................Passed
+        ❌ Check for merge conflict markers......................................Passed
+        🐫 Check YAML syntax.....................................................Passed
+        💻 Check for commits to allowed branch...................................Passed
+        📋 Check Markdown syntax.................................................Passed
+        🔎 Check documentation examples with ansible-lint........................Passed
+        ➿ Check GitHub Workflows................................................Passed
+        📚 Check GitHub Issue Forms..............................................Passed
+        🔤 Check Renovate configuration..........................................Passed
+        ❓ Check for typos.......................................................Passed
+        🔭 Check internal and external links.....................................Passed
+        ```
+
 Use the following configuration as a starting point, create the file in your project folder.
 
 ```yaml title=".pre-commit-config.yaml"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: check-merge-conflict
@@ -333,9 +379,13 @@ repos:
       - id: check-file-names
       - id: check-vault-files
   - repo: https://github.com/ansible-community/ansible-lint
-    rev: v6.15.0
+    rev: v25.12.2
     hooks:
       - id: ansible-lint
+        language_version: python3
+        additional_dependencies:
+          - jmespath
+          - netaddr
 ```
 
 Take a look at [https://pre-commit.com/hooks.html](https://pre-commit.com/hooks.html){:target="_blank"} for additional hooks for your use-case.  

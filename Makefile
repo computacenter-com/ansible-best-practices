@@ -25,15 +25,15 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	$(info $(COLOUR_BLUE)## Creating Python virtual environment and installing dependencies...$(COLOUR_END))
 	@test -d $(VENV_NAME) || (python3 -m venv $(VENV_NAME) && echo -e "$(COLOUR_GREEN)##Python VE created.$(COLOUR_END)")
 	@${PYTHON} -m pip install -r requirements.txt && echo -e "$(COLOUR_GREEN)## Python requirements installed.$(COLOUR_END)"
-	@${PYTHON} -m pip install pre-commit && echo -e "$(COLOUR_GREEN)## pre-commit package installed.$(COLOUR_END)"
+	@${PYTHON} -m pip install prek && echo -e "$(COLOUR_GREEN)## prek package installed.$(COLOUR_END)"
 	@touch $(VENV_NAME)/bin/activate
 
 hooks: pre-commit-install ## Installs pre-commit hooks
-	$(info $(COLOUR_BLUE)## pre-commit is ready.$(COLOUR_END))
+	$(info $(COLOUR_BLUE)## Pre-commit hooks (with prek) are ready.$(COLOUR_END))
 
 pre-commit-install:
 ifeq ("$(wildcard .git/hooks/pre-commit)","")
-	@${PYTHON} -m pre_commit install && echo -e "$(COLOUR_GREEN)## Hooks installed.$(COLOUR_END)"
+	@${PYTHON} -m prek install && echo -e "$(COLOUR_GREEN)## Hooks installed.$(COLOUR_END)"
 endif
 
 serve:  ## Output instructions for running Zensical development server

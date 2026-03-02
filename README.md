@@ -1,6 +1,6 @@
 # Ansible Best Practices
 
-[![Integration](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml/badge.svg)](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml) [![Deploy to Github pages](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/cd.yml/badge.svg)](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/cd.yml) [![Zensical Badge](https://img.shields.io/badge/Made_with_Zensical-orange?style=flat-square)](https://zensical.org/about/)
+[![Integration](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml/badge.svg)](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/ci.yml) [![Deploy to Github pages](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/cd.yml/badge.svg)](https://github.com/computacenter-com/ansible-best-practices/actions/workflows/cd.yml) [![Zensical Badge](https://img.shields.io/badge/Made_with_Zensical-orange?style=flat-square)](https://zensical.org/about/) [![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
 
 A collection of Best Practices for Ansible projects, published to [Github pages](https://computacenter-com.github.io/ansible-best-practices).  
 

@@ -17,17 +17,24 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/configure-pages@v5
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - name: Enable Pages and extract various metadata
+        uses: actions/configure-pages@v5
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Setup Python
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
-      - run: pip install zensical
-      - run: zensical build --clean
-      - uses: actions/upload-pages-artifact@v4
+      - name: Install Zensical
+        run: pip install zensical
+      - name: Build site
+        run: zensical build --clean
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: site
-      - uses: actions/deploy-pages@v4
+      - name: Deploy GitHub Pages
+        uses: actions/deploy-pages@v4
         id: deployment
 
   # Commented until Packages can be published publicly, currently they are private by default
