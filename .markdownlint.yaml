@@ -1,7 +1,5 @@
 # MD013/line-length - Line length
-MD013:
-  # Number of characters, basically allowing very long lines
-  line_length: 1000
+MD013: false
 
 # MD026/no-trailing-punctuation - Trailing punctuation in heading
 MD026: false
