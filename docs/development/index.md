@@ -29,6 +29,11 @@ This topic is split into four main sections, each section covers a different add
     ---
     How to monitor your playbook for resource consumption or time taken.
 
+* :lucide-text-search: &nbsp; [**Logging**](logging.md){ data-preview }
+
+    ---
+    How to enable and use logging.
+
 </div>
 
 ## Tools

@@ -47,6 +47,7 @@ nav = [
       {"Testing" = "development/testing.md"},
       {"Extending" = "development/extending.md"},
       {"Monitoring & Troubleshooting" = "development/monitoring.md"},
+      {"Logging" = "development/logging.md"},
   ]},
 ]
 [project.extra.status]
