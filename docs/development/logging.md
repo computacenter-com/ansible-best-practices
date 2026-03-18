@@ -4,7 +4,7 @@ icon: lucide/text-search
 
 # Logging
 
-By default, Ansible sends output about plays, tasks, and module arguments to *stdout* on the control node, no log file is written.  
+By default, Ansible sends output about plays, tasks, and module arguments to *stdout* on the control node, **no log file is written**.  
 This section describes different options to enable logging.
 
 !!! tip
@@ -124,11 +124,13 @@ To create separate log files with timestamp per playbook run, you'll need to pro
     alias ansible-playbook='ANSIBLE_LOG_PATH=logs/playbook.$(date +%Y%m%d-%HH%MM%SS).log ansible-playbook'
     ```
 
-    Now, *source* the file to activate the alias:
+    *Source* the file to activate the alias:
 
     ```console
     source ~/.bash_aliases
     ```
+
+    Now, with every playbook run, a log file is written.
 
 === "Example output"
 
@@ -148,3 +150,133 @@ To create separate log files with timestamp per playbook run, you'll need to pro
 
 Most modules obfuscate passwords, if you save Ansible output to a log, you **may** expose any secret data in your Ansible output.  
 To keep sensitive values out of your logs, mark tasks that expose them with the `no_log: true` attribute.  
+
+## Logging in AAP
+
+The Ansible Automation Platform logs all Job outputs by default in the underlying Postgres database and can be viewed in the UI.  
+Logs can (and should) be send to third-party external log aggregation services. The following loggers are available:
+
+| Logger                         | Description                                                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| <nobr>`job_events`</nobr>      | Provides data returned from the Ansible callback module.                                                               |
+| <nobr>`activity_stream`</nobr> | Displays the record of changes to the objects within the application.                                                  |
+| <nobr>`system_tracking`</nobr> | Provides fact data gathered by Ansible setup module, when job templates are run **with** *Enable Fact Cache* selected. |
+| <nobr>`awx`</nobr>             | Provides generic server logs, which include logs that would normally be written to a file.                             |
+
+Take a look at the [Automation Platform section](../automation-platform/index.md) for additional information.
+
+## Specialised logging solution
+
+[ARA](https://ara.recordsansible.org/){:target="_blank"} (an acronym: ARA records Ansible) provides logging by recording `ansible` and `ansible-playbook` commands regardless of how and where they run, even from tools that run Ansible like `ansible-(pull|test|runner|navigator)`, AWX & Automation Controller (Tower), Molecule and Semaphore.  
+
+<div class="grid" markdown>
+
+The recorded results are available via an included CLI, a REST API as well as a self-hosted, local-first web reporting interface.  
+Results are written to SQLite, MySQL or a PostgreSQL databases with a standard *callback plugin*. This plugin gathers data as Ansible runs and sends it to a Django REST API server.  
+ara records to a local sqlite database by default and does **not** require a persistent server.
+
+![Recording data from Ansible to a database by ARA](https://ara.recordsansible.org/static/recording-workflow.png){ width="450" }
+
+</div>
+
+A preview of the ARA Web-UI is available in a [live demo](https://demo.recordsansible.org){:target="_blank"}.
+
+### ARA Installation
+
+Install the ARA package alongside `ansible-core`, here including the API server dependencies:
+
+```console
+pip3 install ansible-core "ara[server]"
+```
+
+To install the API server, take a look at the [ARA documentation](https://ara.recordsansible.org/#recording-playbooks-with-an-api-server){:target="_blank"} and/or use the [ara Ansible collection](https://galaxy.ansible.com/ui/repo/published/recordsansible/ara/){:target="_blank"} from Ansible Galaxy.
+
+### ARA configuration
+
+Either export the environment variables or adjust the `ansible.cfg`.
+
+To print the export commands use the following:
+
+```bash
+python3 -m ara.setup.env
+```
+
+??? example "Example output"
+
+    ```console
+    $ python3 -m ara.setup.env
+    export ANSIBLE_CALLBACK_PLUGINS=${ANSIBLE_CALLBACK_PLUGINS:-}${ANSIBLE_CALLBACK_PLUGINS+:}/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/callback
+    export ANSIBLE_ACTION_PLUGINS=${ANSIBLE_ACTION_PLUGINS:-}${ANSIBLE_ACTION_PLUGINS+:}/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/action
+    export ANSIBLE_LOOKUP_PLUGINS=${ANSIBLE_LOOKUP_PLUGINS:-}${ANSIBLE_LOOKUP_PLUGINS+:}/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/lookup
+    export PYTHONPATH=${PYTHONPATH:-}${PYTHONPATH+:}/home/timgrt/demo/ve-ara/lib/python3.12/site-packages
+    ```
+
+To export directly from the command, use:
+
+```bash
+source <(python3 -m ara.setup.env)
+```
+
+You can also set the plugin adjustments in the `ansible.cfg`, but this is not very *portable* as the path to the local Python installation is used:
+
+``` { .ini .no-copy }
+[defaults]
+callback_plugins=/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/callback
+action_plugins=/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/action
+lookup_plugins=/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/lookup
+```
+
+Now, run an Ansible playbook as usual (e.g. `#!bash ansible-playbook playbook.yml`).
+
+### ARA Usage
+
+The ARA CLI utility can be used to view the logs, use  `#!bash ara --help` to show all available commands.
+
+To view a list of all playbooks:
+
+```bash
+ara playbook list
+```
+
+??? example "Example output"
+
+    ``` { .console .no-copy }
+    $ ara playbook list
+    +----+-----------+---------------------+--------+-----------------+---------------------------------------+-------+---------+-------+-----------------------------+-----------------+
+    | id | status    | controller          | user   | ansible_version | path                                  | tasks | results | hosts | started                     | duration        |
+    +----+-----------+---------------------+--------+-----------------+---------------------------------------+-------+---------+-------+-----------------------------+-----------------+
+    |  3 | completed | Desktop.localdomain | timgrt | 2.20.3          | ...home/timgrt/demo/facts.yml         |     1 |       3 |     3 | 2026-03-18T18:36:12.332483Z | 00:00:02.219081 |
+    |  2 | completed | Desktop.localdomain | timgrt | 2.20.3          | ...create-workshop-environment.yml    |    11 |      23 |     4 | 2026-03-18T18:34:29.491862Z | 00:00:58.633736 |
+    |  1 | completed | Desktop.localdomain | timgrt | 2.20.3          | ...timgrt/demo/playbook.yml           |     4 |       4 |     1 | 2026-03-18T18:32:08.577663Z | 00:00:02.320743 |
+    +----+-----------+---------------------+--------+-----------------+---------------------------------------+-------+---------+-------+-----------------------------+-----------------+
+    ```
+
+You can drill down into specific entries with the *id* (e.g. `#!bash ara playbook show 3`)
+
+To view a list of all targeted hosts:
+
+```bash
+ara host metrics
+```
+
+??? example "Example output"
+
+    ``` { .console .no-copy }
+    $ ara host metrics
+    +-----------+-------+---------+--------+----+---------+-------------+
+    | name      | count | changed | failed | ok | skipped | unreachable |
+    +-----------+-------+---------+--------+----+---------+-------------+
+    | localhost |     2 |       3 |      0 |  8 |       1 |           0 |
+    | node1     |     2 |       4 |      0 |  7 |       0 |           0 |
+    | node2     |     2 |       4 |      0 |  7 |       0 |           0 |
+    | node3     |     2 |       4 |      0 |  7 |       0 |           0 |
+    +-----------+-------+---------+--------+----+---------+-------------+
+    ```
+
+    The `count` shows how often the host was targeted.
+
+If the ARA API Server dependencies are installed, you can start a local UI server to inspect the logs:
+
+```bash
+ara-manage runserver
+```
