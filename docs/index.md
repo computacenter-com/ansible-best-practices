@@ -24,7 +24,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     Use the **Search** at the top!
 
 !!! info "Versioning"
-    This guide is updated constantly, last update on **02/2026**.
+    This guide is updated constantly, last update on **03/2026**.
 
 </div>
 
@@ -48,7 +48,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
 * :material-code-tags: &nbsp; [**Ansible Development**](development/index.md){ data-preview }
 
     ---
-    Developing, testing and troubleshooting Ansible content. Things to consider when your project is making progress.
+    Developing, testing, logging and troubleshooting Ansible content. Things to consider when your project is making progress.
 
 * :fontawesome-brands-redhat: &nbsp; [**Ansible Automation Platform**](automation-platform/index.md){ data-preview }
 
