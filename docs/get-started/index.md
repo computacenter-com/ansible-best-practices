@@ -43,7 +43,7 @@ Use a dynamic inventory source if possible, otherwise create a static inventory 
 Use **ansible-navigator** with **Execution Environment** from AAP (or create a custom one) during development on CLI.  
 Otherwise stick to **ansible-core**.
 
-* [Build Execution Environment](../ansible/installation.md#ansible-builder) and [run with ansible-navigator](../ansible/playbook.md#with-ansible-navigator)
+* [Build Execution Environment](../ansible/installation.md#ansible-builder) and [run with ansible-navigator](../ansible/playbook.md#execute-with-ansible-navigator)
 
 ## Final notes
 
