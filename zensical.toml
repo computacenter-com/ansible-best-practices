@@ -156,6 +156,8 @@ linenums_style = "pymdownx-inline"
 pygments_lang_class = true
 # https://zensical.org/docs/setup/extensions/python-markdown-extensions/#inlinehilite
 [project.markdown_extensions.pymdownx.inlinehilite]
+# https://zensical.org/docs/authoring/formatting/#add-keyboard-keys
+[project.markdown_extensions.pymdownx.keys]
 # https://zensical.org/docs/setup/extensions/python-markdown-extensions/#snippets
 [project.markdown_extensions.pymdownx.snippets]
 auto_append = ["includes/abbreviations.md"]

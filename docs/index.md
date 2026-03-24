@@ -15,8 +15,8 @@ Ansible is a simple, flexible, and powerful automation tool. Like any powerful t
   <figcaption></figcaption>
 </figure>
 
-This document aims to gather good and best practices from Ansible practitioners and experience from multiple Ansible projects.  
-Those guidelines are **opinionated** and are based on the experience of many projects. They are *not* meant to be followed blindly if they don’t fit the reader’s specific use case or needs. Take them as an inspiration and adjust them to your needs. If you have good and best practices yourself, please share them, we all can learn.
+This document is a knowledgebase and aims to gather good and best practices from Ansible practitioners and experience from multiple Ansible projects.  
+Those guidelines are **opinionated** and are based on the experience of many projects. They are *not* meant to be followed blindly if they don’t fit the reader’s specific use case or needs. Take them as an inspiration and adjust them to your needs.
 
 <div class="grid" markdown>
 
