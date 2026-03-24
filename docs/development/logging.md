@@ -146,10 +146,180 @@ To create separate log files with timestamp per playbook run, you'll need to pro
     2026-03-14 12:23:19,415 p=108181 u=timgrt n=ansible INFO| node3                      : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
     ```
 
-## Protecting sensitive data from logging
+## Logging with ansible-navigator
 
-Most modules obfuscate passwords, if you save Ansible output to a log, you **may** expose any secret data in your Ansible output.  
-To keep sensitive values out of your logs, mark tasks that expose them with the `no_log: true` attribute.  
+By default, **`ansible-navigator` always creates log files**.  
+Two kinds of logs are created, a *general* `ansible-navigator.log` file and *playbook artifact files*, which contain the actual log of every playbook run.
+
+Without adjusting the `ansible-navigator.yml` configuration all log and artifact files are written to the current working directory (which gets messy pretty quick).  
+Use the following configuration which writes all files to a separate `logs` folder:
+
+!!! info inline end
+    The `logs` folder is created by the Navigator, it does not need to be created manually.  
+    The logs are written in JSON, **no other format is available**!
+
+```yaml
+---
+ansible-navigator:
+  execution-environment:
+    enabled: false # (1)!
+  format: yaml # (2)!
+  logging:
+    level: warning # (3)!
+    file: logs/ansible-navigator.log
+  mode: stdout # (4)!
+  playbook-artifact:
+    save-as: "logs/{playbook_status}-{playbook_name}-{time_stamp}.json" # (5)!
+```
+
+1. When the usage of [Execution Environments](../ansible/installation.md#execution-environments) is **disabled**, the **local** `ansible-core` binary is used.
+2. **This will only change the `stdout` format** from JSON to YAML, the log files are always in JSON format!
+3. Choose an appropriate log level from `info`, `warning`, `error`, `critical` up to `debug` here or use the CLI parameter, e.g. `--log-level debug`.
+4. This changes the Navigator mode from the `interactive` TUI to the *classic* `stdout` (as if using `ansible-playbook`).
+5. This will create log files like `logs/successful-rsyslog-install-2026-03-24T10:41:22.208723+00:00.json` or `logs/failed-rsyslog-install-2026-03-24T10:35:10.125672+00:00.json`.
+
+The *playbook artifact* filenames will contain the overall *state*, the *name* of the playbook (e.g. `*-rsyslog-install-*` when executing `rsyslog-install.yml`) and a timestamp.
+
+??? example
+
+    An example output with the general Navigator log and playbook artifacts of a successful and a failed run.
+
+    ```bash
+    $ tree logs/
+    logs/
+    ├── ansible-navigator.log
+    ├── failed-rsyslog-install-2026-03-24T10:54:38.768361+00:00.json
+    └── successful-rsyslog-install-2026-03-24T10:41:22.208723+00:00.json
+    ```
+
+### Inspect/Replay log artifacts
+
+Playbook artifact files are written in JSON format, which is inconvenient to read. You can use the `replay` functionality to *repeat* the playbook output. The playbook will **not** be run again, only the output will be shown to `stdout` again:
+
+```{ .bash .no-copy }
+$ ansible-navigator replay logs/successful-rsyslog-install-2026-03-24T10:10:42.054696+00:00.json
+
+PLAY [Install and start rsyslog on all managed nodes] **************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [node3]
+ok: [node2]
+ok: [node1]
+
+TASK [Install rsyslog] *********************************************************
+ok: [node1]
+ok: [node2]
+changed: [node3]
+
+TASK [Start rsyslog] ***********************************************************
+ok: [node2]
+changed: [node3]
+ok: [node1]
+
+PLAY RECAP *********************************************************************
+node1                      : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+node2                      : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+node3                      : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+**To inspect the playbook artifact even further** (inspecting/debugging single tasks), use the `interactive` (TUI) mode:
+
+```bash
+ansible-navigator -m interactive # (1)!
+```
+
+1. The interactive mode is the default mode, if you configured the mode to `stdout` in the `ansible-navigator.yml` configuration file, you'll need to provide the mode.
+
+??? example
+
+    The interactive mode gives an overview of available commands.  
+    Copy the path to the playbook artifact. Type `:replay logs/successful-rsyslog-install-2026-03-24T10:10:42.054696+00:00.json` (see last line) utilizing the copied path and hit ++enter++.
+
+    ```bash
+     0│Welcome
+     1│————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+     2│
+     3│Some things you can try from here:
+     4│- :collections                                    Explore available collections
+     5│- :config                                         Explore the current ansible configuration
+     6│- :doc <plugin>                                   Review documentation for a module or plugin
+     7│- :help                                           Show the main help page
+     8│- :images                                         Explore execution environment images
+     9│- :inventory -i <inventory>                       Explore an inventory
+    10│- :log                                            Review the application log
+    11│- :lint <file or directory>                       Lint Ansible/YAML files (experimental)
+    12│- :open                                           Open current page in the editor
+    13│- :replay                                         Explore a previous run using a playbook artifact
+    14│- :run <playbook> -i <inventory>                  Run a playbook in interactive mode
+    15│- :settings                                       Review the current ansible-navigator settings
+    16│- :quit                                           Quit the application
+    17│
+    18│happy automating,
+    19│
+    20│-winston
+
+
+    :replay logs/successful-rsyslog-install-2026-03-24T10:10:42.054696+00:00.json
+    ```
+
+    You'll see an overview of all **plays** of the playbook run. Navigate by providing the line *ID*. Click ++0++.
+    ```bash
+    Play name                                            Ok Changed  Unreachable   Failed  Skipped  Ignored  In progress   Task count     Progress
+    0│Install and start rsyslog on all managed nodes        9       2            0        0        0        0            0            9     Complete
+
+
+
+    ^b/PgUp page up           ^f/PgDn page down           ↑↓ scroll           esc back           [0-9] goto           :help help         Successful
+    ```
+
+    ```bash
+    Result       Host       Number       Changed        Task                         Task action                                 Duration
+    0│Ok           node1           0       False          Gathering Facts              gather_facts                                      4s
+    1│Ok           node2           1       False          Gathering Facts              gather_facts                                      4s
+    2│Ok           node3           2       False          Gathering Facts              gather_facts                                      4s
+    3│Ok           node1           3       False          Install rsyslog              ansible.builtin.package                           4s
+    4│Ok           node2           4       False          Install rsyslog              ansible.builtin.package                           4s
+    5│Ok           node3           5       True           Install rsyslog              ansible.builtin.package                           5s
+    6│Ok           node1           6       False          Start rsyslog                ansible.builtin.service                           3s
+    7│Ok           node2           7       False          Start rsyslog                ansible.builtin.service                           3s
+    8│Ok           node3           8       True           Start rsyslog                ansible.builtin.service                           3s
+
+
+
+    ^b/PgUp page up           ^f/PgDn page down           ↑↓ scroll           esc back           [0-9] goto           :help help         Successful
+    ```
+
+    To inspect the *debug* output of ID 5 (*Changed* state on `node3` in the `Install rsyslog` task, which utilized the `ansible.builtin.package` module), click ++5++:
+
+    ```bash
+    Play name: Install and start rsyslog on all managed nodes:5
+    Task name: Install rsyslog
+    CHANGED: node3  
+    52│      skip_broken: false  
+    53│      sslverify: true  
+    54│      state: present  
+    55│      update_cache: false  
+    56│      update_only: false  
+    57│      use_backend: auto  
+    58│      validate_certs: true  
+    59│  msg: ''  
+    60│  rc: 0  
+    61│  results:  
+    62│  - 'Installed: libfastjson-0.99.9-5.el9.x86_64'  
+    63│  - 'Installed: logrotate-3.18.0-12.el9.x86_64'  
+    64│  - 'Installed: libestr-0.1.11-4.el9.x86_64'  
+    65│  - 'Installed: rsyslog-8.2506.0-2.el9.x86_64'  
+    66│  - 'Installed: rsyslog-logrotate-8.2506.0-2.el9.x86_64'                                                                                     ▒
+    67│resolved_action: ansible.builtin.package                                                                                                     ▒
+    68│start: '2026-03-24T10:10:33.353778+00:00'                                                                                                    ▒
+    69│task: Install rsyslog                                                                                                                        ▒
+    70│task_action: ansible.builtin.package                                                                                                         ▒
+    71│task_args: ''                                                                                                                                ▒
+    72│task_path: /home/timgrt/anwendertreffen-03-2026-demo/rsyslog-install.yml:5                                                                   ▒
+    ^b/PgUp page up      ^f/PgDn page down      ↑↓ scroll      esc back      - previous      + next      [0-9] goto      :help help      Successful
+    ```
+
+    **You can now see the debug output, although you never enabled verbosity or added a task with the `ansible.builtin.debug` module!**
 
 ## Logging in AAP
 
@@ -280,3 +450,8 @@ If the ARA API Server dependencies are installed, you can start a local UI serve
 ```bash
 ara-manage runserver
 ```
+
+## Protecting sensitive data from logging
+
+Most modules obfuscate passwords, if you save Ansible output to a log, you **may** expose any secret data in your Ansible output.  
+To keep sensitive values out of your logs, mark tasks that expose them with the `no_log: true` attribute.
