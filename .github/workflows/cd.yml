@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Enable Pages and extract various metadata
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Setup Python
