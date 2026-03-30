@@ -34,7 +34,7 @@ jobs:
         with:
           path: site
       - name: Deploy GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         id: deployment
 
   # Commented until Packages can be published publicly, currently they are private by default
