@@ -186,10 +186,109 @@ just `{{ var }}` to make sure they do not include evil things like semicolons.
 
 ### *creates* and *removes*
 
-Check mode is supported for non-idempotent modules when passing `creates` or `removes`. If running in check mode and either of these are specified, the module will check for the existence of the file and report the correct changed status. If these are not supplied, the task will be skipped.
+When using non-idempotent modules like `command` or `shell` it is **your** responsibility to ensure the executed command does not do anything unexpected.  
+Ideally, the task reports an *ok* state, if the desired state is reached, or a *changed* state if not, this can be achieved by using the `creates` or `removes` parameter.  
+The parameter expects a filename or glob pattern, if a matching file (when using `creates`) already exists, the command will not be run. Check mode is also supported for non-idempotent modules when either of the parameters are specified. The module will check for the existence of the file and report the correct changed status. If these are not supplied, the task will be skipped.
 
-!!! warning
-    **Work in Progress** - More description necessary.
+=== "Good"
+    !!! success ""
+
+        ```yaml
+        - name: Initialize PostgreSQL database
+          ansible.builtin.command:
+            cmd: /usr/bin/postgresql-setup --initdb
+            creates: /var/lib/pgsql/data/PG_VERSION
+        ```
+
+        ``` { .bash .no-copy title="Database is already initialized from a previous run, no changed/failed state from command module" }
+        $ ansible-playbook postgres_installation.yml
+
+        PLAY [PostgreSQL installation] ******************************************************************************************
+
+        TASK [Install Postgres] *************************************************************************************************
+        ok: [instance1]
+
+        TASK [Initialize PostgreSQL database] ***********************************************************************************
+        ok: [instance1]
+
+        TASK [Start PostgreSQL] *************************************************************************************************
+        ok: [instance1]
+        ```
+
+        When running the playbook in **check mode** the task using the `command` module is **not skipped** (it still won't execute the command!), but will check for the existence of the file and show the state accordingly.
+
+        ??? example
+
+            ``` { .bash .no-copy title="Fresh installation, running in Check mode, correct changed state from command module" }
+            $ ansible-playbook postgres_installation.yml -C
+
+            PLAY [PostgreSQL installation] ******************************************************************************************
+
+            TASK [Install Postgres] *************************************************************************************************
+            changed: [instance1]
+
+            TASK [Initialize PostgreSQL database] ***********************************************************************************
+            changed: [instance1]
+
+            ...
+            ```
+
+=== "Bad"
+
+    !!! failure ""
+
+        ```yaml
+        - name: Initialize PostgreSQL database
+          ansible.builtin.command:
+            cmd: /usr/bin/postgresql-setup --initdb
+        ```
+
+        **Without** the `creates` parameter the command is **always** executed, it will show *changed* or even fail...  
+
+        ``` { .bash .no-copy title="Database is already initialized from a previous run, hopefully the command does not do something unexpected..." }
+        $ ansible-playbook postgres_installation.yml
+
+        PLAY [PostgreSQL installation] ******************************************************************************************
+
+        TASK [Install Postgres] *************************************************************************************************
+        ok: [instance1]
+
+        TASK [Initialize PostgreSQL database] ***********************************************************************************
+        [ERROR]: Task failed: Module failed: non-zero return code
+        Origin: /home/timgrt/automation-demo/test2.yml:14:7
+
+        12         state: present
+        13  
+        14     - name: Initialize PostgreSQL database
+                ^ column 7
+
+        fatal: [instance1]: FAILED! => {"changed": true, "cmd": ["/usr/bin/postgresql-setup", "--initdb"], "delta": "0:00:00.090430", "end": "2026-03-31 15:49:23.216778", "msg": "non-zero return code", "rc": 1, "start": "2026-03-31 15:49:23.126348", "stderr": " * Initializing database in '/var/lib/pgsql/data'\nERROR: Data directory /var/lib/pgsql/data is not empty!\nERROR: Initializing database failed, possibly see /var/lib/pgsql/initdb_postgresql.log", "stderr_lines": [" * Initializing database in '/var/lib/pgsql/data'", "ERROR: Data directory /var/lib/pgsql/data is not empty!", "ERROR: Initializing database failed, possibly see /var/lib/pgsql/initdb_postgresql.log"], "stdout": "", "stdout_lines": []}
+        ```
+
+        !!! danger "Error"
+
+            Running the task failed with `ERROR: Data directory /var/lib/pgsql/data is not empty!`!  
+            While this is good (and expected), the playbook should continue. The initialization command can't be run again, it must be checked if it was executed earlier. This could be done by a previous task checking for a non-empty data directory with the `ansible.builtin.stat` module or, even better, with the `creates` parameter in the same task.
+
+        When running in check mode, the task using the `command` module is skipped, **no prediction is made**.
+
+        ??? example
+
+            ``` { .bash .no-copy }
+            $ ansible-playbook postgres_installation.yml -C
+
+            PLAY [PostgreSQL installation] ******************************************************************************************
+
+            TASK [Install Postgres] *************************************************************************************************
+            changed: [instance1]
+
+            TASK [Initialize PostgreSQL database] *************************************************************************************************************************
+            skipping: [instance1]
+
+            ...
+            ```
+
+The `removes` parameter works similar, only that it checks for a path or file removed by something.
 
 ### *failed_when* and *changed_when*
 
@@ -197,16 +296,22 @@ Check mode is supported for non-idempotent modules when passing `creates` or `re
     **Work in Progress** - More description necessary.
 
 === "Good"
+
     !!! success ""
+
         ```yaml
         - name: Install webserver package
           ansible.builtin.package:
             name: httpd
             state: present
         ```
+
 === "Bad"
+
     !!! failure ""
+
         This task never reports a changed state or fails when an error occurs.
+
         ``` { .yaml .no-copy }
         - name: Install webserver package
           shell: sudo yum install http
@@ -219,12 +324,17 @@ Check mode is supported for non-idempotent modules when passing `creates` or `re
 Use the *full qualified collection names (FQCN)* for modules, they are supported since Version 2.9 and ensures your tasks are set for the future.
 
 === "Good"
+
     !!! success ""
+
         ```yaml
         --8<-- "example-install-package-task.yml"
         ```
+
 === "Bad"
+
     !!! failure ""
+
         ``` { .yaml .no-copy }
         - package:
             name: httpd
@@ -251,13 +361,19 @@ Add a **leading zero** (or `1` for setting sticky bit), showing Ansible’s YAML
     Giving Ansible a number without following one of these rules will end up with a decimal number which can have unexpected results.
 
 === "Good"
+
     !!! success ""
+
         ```yaml
         --8<-- "example-copy-template-task.yml"
         ```
+
 === "Bad"
+
     !!! failure ""
+
         Missing leading zero:
+
         ``` { .yaml .no-copy }
         - name: copy index
           template:
@@ -268,7 +384,9 @@ Add a **leading zero** (or `1` for setting sticky bit), showing Ansible’s YAML
             group: apache
           become: true
         ```
+
         This leads to these permissions!
+
         ``` { .console .no-copy }
         [root@demo /]# ll /var/www/html/
         total 68
@@ -335,11 +453,14 @@ If the `when:` condition results in a line that is very long, and is an `and` ex
 
 === "Good"
     !!! success ""
+
         ```yaml
         --8<-- "example-multiple-when-conditions-task.yml"
         ```
+
 === "Bad"
     !!! failure ""
+
         ``` { .yaml .no-copy }
         - name: Set motd message for k8s worker node
           copy:
@@ -352,11 +473,14 @@ When using conditions on *blocks*, move the `when` statement to the top, below t
 
 === "Good"
     !!! success ""
+
         ```yaml
         --8<-- "example-block-with-when-tasks.yml"
         ```
+
 === "Bad"
     !!! failure ""
+
         ``` { .yaml .no-copy }
         - name: Install, configure, and start Apache
           block:
