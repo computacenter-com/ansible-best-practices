@@ -1,0 +1,6 @@
+- name: Restore SELinux labels on filesystem tree
+  ansible.builtin.command:
+    cmd: /sbin/restorecon -R -v {{ item }}
+  loop: "{{ selinux_restore_dirs }}"
+  register: restorecon_cmd
+  changed_when: '"Relabeled" in restorecon_cmd.stdout'
