@@ -66,13 +66,13 @@ Tim Grützmacher - <tim.gruetzmacher@computacenter.com>
 
 The `ansible-galaxy` utility can be used to create the role *skeleton* with the following command:
 
-```console
+```bash
 ansible-galaxy role init roles/demo
 ```
 
 This would create the following directory:
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 roles/demo/
 ├── defaults
 │   └── main.yml
@@ -100,7 +100,7 @@ At least the folders (and content) `tests` (a sample inventory and playbook for 
 
 Consider the following role skeleton, note the missing *vars* and *test* folder and the newly added [Molecule folder](../development/testing.md#molecule).
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 roles/role_skeleton/
 ├── defaults
 │   └── main.yml
@@ -250,7 +250,8 @@ When defined, a new task is inserted at the beginning of role execution that wil
 === "Execution output"
 
     !!! success "Output with valid arguments"
-        ```console
+
+        ```ansible-output
         PLAY [ACI automation] **************************************************************
 
         TASK [apic : Validating arguments against arg spec 'main'] *************************
@@ -261,7 +262,8 @@ When defined, a new task is inserted at the beginning of role execution that wil
         ```
 
     ??? failure "Output with failed argument validation"
-        ```console
+
+        ```ansible-output
         PLAY [ACI automation] ***********************************************************
 
         TASK [apic : Validating arguments against arg spec 'main'] **********************

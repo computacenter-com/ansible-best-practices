@@ -7,7 +7,7 @@ icon: lucide/list-ordered
 **Tasks should always be inside of a role.** Do not use tasks in a play directly.  
 Logically related tasks are to be separated into individual files, the `main.yml` of a role only **imports** other task files.
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 .
 └── roles
     └── k8s_bootstrap
@@ -67,7 +67,7 @@ One of the biggest disadvantages of the dynamic *include_tasks* statement, synta
 
         Running playbook with `--syntax-check` or running `ansible-lint`:
 
-        ```{ .console .no-copy}
+        ```{ .bash .no-copy}
         $ ansible-playbook k8s_install.yml --syntax-check
         ERROR! conflicting action statements: ansible.builtin.template, src
 
@@ -112,7 +112,7 @@ One of the biggest disadvantages of the dynamic *include_tasks* statement, synta
         ```
         Running playbook with `--syntax-check` or running `ansible-lint`:
 
-        ```{ .console .no-copy}
+        ```{ .bash .no-copy}
         $ ansible-playbook k8s_install.yml --syntax-check
 
         playbook: k8s_install.yml
@@ -138,17 +138,22 @@ Write task names in the imperative (e.g. *"Ensure service is running"*), this co
 
 === "Good"
     !!! success ""
+
         ```yaml
         --8<-- "example-install-package-task.yml"
         ```
+
 === "Bad"
     !!! failure ""
+
         ``` { .yaml .no-copy }
         - package:
             name: httpd
             state: present
         ```
+
         Using name parameter, but not starting with capital letter, nor describing the task properly.
+
         ``` { .yaml .no-copy }
         - name: install package
           package:
@@ -202,7 +207,7 @@ The parameter expects a filename or glob pattern, if a matching file (when using
 
         If the file `/var/lib/pgsql/data/PG_VERSION` exists, the command is not run, the task will return *ok*.
 
-        ``` { .bash .no-copy title="Database is already initialized from a previous run, no changed/failed state from command module" }
+        ``` { .ansible-output .no-copy title="Database is already initialized from a previous run, no changed/failed state from command module" }
         $ ansible-playbook postgres_installation.yml
 
         PLAY [PostgreSQL installation] ******************************************************************************************
@@ -221,7 +226,7 @@ The parameter expects a filename or glob pattern, if a matching file (when using
 
         ??? example
 
-            ``` { .bash .no-copy title="Fresh installation, running in Check mode, correct changed state from command module" }
+            ``` { .ansible-output .no-copy title="Fresh installation, running in Check mode, correct changed state from command module" }
             $ ansible-playbook postgres_installation.yml -C
 
             PLAY [PostgreSQL installation] ******************************************************************************************
@@ -247,7 +252,7 @@ The parameter expects a filename or glob pattern, if a matching file (when using
 
         **Without** the `creates` parameter the command is **always** executed, it will show *changed* or even fail...  
 
-        ``` { .bash .no-copy title="Database is already initialized from a previous run, hopefully the command does not do something unexpected..." }
+        ``` { .ansible-output .no-copy title="Database is already initialized from a previous run, hopefully the command does not do something unexpected..." }
         $ ansible-playbook postgres_installation.yml
 
         PLAY [PostgreSQL installation] ******************************************************************************************
@@ -276,7 +281,7 @@ The parameter expects a filename or glob pattern, if a matching file (when using
 
         ??? example
 
-            ``` { .bash .no-copy }
+            ``` { .ansible-output .no-copy }
             $ ansible-playbook postgres_installation.yml -C
 
             PLAY [PostgreSQL installation] ******************************************************************************************
@@ -396,7 +401,7 @@ Add a **leading zero** (or `1` for setting sticky bit), showing Ansible’s YAML
 
         This leads to these permissions!
 
-        ``` { .console .no-copy }
+        ``` { .bash .no-copy }
         [root@demo /]# ll /var/www/html/
         total 68
         --w----r-T 1 apache apache 67691 Nov 18 14:30 index.html
@@ -562,7 +567,7 @@ With every loop run, the output of the command module (including the *return cod
 !!! info inline end
     If the *until* condition is never reached, the task fails.
 
-```bash
+```ansible-output
 TASK [Wait for PostgreSQL to accept connections] *******************************
 FAILED - RETRYING: [instance1]: Wait for PostgreSQL to accept connections (10 retries left).
 FAILED - RETRYING: [instance1]: Wait for PostgreSQL to accept connections (9 retries left).
@@ -635,7 +640,7 @@ While it possible to use *nested* loops (as in a [programming language](../minds
 
     ??? example "Example output"
 
-        ```bash
+        ```ansible-output
         TASK [Give users access to multiple databases] *********************************
         ok: [DB1] => (item=Granting alice access to clientdb)
         ok: [DB1] => (item=Granting alice access to employeedb)
@@ -662,7 +667,7 @@ While it possible to use *nested* loops (as in a [programming language](../minds
 
     ??? example "Example output"
 
-        ```bash
+        ```ansible-output
         TASK [Give users access to multiple databases] *********************************
         included: /home/timgrt/demo/db_access.yml for DB1 => (item=alice)
         included: /home/timgrt/demo/db_access.yml for DB1 => (item=bob)
@@ -719,9 +724,8 @@ Running the playbook results in the following task output, only the content of t
 === "Good"
     !!! success ""
 
-        ```console
+        ```ansible-output
         TASK [common : Create local users] *********************************************
-        Friday 18 November 2022  12:18:01 +0100 (0:00:01.955)       0:00:03.933 *******
         changed: [demo] => (item=tgruetz)
         changed: [demo] => (item=joschmi)
         changed: [demo] => (item=mfrink)
@@ -732,15 +736,9 @@ Running the playbook results in the following task output, only the content of t
 
         Not using the `label` in the `loop_control` dictionary results in a very long output:
 
-        ``` { .console .no-copy }
+        ``` { .ansible-output .no-copy }
         TASK [common : Create local users] *********************************************
-        Friday 18 November 2022  12:22:40 +0100 (0:00:01.512)       0:00:03.609 *******
         changed: [demo] => (item={'name': 'tgruetz', 'groups': 'admins,docker', 'append': False, 'comment': 'Tim Grützmacher', 'shell': '/bin/bash', 'password_expire_max': 90})
         changed: [demo] => (item={'name': 'joschmi', 'groups': 'developers,docker', 'append': True, 'comment': 'Jonathan Schmidt', 'shell': '/bin/zsh', 'password_expire_max': 90})
         changed: [demo] => (item={'name': 'mfrink', 'groups': 'developers', 'append': True, 'comment': 'Mathias Frink', 'shell': '/bin/bash', 'password_expire_max': 90})
         ```
-
-## Filter
-
-!!! warning
-    **Work in Progress** - More description necessary.

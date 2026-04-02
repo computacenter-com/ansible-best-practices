@@ -42,17 +42,17 @@ Each section above make use of an additional tool to support you during your Ans
 
 The Ansible community provides a Container image bundling all the tools described in the sections above.
 
-```console
+```bash
 docker pull quay.io/ansible/creator-ee
 ```
 
 For example you could output the version of the installed tools like this:
 
-```console
+```bash
 docker run --rm quay.io/ansible/creator-ee ansible-lint --version
 ```
 
-```console
+```bash
 docker run --rm quay.io/ansible/creator-ee molecule --version
 ```
 

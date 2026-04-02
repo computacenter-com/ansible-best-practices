@@ -17,7 +17,7 @@ Take a look at the [Development section](../development/git.md) for additional i
 
 ## Directory structure
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 .
 ├── ansible.cfg
 ├── hosts
@@ -57,7 +57,7 @@ Use descriptive names that are human-readable and **do not shorten more than nec
 === "Good"
 
     !!! success ""
-        ``` { .console .no-copy }
+        ``` { .bash .no-copy }
         .
         ├── ansible.cfg
         ├── hosts
@@ -88,7 +88,7 @@ Use descriptive names that are human-readable and **do not shorten more than nec
 
     !!! failure ""
         Playbook-name without underscores and wrong file extension, role folders or task files inconsistent, with underscores and wrong extension.
-        ``` { .console .no-copy }
+        ``` { .bash .no-copy }
         .
         ├── ansible.cfg
         ├── hosts
@@ -306,7 +306,7 @@ The markers are `DRY RUN` at the beginning and ending of playbook execution (whe
 
 ??? example "Example output"
 
-    ``` { .console .no-copy }
+    ``` { .ansible-output .no-copy }
     $ ansible-playbook -i inventory.ini playbook.yml -C
 
     DRY RUN ******************************************************************
@@ -335,25 +335,19 @@ show_task_path_on_failure = true
 
     When set to `true`:
 
-    ``` { .console .no-copy }
-    ...
-
+    ``` { .ansible-output .no-copy }
     TASK [Set motd message for k8s worker node] **************************************************
     task path: /home/timgrt/kubernetes_installation/roles/kube_worker/tasks/configure.yml:39
     fatal: [k8s-worker1]: FAILED! =>
     ...
-
     ```
 
     When set to `false`:
 
-    ``` { .console .no-copy }
-    ...
-
+    ``` { .ansible-output .no-copy }
     TASK [Set motd message for k8s worker node] ****************************************************
     fatal: [k8s-worker1]: FAILED! =>
     ...
-
     ```
 
 Even if you don't set this, the path is displayed automatically for every task when running with `-vv` or greater verbosity, but you'll need to run the playbook again.
@@ -412,7 +406,7 @@ collections:
 
 Install all collections from the *requirements*-file:
 
-```console
+```bash
 ansible-galaxy collection install -r requirements.yml
 ```
 
@@ -440,6 +434,6 @@ PyYAML>=3.11
 
 Install all dependencies from the *requirements*-file:
 
-```console
+```bash
 pip3 install -r requirements.txt
 ```

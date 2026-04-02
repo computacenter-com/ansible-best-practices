@@ -25,7 +25,7 @@ As there are new components (*Automation Gateway*) and new APIs with Ansible Aut
 
 For automating AWX and Automation Platform 2.4 and earlier, use the [Controller Configuration Collection](https://galaxy.ansible.com/ui/repo/published/infra/controller_configuration/){:target="_blank"}.
 
-```console
+```bash
 ansible-galaxy collection install infra.controller_configuration
 ```
 
@@ -33,7 +33,7 @@ ansible-galaxy collection install infra.controller_configuration
 
 For automating Automation Platform 2.5 and later, use the [AAP Configuration Collection](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration/){:target="_blank"}.
 
-```console
+```bash
 ansible-galaxy collection install infra.aap_configuration
 ```
 
@@ -46,6 +46,6 @@ For example:
 * [infra.controller_configuration.filetree_create](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration_extended/content/role/filetree_create/){:target="_blank"} - creates a filetree with YAML files of the existing AAP configuration
 * [infra.controller_configuration.upgrade_config](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration_extended/content/role/upgrade_config/){:target="_blank"} - converts the configuration files used for AAP <= 2.4 CaC collections to the new format supported by the AAP >= 2.5 CaC collections.
 
-```console
+```bash
 ansible-galaxy collection install infra.aap_configuration_extended
 ```

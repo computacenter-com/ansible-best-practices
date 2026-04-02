@@ -36,7 +36,7 @@ For a single log file use the `log_path` parameter in the `defaults` section.
 
     You'll get a warning, if the log file is not *writeable* as the path does not exist or permissions are insufficient.
 
-    ```bash
+    ```ansible-output
     $ ansible-playbook facts.yml
     [WARNING]: log file at '/home/timgrt/demo/logs/ansible.log' is not writeable and we cannot create it, aborting
 
@@ -68,7 +68,7 @@ To write multiple log files, one per host, you can use the [`community.general.l
 
 Install the collection:
 
-```console
+```bash
 ansible-galaxy collection install community.general
 ```
 
@@ -114,7 +114,7 @@ To create separate log files with timestamp per playbook run, you'll need to pro
 
     Prepend the `ansible-playbook` utility with the environment variable:
 
-    ```console
+    ```bash
     $ ANSIBLE_LOG_PATH=logs/playbook.$(date +%Y%m%d-%HH%MM%SS).log ansible-playbook facts.yml
     ```
 
@@ -126,7 +126,7 @@ To create separate log files with timestamp per playbook run, you'll need to pro
 
     *Source* the file to activate the alias:
 
-    ```console
+    ```bash
     source ~/.bash_aliases
     ```
 
@@ -196,7 +196,7 @@ The *playbook artifact* filenames will contain the overall *state*, the *name* o
 
 Playbook artifact files are written in JSON format, which is inconvenient to read. You can use the `replay` functionality to *repeat* the playbook output. The playbook will **not** be run again, only the output will be shown to `stdout` again:
 
-```{ .bash .no-copy }
+```{ .ansible-output .no-copy }
 $ ansible-navigator replay logs/successful-rsyslog-install-2026-03-24T10:10:42.054696+00:00.json
 
 PLAY [Install and start rsyslog on all managed nodes] **************************
@@ -355,7 +355,7 @@ A preview of the ARA Web-UI is available in a [live demo](https://demo.recordsan
 
 Install the ARA package alongside `ansible-core`, here including the API server dependencies:
 
-```console
+```bash
 pip3 install ansible-core "ara[server]"
 ```
 
@@ -373,7 +373,7 @@ python3 -m ara.setup.env
 
 ??? example "Example output"
 
-    ```console
+    ```bash
     $ python3 -m ara.setup.env
     export ANSIBLE_CALLBACK_PLUGINS=${ANSIBLE_CALLBACK_PLUGINS:-}${ANSIBLE_CALLBACK_PLUGINS+:}/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/callback
     export ANSIBLE_ACTION_PLUGINS=${ANSIBLE_ACTION_PLUGINS:-}${ANSIBLE_ACTION_PLUGINS+:}/home/timgrt/demo/ve-ara/lib/python3.12/site-packages/ara/plugins/action
@@ -410,7 +410,7 @@ ara playbook list
 
 ??? example "Example output"
 
-    ``` { .console .no-copy }
+    ``` { .bash .no-copy }
     $ ara playbook list
     +----+-----------+---------------------+--------+-----------------+---------------------------------------+-------+---------+-------+-----------------------------+-----------------+
     | id | status    | controller          | user   | ansible_version | path                                  | tasks | results | hosts | started                     | duration        |
@@ -431,7 +431,7 @@ ara host metrics
 
 ??? example "Example output"
 
-    ``` { .console .no-copy }
+    ``` { .bash .no-copy }
     $ ara host metrics
     +-----------+-------+---------+--------+----+---------+-------------+
     | name      | count | changed | failed | ok | skipped | unreachable |

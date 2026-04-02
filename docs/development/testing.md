@@ -21,7 +21,7 @@ Consider the following list for testing your Ansible content, with increasing co
 
 The whole playbook (and all roles and tasks) need to, minimally, pass a basic ansible-playbook syntax check run.
 
-```console
+```bash
 ansible-playbook main.yml --syntax-check
 ```
 
@@ -48,30 +48,30 @@ Take a look at the [Molecule documentation](https://ansible.readthedocs.io/proje
 
 The described configuration below expects the *Podman* container runtime on the Ansible Controller (other drivers like *Docker* are available). You can install Podman with the following command:
 
-```console
+```bash
 sudo apt install podman
 ```
 
 The *Molecule* binary and dependencies are installed through the *Python package manager*, you'll need a fairly new Python version (*Python >= 3.10* with *ansible-core >= 2.12*).  
 Use a *Python Virtual environment* (requires the `python3-venv` package) to encapsulate the installation from the rest of your Controller.
 
-```console
+```bash
 python3 -m venv molecule-venv
 ```
 
 Activate the VE:
 
-```console
+```bash
 source molecule-venv/bin/activate
 ```
 
 Install dependencies, after upgrading pip:
 
-```console
+```bash
 pip3 install --upgrade pip setuptools
 ```
 
-```console
+```bash
 pip3 install ansible-core molecule molecule-plugins[podman]
 ```
 
@@ -90,7 +90,7 @@ Molecule plugins contains the following provider:
     The Molecule Podman provider requires the modules of the *containers.podman* collection (as it provisions the containers with Ansible itself).  
     If you only installed `ansible-core`, you'll need to install the collection separately:
 
-    ```console
+    ```bash
     ansible-galaxy collection install containers.podman
     ```
 
@@ -107,7 +107,7 @@ Depending on your project setup (*classic* role structure or collection), the Mo
 
     The *molecule* configuration files are kept in the role folder you want to test:
 
-    ``` { .console hl_lines="5-8" .no-copy }
+    ``` { .bash hl_lines="5-8" .no-copy }
     roles/
     └── webserver_demo
         ├── defaults
@@ -126,7 +126,7 @@ Depending on your project setup (*classic* role structure or collection), the Mo
 
     The *molecule* configuration files are kept in a **separate** folder `extensions` in the collection root directory:
 
-    ``` { .console hl_lines="3-7" .no-copy }
+    ``` { .bash hl_lines="3-7" .no-copy }
     .
     ├── README.md
     ├── extensions
@@ -315,7 +315,7 @@ platforms:
 ??? example
     This would result in the following name (shown with the output of `molecule list -f yaml`):
 
-    ``` { .console hl_lines="11 17" .no-copy }
+    ``` { .bash hl_lines="11 17" .no-copy }
     (ve-molecule) timgrt@wsl-ubuntu:demo$ molecule list -f yaml
     INFO     Collection 'cc_ansible_community.demo' detected.
     INFO     Scenarios will be used from 'extensions/molecule'
@@ -343,7 +343,7 @@ A scenario is a self-contained **directory** containing everything necessary for
 The default *scenario* is named `default`, **but you can define additional ones.** The **scenario name will be the directory name** hosting the files.  
 For example, you can have a default scenario which uses Podman containers as infrastructure and another scenario which uses the libvirt driver.
 
-``` { .console hl_lines="6 9" .no-copy }
+``` { .bash hl_lines="6 9" .no-copy }
 roles/
 └── webserver_demo
     ├── defaults
@@ -365,51 +365,51 @@ roles/
 
 Activating your Python VE with molecule:
 
-```console
+```bash
 source molecule-venv/bin/activate
 ```
 
 In a *collection* project, you can execute Molecule **directly from the project root directory**.  
 If your are using Molecule in a *classic* project, it is executed from **within the role** you want to test. Change directory:
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 cd roles/webserver_demo
 ```
 
 !!! tip
     To run a specific scenario (other than the default one), you'll need to provide the name with the `--scenario-name` (or `-s`) parameter.  
 
-    ```console
+    ```bash
     molecule test -s libvirt
     ```
 
 To **only create** the defined containers, but not run the Ansible tasks:
 
-```console
+```bash
 molecule create
 ```
 
 To run the Ansible tasks of the role (if the container does not exist, it will be created):
 
-```console
+```bash
 molecule converge
 ```
 
 To destroy the provisioned infrastructure.
 
-```console
+```bash
 molecule destroy
 ```
 
 To execute a full test circle (existing containers are deleted, re-created and Ansible tasks are executed and containers are deleted(!) afterwards):
 
-```console
+```bash
 molecule test
 ```
 
 If you want to login to a running container instance:
 
-```console
+```bash
 molecule login
 ```
 
@@ -417,7 +417,7 @@ molecule login
 
     If you multiple instances, you'll need to provide the *name* of the desired instance with the `--host` (or `-h`) parameter:
 
-    ``` { .console .no-copy }
+    ``` { .bash .no-copy }
     $ molecule login -h rhel9-instance1
     [root@rhel9-instance1 /]# grep PRETTY_NAME /etc/os-release
     PRETTY_NAME="Red Hat Enterprise Linux 9.7 (Plow)"
@@ -432,7 +432,7 @@ Molecule writes a couple of temporary files to indicate which steps of a *sequen
 
 ??? example
 
-    ``` { .console .no-copy }
+    ``` { .bash .no-copy }
     $ tree ~/.ansible/tmp/molecule.KpdR.default/
     /home/timgrt/.ansible/tmp/molecule.KpdR.default/
     ├── ansible.cfg
@@ -446,7 +446,7 @@ Molecule writes a couple of temporary files to indicate which steps of a *sequen
 
 In some cases, you may encounter the following error:
 
-```console
+```ansible-output
 TASK [Gathering Facts] *********************************************************
 fatal: [rhel9-instance]: UNREACHABLE! =>
     changed: false
@@ -474,13 +474,13 @@ You'll miss out on the convenient and frankly easy to use possibilities of *Mole
 
 You can install Podman with the following command:
 
-```console
+```bash
 sudo apt install podman
 ```
 
 The playbook to create the testing instances uses the *containers.podman* collection, if you only installed `ansible-core`, you'll need to install the collection separately:
 
-```console
+```bash
 ansible-galaxy collection install containers.podman
 ```
 
@@ -542,19 +542,19 @@ Copy the three files in the separate tabs, a playbook for creating the testing e
 
 First, create the testing instances by executing the `testing_environment.yml` playbook:
 
-```console
+```bash
 ansible-playbook -i testing_inventory.ini testing_environment.yml
 ```
 
 Add your tasks to the `testing_playbook.yml` (or use your existing playbook, target the `test` group) and execute:
 
-```console
+```bash
 ansible-playbook -i testing_inventory.ini testing_playbook.yml
 ```
 
 After finishing your tests remove the instances by running the `testing_environment.yml` playbook and provide the *extra-var* `delete`:
 
-```console
+```bash
 ansible-playbook -i testing_inventory.ini testing_environment.yml -e delete=true
 ```
 <!-- markdownlint-enable MD024 -->

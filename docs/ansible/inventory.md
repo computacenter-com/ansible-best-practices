@@ -13,7 +13,8 @@ You can use group names to classify hosts and to decide which hosts you are cont
 
 !!! tip
     To *verify* that Ansible has properly read an inventory source, `ansible-inventory --graph` can be used. It prints the structure of hosts and groups and is especially useful for *dynamic inventories*.
-    ```
+
+    ```bash
     @all:
       |--@ungrouped:
       |--@webapp:
@@ -69,7 +70,7 @@ target:
 
 The most common format for the *Ansible Inventory* is the `.ini` format, but sometimes you might need the inventory file in the *YAML* format. You can convert your existing inventory to the YAML format with the `ansible-inventory` utility.
 
-```console
+```bash
 ansible-inventory -i inventory.ini -y --list > inventory.yml
 ```
 
@@ -163,7 +164,7 @@ Take a look at the following example, the first *play* creates a couple of Conta
 
 ??? example "Playbook output"
 
-    ```{ .console .no-copy }
+    ```{ .ansible-output .no-copy }
     $ ansible-playbook in-memory-inventory.yml
 
     PLAY [Add hosts to additional groups] *******************************************************************************************************************************

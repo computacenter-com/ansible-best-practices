@@ -11,7 +11,7 @@ icon: lucide/rocket
 The *main* playbook should have a recognizable name, e.g. referencing the projects name or scope.
 If you have multiple playbooks, create a new folder `playbooks` and store all playbooks there, except the *main* playbook (here called `site.yml`).
 
-```{ .console .no-copy }
+```{ .bash .no-copy }
 .
 ├── ansible.cfg
 ├── site.yml
@@ -92,12 +92,16 @@ Since **ansible-core 2.12**, collections can define their own groups in the `met
 
 === "Good"
     !!! success ""
+
         ```yaml hl_lines="4 5 6 7 8"
         --8<-- "example-module-defaults-playbook.yml"
         ```
+
 === "Bad"
     !!! failure ""
+
         Authentication parameters are repeated in every task.
+
         ```{ .yaml .no-copy }
         - name: Demo play with modules which need to call the same arguments
           hosts: aci
@@ -193,7 +197,7 @@ With the `collections` list defined as part of the play definition, you could wr
 
 To run your playbook, use the `ansible-playbook` command.
 
-```console
+```bash
 ansible-playbook playbook.yml
 ```
 
@@ -254,7 +258,7 @@ Use the [official Ansible Navigator Documentation](https://ansible.readthedocs.i
 
 Executing a playbook with the Navigator is as easy as before, just run it like this:
 
-```console
+```bash
 ansible-navigator run site.yml
 ```
 
