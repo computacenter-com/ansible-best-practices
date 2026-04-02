@@ -1,0 +1,9 @@
+- name: Validate configuration
+  ansible.builtin.command:
+    cmd: /opt/app/bin/validate-config
+  register: validate_result
+  changed_when: false
+  failed_when: > # (1)!
+    validate_result.rc != 0 or
+    'WARNING' in validate_result.stdout or
+    'CRITICAL' in validate_result.stderr

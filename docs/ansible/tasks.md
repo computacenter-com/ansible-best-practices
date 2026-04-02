@@ -200,6 +200,8 @@ The parameter expects a filename or glob pattern, if a matching file (when using
             creates: /var/lib/pgsql/data/PG_VERSION
         ```
 
+        If the file `/var/lib/pgsql/data/PG_VERSION` exists, the command is not run, the task will return *ok*.
+
         ``` { .bash .no-copy title="Database is already initialized from a previous run, no changed/failed state from command module" }
         $ ansible-playbook postgres_installation.yml
 
@@ -292,19 +294,24 @@ The `removes` parameter works similar, only that it checks for a path or file re
 
 ### *failed_when* and *changed_when*
 
-!!! warning
-    **Work in Progress** - More description necessary.
+Non-idempotent modules like `command` or `shell` **always** return a *changed* state, although in some cases, no *actual* change is done on the target system. Additionally, sometimes the command or module does return a *failed* result (as it checks for a return code zero), but a return code of 1 is also acceptable (highly depends on use-case).  
+
+In both cases, you can override the changed and/or failed check with `changed_when` or `failed_when`.
 
 === "Good"
 
     !!! success ""
 
         ```yaml
-        - name: Install webserver package
-          ansible.builtin.package:
-            name: httpd
-            state: present
+        --8<-- "example-changed-when-task.yml"
         ```
+
+        ```yaml
+        --8<-- "example-failed-when-task.yml"
+        ```
+
+        1. A *folded block scalar*, will fold newlines to spaces; it is used to make what would otherwise be a very long line easier to read and edit, indentation will be ignored.  
+        Take a look at the [YAML Syntax Basics](https://docs.ansible.com/projects/ansible/latest/reference_appendices/YAMLSyntax.html){:target="_blank"} in the documentation.
 
 === "Bad"
 
@@ -318,6 +325,8 @@ The `removes` parameter works similar, only that it checks for a path or file re
           changed_when: false
           failed_when: false
         ```
+
+If the command does not really change anything **and** the command will always return an answer, it is acceptable to set `changed_when` to `false`.
 
 ## Modules (and Collections)
 
