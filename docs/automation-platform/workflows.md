@@ -51,7 +51,7 @@ Defining the environment variable `ANSIBLE_SHOW_CUSTOM_STATS` and setting to `tr
 
 ??? example "Play recap with custom stats"
 
-    ``` { .console .no-copy }
+    ``` { .ansible-output .no-copy }
 
     PLAY RECAP *********************************************************************
     localhost                  : ok=13    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

@@ -12,7 +12,7 @@ When you need metrics about playbook execution and machine resource consumption,
 To measure the time spent for tasks and the overall playbook run, multiple callback plugins are available.
 Install the necessary collections which include the desired callback plugins:
 
-```console
+```bash
 ansible-galaxy collection install ansible.posix
 ```
 
@@ -35,7 +35,7 @@ callbacks_enabled = ansible.posix.timer, ansible.posix.profile_tasks
 
 ??? example "Example output"
 
-    ```{ .console .no-copy .hl_lines='1'}
+    ```{ .ansible-output .no-copy .hl_lines='1'}
     $ ansible-playbook -i inventory.ini create_workshop_environment.yml
 
     PLAY [Create Workshop environment] ****************************************************************************************************
@@ -94,19 +94,19 @@ To measure system resources used by Ansible, you can use the following *callback
 
 Install the *cgroup-tools* which contains command-line programs, services and a daemon for manipulating control groups using the libcgroup library.
 
-```console
+```bash
 sudo apt install cgroup-tools
 ```
 
 Create a *cgroup* which includes the CPU Accounting, the memory (RAM) and the PIDs subsystem:
 
-```console
+```bash
 sudo cgcreate -a ${USER}:${USER} -t ${USER}:${USER} -g cpuacct,memory,pids:ansible_profile
 ```
 
 Install the necessary collections which include the desired callback plugins:
 
-```console
+```bash
 ansible-galaxy collection install ansible.posix community.general
 ```
 
@@ -129,13 +129,13 @@ max_mem_file = /sys/fs/cgroup/memory/ansible_profile/memory.max_usage_in_bytes
 
 The *cgexec* program executes a task command (in our case a playbook run) with arguments in given control groups (in our case the *memory* group only).
 
-```console
+```bash
 cgexec -g memory:ansible_profile ansible-playbook playbook.yml
 ```
 
 ??? example "Example output"
 
-    ```{ .console .no-copy }
+    ```{ .ansible-output .no-copy }
     $ cgexec -g memory:ansible_profile ansible-playbook -i inventory.ini create_workshop_environment.yml
 
     PLAY [Create Workshop environment] ******************************************************
@@ -183,13 +183,14 @@ cgexec -g memory:ansible_profile ansible-playbook playbook.yml
     Create an *alias* for the *cgexec...* part:
 
     !!! example "~/.bash_aliases"
-        ```console
+
+        ```bash
         alias ansible-playbook-profile='cgexec -g memory:ansible_profile ansible-playbook'
         ```
 
     First time usage requires `source ~/.bash_aliases`, now you can run:
 
-    ```console
+    ```bash
     ansible-playbook-profile -i inventory playbook.yml
     ```
 
@@ -208,13 +209,13 @@ control_group = ansible_profile
 
 The *cgexec* program executes a task command (in our case a playbook run) with arguments in given control groups.
 
-```console
+```bash
 cgexec -g cpuacct,memory,pids:ansible_profile ansible-playbook playbook.yml
 ```
 
 ??? example "Example output"
 
-    ```{ .console .no-copy }
+    ```{ .ansible-output .no-copy }
     $ cgexec -g cpuacct,memory,pids:ansible_profile ansible-playbook -i inventory.ini create_workshop_environment.yml
 
     PLAY [Create Workshop environment] *****************************************************************************
@@ -307,12 +308,13 @@ cgexec -g cpuacct,memory,pids:ansible_profile ansible-playbook playbook.yml
     Create an *alias* for the *cgexec...* part:
 
     !!! example "~/.bash_aliases"
-        ```console
+
+        ```bash
         alias ansible-playbook-profile='cgexec -g cpuacct,memory,pids:ansible_profile ansible-playbook'
         ```
 
     First time usage requires `source ~/.bash_aliases`, now you can run:
 
-    ```console
+    ```bash
     ansible-playbook-profile -i inventory playbook.yml
     ```

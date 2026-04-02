@@ -13,7 +13,7 @@ To ensure that the *Best Practice Guide* has a common *look and feel* take a loo
 
 Run the provided *Makefile*, the `all` target creates a Python VE with all requirements and installs the provided *pre-commit* hooks:
 
-```console
+```bash
 make all
 ```
 
@@ -23,7 +23,7 @@ Running without specifying a target displays a *help* message.
 
 When you are done with your work, run the *Makefile* with the `clean` target:
 
-```console
+```bash
 make clean
 ```
 
@@ -33,7 +33,7 @@ Use the *live preview* for Zensical for all changes to the guidelines!
 
 After creating the [development environment](#create-development-environment), you can start a [local webserver to preview all changes](https://zensical.org/docs/usage/preview/) with the following command:
 
-```console
+```bash
 zensical serve
 ```
 
@@ -117,7 +117,7 @@ Take a look at the [Zensical documentation](https://zensical.org/docs/authoring/
 By default, every code block has a small *copy* button in the top-right corner, if your code block e.g. contains only example output from the shell or shows unwanted behavior, it should not by copyable. Disable the copy button **per** code block with `.no-copy`, the syntax is slightly different:
 
 ````markdown
-``` { .console .no-copy}
+``` { .bash .no-copy}
 # Code block content
 ```
 ````

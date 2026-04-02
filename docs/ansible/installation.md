@@ -10,7 +10,7 @@ How to install Ansible itself and other content.
 
 The latest version can only be obtained via the Python package manager, the *ansible-core* package contains the binaries and 71 standard modules.
 
-```console
+```bash
 pip3 install ansible-core
 ```
 
@@ -25,31 +25,31 @@ pip3 install ansible-core
         **This is the most basic solution and is recommended if you need to install additional Python dependencies.**  
         If it is not present, install it via your OS package manager, e.g.:
 
-        ```console
+        ```bash
         sudo apt install python3-venv
         ```
 
         Create a VE, for example, in your home directory:
 
-        ```console
+        ```bash
         python3 -m venv ~/ve-ansible-dev
         ```
 
         Activate your Python VE:
 
-        ```console
+        ```bash
         source ~/ve-ansible-dev/bin/activate
         ```
 
         Now, you can use `pip3` to install `ansible-core` (and other Python packages):
 
-        ```console
+        ```bash
         pip3 install ansible-core
         ```
 
         This will install Ansible into your Python VE.
 
-        ```{ .console .no-copy }
+        ```{ .bash .no-copy }
         $ which ansible-playbook
         /home/timgrt/ve-ansible-dev/bin/ansible-playbook
         ```
@@ -65,19 +65,19 @@ pip3 install ansible-core
         It installs and runs Python Applications in isolated environments out of the box, without the need to create a Python VE.  
         If it is not present, install it via your OS package manager, e.g.:
 
-        ```console
+        ```bash
         sudo apt install pipx
         ```
 
         Install `ansible-core` with `pipx`:
 
-        ```console
+        ```bash
         pipx install ansible-core
         ```
 
         The Ansible binaries are installed to `~/.local/bin`, run the following command to ensure it is added to your PATH variable:
 
-        ```console
+        ```bash
         pipx ensurepath
         ```
 
@@ -86,7 +86,7 @@ pip3 install ansible-core
 
         You can *inject* packages into the existing pipx environment (here the `pynetbox` package is installed into the `ansible-core` environment):
 
-        ```console
+        ```bash
         pipx inject ansible-core pynetbox
         ```
 
@@ -95,7 +95,7 @@ pip3 install ansible-core
 The included modules can be listed with `ansible-doc --list ansible.builtin`.  
 If more special modules are needed, the complete *ansible* package **can** be installed, this corresponds to the "old" installation method (*batteries included*).
 
-```console
+```bash
 pip3 install ansible
 ```
 
@@ -109,14 +109,14 @@ Most OS package managers like *apt* or *yum* also provide the `ansible-core` or 
 ??? example "Installing Ansible with OS package manager"
     Even in fairly recent distributions the Ansible versions are not up to date:
 
-    ``` { .console .no-copy .title="Python package manager" .hl_lines="3" }
+    ``` { .bash .no-copy .title="Python package manager" .hl_lines="3" }
     $ pip3 show ansible-core
     Name: ansible-core
     Version: 2.14.3
     ...
     ```
 
-    ``` { .console .no-copy .title="RockyLinux 8.7 (RHEL 8)" .hl_lines="4" }
+    ``` { .bash .no-copy .title="RockyLinux 8.7 (RHEL 8)" .hl_lines="4" }
     $ dnf info ansible-core
     Available Packages
     Name         : ansible-core
@@ -129,7 +129,7 @@ Most OS package managers like *apt* or *yum* also provide the `ansible-core` or 
     ...
     ```
 
-    ``` { .console .no-copy .title="Ubuntu 22.04" .hl_lines="3" }
+    ``` { .bash .no-copy .title="Ubuntu 22.04" .hl_lines="3" }
     $ apt info ansible-core
     Package: ansible-core
     Version: 2.12.0-1ubuntu0.1
@@ -150,7 +150,7 @@ Collections can also be installed from a Git repository directly, take a look at
 
 To install a *single* collection only, provide the *Collection name (provider.collection)*.
 
-```console
+```bash
 ansible-galaxy collection install community.general
 ```
 
@@ -170,7 +170,7 @@ Download the collection tarball from [Galaxy](https://galaxy.ansible.com/){ targ
 3. Copy the archive to the remote server.
 4. Install the collection with the `ansible-galaxy` CLI utility, use the `--offline` argument:
 
-    ```console
+    ```bash
     ansible-galaxy collection install ~/community-general-6.4.0.tar.gz --offline
     ```
 
@@ -178,7 +178,7 @@ Download the collection tarball from [Galaxy](https://galaxy.ansible.com/){ targ
 
 Show the name and version of each collection installed in the `collections_path`:
 
-```console
+```bash
 ansible-galaxy collection list
 ```
 
@@ -186,7 +186,7 @@ ansible-galaxy collection list
 
 To upgrade installed collections use the `--upgrade` (`-U`) argument:
 
-```console
+```bash
 ansible-galaxy collection install community.general --upgrade
 ```
 
@@ -196,7 +196,7 @@ By default, collections are installed into a (hidden) folder in the home directo
 
 If you want to store collections alongside you project, create a folder `collections` in your project directory and install collections by providing the `--collections-path` (`-p`) argument:
 
-```console
+```bash
 ansible-galaxy collection install community.general --collections-path ./collections/
 ```
 
@@ -217,7 +217,7 @@ Ansible Builder is a tool that aids in the creation of Ansible Execution Environ
 
 To build an EE, install `ansible-builder` from the Python Package Manager:
 
-```console
+```bash
 pip3 install ansible-builder
 ```
 
@@ -273,13 +273,16 @@ Define at least the definition file for the Execution Environment and other file
         ```
 === "Collection Dependencies"
     !!! example "requirements.yml"
+
         ```yaml
         ---
         collections:
           - redhat.openshift
         ```
+
 === "Python Dependencies"
     !!! example "requirements.txt"
+
         ```text
         awxkit>=13.0.0
         boto>=2.49.0
@@ -288,9 +291,12 @@ Define at least the definition file for the Execution Environment and other file
         openshift>=0.6.2
         requests-oauthlib
         ```
+
 === "Cross-Platform requirements"
     !!! example "bindep.txt"
+
         If there are RPMS necessary, put them here.
+
         ```text
         subversion [platform:rpm]
         subversion [platform:dpkg]
@@ -309,13 +315,13 @@ For more information, go to the [Ansible Builder Documentation](https://ansible-
 
 To build the EE, run this command (assuming you have Docker installed, by default Podman is used):
 
-```console
+```bash
 ansible-builder build --tag=demo/openshift-ee --container-runtime=docker -v=3
 ```
 
 The resulting container images can be viewed with the `docker images` command:
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 $ docker images
 REPOSITORY                        TAG       IMAGE ID       CREATED              SIZE
 demo/openshift-ee                 latest    2ea9d5d7b185   10 seconds ago       1.14GB
@@ -323,7 +329,7 @@ demo/openshift-ee                 latest    2ea9d5d7b185   10 seconds ago       
 
 You can also build Execution Environments with *ansible-navigator*, the Builder is installed alongside Navigator.
 
-```console
+```bash
 ansible-navigator builder build --tag=demo/openshift-ee --container-runtime=docker
 ```
 
@@ -338,13 +344,13 @@ Ansible Runner is a tool and python library to provide a stable and consistent i
 
 If you want to use it standalone, install the `ansible-runner` binary:
 
-```console
+```bash
 pip3 install ansible-runner
 ```
 
 To use the Ansible from the container image, e.g. run this command which executes an ad hoc command (*setup* module) against localhost:
 
-```console
+```bash
 ansible-runner run --container-image demo/openshift-ee /tmp -m setup --hosts localhost
 ```
 
@@ -358,7 +364,7 @@ Most parameters should be self-explanatory:
 
 The output looks like expected:
 
-``` { .console .no-copy }
+``` { .bash .no-copy }
 $ ansible-runner run --container-image demo/openshift-ee /tmp -m setup --hosts localhost
 [WARNING]: No inventory was parsed, only implicit localhost is available
 localhost | SUCCESS => {
@@ -392,7 +398,7 @@ The `ansible-navigator` is *text-based user interface* (TUI) for the Red Hat Ans
 The Navigator also makes use of the Execution Environments and provides an easier to use interface to interact with EEs (than *ansible-runner*).  
 Install the `ansible-navigator` binary and its dependencies with the Python package manager:
 
-```console
+```bash
 pip3 install ansible-navigator
 ```
 

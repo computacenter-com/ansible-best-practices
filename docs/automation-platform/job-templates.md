@@ -46,7 +46,7 @@ survey_input_overwrite_ssh_keys_boolean: true
 survey_input_selinux_mode: enforcing
 ```
 
-```console
+```bash
 ansible-playbook playbook.yml -e @survey_input.yml
 ```
 

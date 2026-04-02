@@ -60,7 +60,7 @@ The variable name should be self-explanatory (*as brief as possible, as detailed
         ```
 
 !!! failure "Avoid deeply nested structures"
-    While it may be tempting to create *nested* variable structures as the can hold loads of information, they may be hard to work with (lopp through, get specific fields, etc.).
+    While it may be tempting to create *nested* variable structures as they can hold loads of information, they may be hard to work with (lopp through, get specific fields, etc.).
 
     ```yaml
     logical_volumes:
@@ -94,23 +94,30 @@ Bracket notation always works and you can use variables inside the brackets. Dot
 === "Good"
     !!! success ""
         Simple variable reference:
+
         ```yaml
         --8<-- "example-simple-variable-task.yml"
         ```
+
         Bracket-notation and using variable (*interface_name*) inside:
+
         ```yaml
         --8<-- "example-bracket-notation-variable-task.yml"
         ```
+
 === "Bad"
     !!! failure ""
         Not using whitespaces around variable name.
+
         ``` { .yaml .no-copy }
         - name: Deploy configuration file
           ansible.builtin.template:
             src: foo.cfg.j2
             dest: "{{remote_install_path}}/foo.cfg"
         ```
+
         Not using whitespaces and using dot-notation.
+
         ``` { .yaml .no-copy }
         - name: Output IPv4 address of eth0 interface
           ansible.builtin.debug:
@@ -128,12 +135,14 @@ Inside of the `vars.yml` file, define all of the variables needed, including any
 
 === "Good"
     !!! success ""
+
         ```yaml
         ---
         # file: group_vars/database_servers/vars.yml
         username: "{{ vault_username }}"
         password: "{{ vault_password }}"
         ```
+
         ```yaml
         ---
         # file: group_vars/database_servers/vault.yml
@@ -141,10 +150,12 @@ Inside of the `vars.yml` file, define all of the variables needed, including any
         vault_username: admin
         vault_password: ex4mple
         ```
+
         ??? info "I can still read the credentials...?"
             Obviously, you wouldn't be able to read the content of the file `group_vars/database_servers/vault.yml`, as the file would be encrypted.  
             **This only demonstrates how the variables are referencing each other.**  
             The encrypted `vault.yml` file looks something like this:
+
             ``` { .yaml .no-copy }
             $ANSIBLE_VAULT;1.1;AES256
             30653164396132376333316665656131666165613863343330616666376264353830323234623631
@@ -160,9 +171,11 @@ Inside of the `vars.yml` file, define all of the variables needed, including any
             36353532623161653266666436646135396632656133623762643131323439613534643430636333
             31386635613238613233
             ```
+
 === "Bad"
     !!! failure ""
-        ``` { .console .no-copy }
+
+        ``` { .yaml .no-copy }
         # file: group_vars/database_servers.yml
         username: admin
         password: ex4mple
@@ -171,17 +184,17 @@ Inside of the `vars.yml` file, define all of the variables needed, including any
 Defining variables this way makes sure that you can still find them with *grep*.  
 Encrypting files can be done with this command:
 
-```console
+```bash
 ansible-vault encrypt group_vars/database_servers/vault.yml
 ```
 
 Once a variable file is encrypted, it should **not** be decrypted again (because it may get committed unencrypted). View or edit the file like this:
 
-```console
+```bash
 ansible-vault view group_vars/database_servers/vault.yml
 ```
 
-```console
+```bash
 ansible-vault edit group_vars/database_servers/vault.yml
 ```
 
@@ -196,12 +209,15 @@ The `ansible.builtin.debug` module on the other hand is a bad example, it will o
 
 === "Good"
     !!! success ""
+
         ```yaml hl_lines="13"
         --8<-- "example-no-log-variable-playbook.yml"
         ```
+
         ??? info "Output of playbook run"
             Using the *stdout_callback: community.general.yaml* for better readability, see [Ansible configuration](project.md#ansible-configuration){:target="_blank"} for more info.  
-            ``` { .console .no-copy .hl_lines="22" }
+
+            ``` { .ansible-output .no-copy .hl_lines="22" }
             $ ansible-playbook nolog.yml -v
 
             [...]
@@ -233,16 +249,22 @@ The `ansible.builtin.debug` module on the other hand is a bad example, it will o
             !!! hint
                 Observing the output from the *"Add user"* task, you can see that the value of the *password* parameter is not shown.
                 The *warning* from the *"Add user"* task stating an unencrypted password is related to not having hashed the password. You can achieve this by using the *password_hash* filter:
+
                 ```yaml
                 password: "{{ vault_password | password_hash('sha512', 'mysecretsalt') }}"
                 ```
+
                 This example uses the string `mysecretsalt` for salting, in cryptography, a salt is random data that is used as an additional input to a one-way function. Consider using a variable for the salt and treat it the same as the password itself!
+
                 ```yaml
                 password: "{{ vault_password | password_hash('sha512', vault_salt) }}"
                 ```
+
                 In this example, the salt is stored in a variable, the same way as the password itself. If you hashed the password, the warning will disappear.
+
 === "Bad"
     !!! failure ""
+
         ``` { .yaml .no-copy hl_lines="13" }
         - name: Not using no_log parameter
           hosts: database_servers
@@ -258,8 +280,10 @@ The `ansible.builtin.debug` module on the other hand is a bad example, it will o
                 msg: "{{ password }}"
         ​
         ```
+
         ??? info "Output of playbook run"
-            ``` { .console .no-copy .hl_lines="22" }
+
+            ``` { .ansible-output .no-copy .hl_lines="22" }
             $ ansible-playbook nolog.yml -v
 
             [...]
@@ -450,17 +474,17 @@ To validate the variable file with the provided JSON Schema file, use the follow
 The files are read in with a file lookup, the variables file is converted to JSON.  
 To be able to use the module (or the filter-, test- or lookup-Plugin with the same name), you'll need the `ansible.utils` collection and an additional Python package:
 
-```console
+```bash
 ansible-galaxy collection install ansible.utils
 ```
 
-```console
+```bash
 pip3 install jsonschema
 ```
 
 ??? example "Playbook output showing validation errors"
 
-    ```{. console .hl_lines="11 12 22 23" .no-copy }
+    ```{ .ansible-output .hl_lines="11 12 22 23" .no-copy }
     TASK [Variable file validation] ****************************************************************************************
     fatal: [localhost]: FAILED! =>
         changed: false
@@ -590,7 +614,7 @@ To create the initial JSON schema for your variable input, multiple tools are av
 
     The tasks produce the following output, only showing the *data path* and the *violation message* as the list item label.
 
-    ``` { .console .no-copy }
+    ``` { .ansible-output .no-copy }
     TASK [Run variable validation] **************************************************************************************
     ok: [localhost]
 
@@ -639,3 +663,18 @@ receivers:
     details: { details: "{{ .CommonAnnotations.SortedPairs.Values | join \" \" }}" }
     {% endraw %}
 ```
+
+## Plugins to manipulate data
+
+With the right filter plugin, you can extract a particular value, transform data types and formats, perform mathematical calculations, split and concatenate strings, insert dates and times, and do much more.  
+Test plugins evaluate template expressions and return *True* or *False*. With test plugins you can create conditionals to implement the logic of your tasks, blocks, plays, playbooks, and roles.
+
+### Filter plugins
+
+!!! warning
+    **Work in Progress** - More description necessary.
+
+### Test plugins
+
+!!! warning
+    **Work in Progress** - More description necessary.
