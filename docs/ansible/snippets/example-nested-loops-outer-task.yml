@@ -1,0 +1,5 @@
+- name: Give users access to multiple databases
+  ansible.builtin.include_tasks: db_access.yml
+  loop: "{{ user_list }}"
+  loop_control:
+    loop_var: user # (1)!

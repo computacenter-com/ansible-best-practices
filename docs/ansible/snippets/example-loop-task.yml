@@ -1,0 +1,6 @@
+- name: Create local users
+  ansible.builtin.user:
+    name: "{{ item }}"
+    password_expire_max: "{{ password_expire_max }}"
+    state: present
+  loop: "{{ user_list }}"

@@ -1,0 +1,8 @@
+- name: Give users access to multiple databases
+  community.mysql.mysql_user:
+    name: "{{ user }}"
+    priv: "{{ database }}.*:ALL"
+    append_privs: true
+  loop: "{{ user_list | product(databases_list) }}" # (1)!
+  loop_control:
+    label: "Grant {{ item[0] }} access to {{ item[1] }}" # (2)!

@@ -25,7 +25,6 @@ var_naming_pattern: "^[a-z_][a-z0-9_]*$"
 enable_list:
   - args
   - empty-string-compare
-  - no-log-password
   - no-same-owner
 
 kinds:

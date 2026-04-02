@@ -6,6 +6,6 @@
     comment: "{{ item.comment }}"
     generate_ssh_key: true
     password_expire_max: "{{ item.password_expire_max }}"
-  loop: "{{ user_list }}"
+  loop: "{{ user_list }}"  # (1)!
   loop_control:
-    label: "{{ item.name }}" # (1)!
+    label: "{{ item.name }}"
