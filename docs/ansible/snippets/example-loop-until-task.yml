@@ -1,0 +1,8 @@
+- name: Wait for PostgreSQL to accept connections
+  ansible.builtin.command:
+    cmd: pg_isready -h localhost -p 5432
+  register: pg_ready
+  until: pg_ready.rc == 0
+  retries: 10
+  delay: 3
+  changed_when: false # (1)!

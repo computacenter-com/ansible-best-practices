@@ -517,10 +517,170 @@ Avoid the use of `when: foo_result is changed` whenever possible. Use handlers, 
 
 ## Loops
 
-!!! warning
-    **Work in Progress** - More description necessary.
+Ansible offers the `loop`, `with_<lookup>`, and `until` keywords to execute a task multiple times.  
+The normal use case for [`until`](#retry-until-condition-is-met){ no-data-preview } has to do with tasks that are likely to fail, while `loop` and `with_<lookup>` are meant for repeating tasks with slight variations.
 
-Converting from `with_<lookup>` to `loop` is described with a [Migration Guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#migrating-from-with-x-to-loop){:target="_blank"} in the Ansible documentation
+!!! tip
+    **Use the `loops` keyword over the `with_<lookup>` statement!**  
+    Converting from `with_<lookup>` to `loop` is described with a [Migration Guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#migrating-from-with-x-to-loop){:target="_blank"} in the Ansible documentation
+
+The loop keyword expects **list** input.
+
+=== "Good"
+    !!! success ""
+
+        ``` { .yaml hl_lines="6" }
+        --8<-- "example-loop-task.yml"
+        ```
+
+=== "Bad"
+    !!! failure ""
+
+        ``` { .yaml .no-copy hl_lines="6" }
+        - name: Create local users
+          ansible.builtin.user:
+            name: "{{ item }}"
+            password_expire_max: "{{ password_expire_max }}"
+            state: present
+          with_items: "{{ user_list }}"
+        ```
+
+Take care when using the `lookup` keyword in the `loop` statement, as it returns a string of comma-separated values by default, use the Jinja2 [`query` function as it always returns a list](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_loops.html#ensuring-list-input-for-loop-using-query-rather-than-lookup){:target="_blank"}.
+
+### Retry until condition is met
+
+Use the `until` keyword to retry a task until a certain condition is met (think: *while-do-loop*):
+
+```yaml
+--8<-- "example-loop-until-task.yml"
+```
+
+1. The command module always returns a changed state (if not using the `creates`/`removes` parameter). As the example command does not really change anything, setting the `changed_when` parameter to `false` so that the task always returns *ok* (or *failed* if the return code never becomes 0).
+
+With every loop run, the output of the command module (including the *return code* `rc` field) is *registered* and checked against the *until* condition. In this case, once the return code is 0, the loop is finished. The command is executed every three seconds with 10 retries total.
+
+!!! info inline end
+    If the *until* condition is never reached, the task fails.
+
+```bash
+TASK [Wait for PostgreSQL to accept connections] *******************************
+FAILED - RETRYING: [instance1]: Wait for PostgreSQL to accept connections (10 retries left).
+FAILED - RETRYING: [instance1]: Wait for PostgreSQL to accept connections (9 retries left).
+FAILED - RETRYING: [instance1]: Wait for PostgreSQL to accept connections (8 retries left).
+ok: [instance1]
+```
+
+### Nested loops
+
+While it possible to use *nested* loops (as in a [programming language](../mindset/index.md#ansible-is-not-python)) with some *workarounds*, try to avoid this. If you do not have to execute multiple tasks in the *inner* loop, in most cases, **format the data** to achieve the same result.
+
+??? example "Example input"
+
+    In the following example a **list of users** requires access **to a list of databases**:
+
+    ```yaml
+    user_list:
+      - alice
+      - bob
+
+    databases_list:
+      - clientdb
+      - employeedb
+      - providerdb
+    ```
+
+=== "Formatted input"
+
+    !!! info inline end
+        You can use Jinja2 expressions to iterate over complex lists.  
+        The [product filter](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_filters.html#products){:target="_blank"} creates the *cartesian product* of the input lists, which is roughly equivalent to nested for-loops.
+
+    ```yaml
+    --8<-- "example-nested-loops-formatted-input-task.yml"
+    ```
+
+    1. The product filter creates a *list of lists* for the two input lists `user_list` and `databases_list`:
+
+        ```json
+        [
+            [
+                "alice",
+                "clientdb"
+            ],
+            [
+                "alice",
+                "employeedb"
+            ],
+            [
+                "alice",
+                "providerdb"
+            ],
+            [
+                "bob",
+                "clientdb"
+            ],
+            [
+                "bob",
+                "employeedb"
+            ],
+            [
+                "bob",
+                "providerdb"
+            ]
+        ]
+        ```
+
+    2. Not necessary for the desired solution, but *formats* the output. See section regarding [limiting loop output](#limit-loop-output).
+
+
+    ??? example "Example output"
+
+        ```bash
+        TASK [Give users access to multiple databases] *********************************
+        ok: [DB1] => (item=Granting alice access to clientdb)
+        ok: [DB1] => (item=Granting alice access to employeedb)
+        ok: [DB1] => (item=Granting alice access to providerdb)
+        ok: [DB1] => (item=Granting bob access to clientdb)
+        ok: [DB1] => (item=Granting bob access to employeedb)
+        ok: [DB1] => (item=Granting bob access to providerdb)
+        ```
+
+=== "Multiple task files"
+
+    !!! info inline end
+        As the number of list elements can be *dynamic*, the `inlude_tasks` module is necessary. Take a look at the [import vs. include](#import-vs-include) section for additional info.
+
+    ```yaml title="Task invoking the outer loop"
+    --8<-- "example-nested-loops-outer-task.yml"
+    ```
+
+    1. Ansible sets the loop variable `item` for each loop. This means the **inner, nested loop** will *overwrite* the value of item from the outer loop. To avoid this, you need to specify the name of the variable for each loop using `loop_var` with the `loop_control` statement.
+
+    ```yaml title="Included Task file invoking the inner loop"
+    --8<-- "example-nested-loops-inner-task.yml"
+    ```
+
+    ??? example "Example output"
+
+        ```bash
+        TASK [Give users access to multiple databases] *********************************
+        included: /home/timgrt/demo/db_access.yml for DB1 => (item=alice)
+        included: /home/timgrt/demo/db_access.yml for DB1 => (item=bob)
+
+        TASK [Granting alice access to database] ***************************************
+        ok: [DB1] => (item=clientdb)
+        ok: [DB1] => (item=employeedb)
+        ok: [DB1] => (item=providerdb)
+
+        TASK [Granting bob access to database] *****************************************
+        ok: [DB1] => (item=clientdb)
+        ok: [DB1] => (item=employeedb)
+        ok: [DB1] => (item=providerdb)
+        ```
+
+!!! success "Both solutions produce the same output"
+    While the solution with the formatted input data only runs a single task, three tasks are run for the solution with the included task file.  
+    **Remember, if you need actual programming logic, use a script and run it with Ansible!**
 
 ### Limit loop output
 
@@ -558,6 +718,7 @@ Running the playbook results in the following task output, only the content of t
 
 === "Good"
     !!! success ""
+
         ```console
         TASK [common : Create local users] *********************************************
         Friday 18 November 2022  12:18:01 +0100 (0:00:01.955)       0:00:03.933 *******
@@ -565,9 +726,12 @@ Running the playbook results in the following task output, only the content of t
         changed: [demo] => (item=joschmi)
         changed: [demo] => (item=mfrink)
         ```
+
 === "Bad"
     !!! failure ""
+
         Not using the `label` in the `loop_control` dictionary results in a very long output:
+
         ``` { .console .no-copy }
         TASK [common : Create local users] *********************************************
         Friday 18 November 2022  12:22:40 +0100 (0:00:01.512)       0:00:03.609 *******
