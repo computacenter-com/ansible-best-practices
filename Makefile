@@ -23,7 +23,7 @@ venv: $(VENV_NAME)/bin/activate  ## Creates Python virtual environment
 
 $(VENV_NAME)/bin/activate: requirements.txt
 	$(info $(COLOUR_BLUE)## Creating Python virtual environment and installing dependencies...$(COLOUR_END))
-	@test -d $(VENV_NAME) || (python3 -m venv $(VENV_NAME) && echo -e "$(COLOUR_GREEN)##Python VE created.$(COLOUR_END)")
+	@test -d $(VENV_NAME) || (python3 -m venv $(VENV_NAME) && echo -e "$(COLOUR_GREEN)## Python VE created.$(COLOUR_END)")
 	@${PYTHON} -m pip install -r requirements.txt && echo -e "$(COLOUR_GREEN)## Python requirements installed.$(COLOUR_END)"
 	@${PYTHON} -m pip install prek && echo -e "$(COLOUR_GREEN)## prek package installed.$(COLOUR_END)"
 	@touch $(VENV_NAME)/bin/activate
@@ -51,5 +51,6 @@ ifeq ($(shell pwd)/$(PYTHON), $(shell which python))
 	$(error $(COLOUR_RED)## Cleanup aborted!$(COLOUR_YELLOW) Python VE is still activated! Leave the VE by running$(COLOUR_END) deactivate $(COLOUR_YELLOW)first$(COLOUR_END))
 endif
 	@rm -rf $(VENV_NAME) &&	echo -e "$(COLOUR_GREEN)## Python VE removed.$(COLOUR_END)"
+	@rm -rf site && rm -rf .cache && echo -e "$(COLOUR_GREEN)## Zensical build folder and cache removed.$(COLOUR_END)"
 	@rm -rf .git/hooks/pre-commit && echo -e "$(COLOUR_GREEN)## pre-commit hooks removed.$(COLOUR_END)"
 	@rm -rf ~/.cache/pre-commit && echo -e "$(COLOUR_GREEN)## pre-commit cache removed.$(COLOUR_END)"
