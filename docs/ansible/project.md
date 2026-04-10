@@ -293,6 +293,24 @@ inventory = inventory/production.ini
 callback_result_format = yaml
 ```
 
+To *validate* your configuration file use the `ansible-config` utility:
+
+```bash
+ansible-config validate -t all # (1)!
+```
+
+1. **Without `-t all` only the base settings (`-t base`) are validated!**
+
+    In case of unknown/wrong settings keys, the output looks like this:
+
+    ```bash
+    [ERROR]: Found unknown key 'result_format' in section 'defaults' in '/home/timgrt/demo/ansible.cfg.
+    [ERROR]: Found unknown key 'custom_stats' in section 'defaults' in '/home/timgrt/demo/ansible.cfg.
+    ```
+
+!!! tip
+    The following shows a couple of useful configuration settings, for a full view of all *base* settings use the [documentation](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#common-options){:target="_blank"}.
+
 ### Show check mode
 
 The following parameter enables displaying markers when running in check mode.
