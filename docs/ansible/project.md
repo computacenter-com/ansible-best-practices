@@ -293,6 +293,24 @@ inventory = inventory/production.ini
 callback_result_format = yaml
 ```
 
+To *validate* your configuration file use the `ansible-config` utility:
+
+```bash
+ansible-config validate -t all # (1)!
+```
+
+1. **Without `-t all` only the base settings (`-t base`) are validated!**
+
+    In case of unknown/wrong settings keys, the output looks like this:
+
+    ```bash
+    [ERROR]: Found unknown key 'result_format' in section 'defaults' in '/home/timgrt/demo/ansible.cfg.
+    [ERROR]: Found unknown key 'custom_stats' in section 'defaults' in '/home/timgrt/demo/ansible.cfg.
+    ```
+
+!!! tip
+    The following shows a couple of useful configuration settings, for a full view of all *base* settings use the [documentation](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#common-options){:target="_blank"}.
+
 ### Show check mode
 
 The following parameter enables displaying markers when running in check mode.
@@ -351,6 +369,109 @@ show_task_path_on_failure = true
     ```
 
 Even if you don't set this, the path is displayed automatically for every task when running with `-vv` or greater verbosity, but you'll need to run the playbook again.
+
+### Silence warnings about no inventory or localhost
+
+Ansible will issue a warning when [no inventory](../ansible/inventory.md#no-inventory) was loaded and notes that it will use an implicit localhost-only inventory. Additionally, when running against localhost only (for example, when automating against API endpoints), you'll receive a warning as well.
+
+``` { .ansible-output .no-copy }
+$ ansible-playbook aci_automation.yml
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+PLAY [Automate Cisco ACI] *******************************************************************************************
+
+TASK [aci-automation : Create tenant] *******************************************************************************
+changed: [localhost]
+
+...
+```
+
+You can silence both warnings with the following configuration:
+
+```ini
+[defaults]
+localhost_warning = false # (1)!
+
+[inventory]
+inventory_unparsed_warning = false # (2)!
+```
+
+1. This will silence `[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'`
+2. This will silence `[WARNING]: No inventory was parsed, only implicit localhost is available`
+
+### Do not show skipped hosts
+
+When running against a huge number of host with tasks executed on select hosts only and most hosts are skipped because of certain conditions, it can be useful to **not display skipped hosts** to decrease visual clutter.
+
+```ini
+[defaults]
+display_skipped_hosts = false
+```
+
+??? example "Example output"
+
+    The *Play Recap* will always show the number of skipped tasks for every host, regardless of the configuration set.
+
+    <div class="grid" markdown>
+
+    !!! success "Only showing hosts where tasks are executed"
+
+        ``` { .ansible-output .no-copy }
+        $ ansible-playbook kafka_configuration.yml
+
+        PLAY [Kafka configuration] ******************************************************************************************
+
+        ...
+
+        TASK [Initial creation of Kafka topics] *****************************************************************************
+        ok: [kafka-node1]
+
+        TASK [Ensure logical-to-physical topic mapping is correct] **********************************************************
+        ok: [kafka-node1]
+
+        ...
+
+        PLAY RECAP **********************************************************************************************************
+        kafka-node1                : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+        kafka-node2                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        kafka-node3                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        kafka-node4                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        kafka-node5                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        ```
+
+    !!! failure "Showing all hosts, most of them skipped"
+
+        ``` { .ansible-output .no-copy }
+        $ ansible-playbook kafka_configuration.yml
+
+        ...
+
+        TASK [Initial creation of Kafka topics] *****************************************************************************
+        skipping: [kafka-node2]
+        skipping: [kafka-node3]
+        skipping: [kafka-node4]
+        skipping: [kafka-node5]
+        ok: [kafka-node1]
+
+        TASK [Ensure logical-to-physical topic mapping is correct] **********************************************************
+        skipping: [kafka-node2]
+        skipping: [kafka-node3]
+        ok: [kafka-node1]
+        skipping: [kafka-node4]
+        skipping: [kafka-node5]
+
+        ...
+
+        PLAY RECAP **********************************************************************************************************
+        kafka-node1                : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+        kafka-node2                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        kafka-node3                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        kafka-node4                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        kafka-node5                : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+        ```
+
+    </div>
 
 ### Configure ansible-galaxy
 

@@ -89,23 +89,6 @@ There are already loads of [inventory plugins](https://docs.ansible.com/ansible/
 
 In case no suitable inventory plugin exists, you can easily write your own. Take a look at the [Ansible Development - Extending](../development/extending.md#inventory-plugins) section for additional information.
 
-## Configuration
-
-You can use multiple *static* files. A *dynamically* generated inventory is possible, as well as mixes of static and dynamic inventory files and scripts.
-
-```ini title="ansible.cfg"
-[defaults]
-inventory = static-datacenter.ini,dynamic.aws_ec2.yml,dynamic-netbox.yml
-```
-
-## Inventory variables
-
-Variables *can* be assigned to every host and/or group in the inventory file *directly*, but this makes the file not very readable with a growing number of hosts, groups and variables.
-
-Instead, you should use the `group_vars` and `host_vars` folder.
-
-Do not create *files* for the groups or hosts (e.g. `group_vars/web.yml` or `host_vars/node1.yml`), but use **folders** instead. Underneath these folders, you can create multiple *variables*-files which are *all* loaded by the [host_group_vars plugin](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/host_group_vars_vars.html){:target="_blank"}.
-
 ## In-Memory Inventory
 
 Normally Ansible requires an inventory file, to know which machines it is meant to operate on.
@@ -194,3 +177,120 @@ Take a look at the following example, the first *play* creates a couple of Conta
     ok: [node3] =>
         msg: test
     ```
+
+## No inventory
+
+An inventory is not always necessary, depending on your use-case and the modules used.  
+For example, network modules do not run on the managed nodes (as, in most cases, they do not have a usable Python interpreter), they are executed on the Ansible control node. Therefore, you'll need to use the `local` connection method running against `localhost`. The module itself handles the connection, mostly you'll need to provide the endpoint, username, password, certificate validation, etc. in every task (take a look at the [module_defaults section](../ansible/playbook.md#module-defaults) to simplify this).  
+
+Still, it can be useful to provide a small inventory to have a ***named* target for a cleaner output**.
+
+!!! quote ""
+
+    <div class="grid" markdown>
+
+    !!! success "Named target"
+
+        The following inventory creates an *alias* for `localhost` which will be shown in the playbook output:
+
+        ```ini title="inventory.ini"
+        [apic]
+        sandboxapicdc.cisco.com ansible_host=localhost ansible_connection=local
+        ```
+
+        The playbook targets the `apic` group:
+
+        ```yaml title="aci_automation.yml"
+        - name: Automate Cisco ACI
+          hosts: apic
+          gather_facts: false # (1)!
+          roles:
+            - aci_automation
+        ```
+
+        1. Fact gathering can be disabled as it would get data from localhost, which is most likely not used.
+
+        ```{ .ansible-output .no-copy }
+        $ ansible-playbook -i inventory.ini aci_automation.yml
+
+        PLAY [Automate Cisco ACI] *******************************************************************************************
+
+        TASK [aci-automation : Create tenant] *******************************************************************************
+        changed: [sandboxapicdc.cisco.com]
+
+        ...
+        ```
+
+        **The output shows the name of the targeted APIC, which better indicates where the changes are done!**
+
+    !!! failure "Showing localhost only"
+
+        The target and connection method can be provided in the playbook directly:
+
+        ```yaml title="aci_automation.yml"
+        - name: Automate Cisco ACI
+          hosts: localhost
+          connection: local
+          gather_facts: false # (1)!
+          roles:
+            - aci_automation
+        ```
+
+        1. Fact gathering can be disabled as it would get data from localhost, which is most likely not used.
+
+        Running this does not require an inventory file:
+
+        ```{ .ansible-output .no-copy }
+        $ ansible-playbook aci_automation.yml
+        [WARNING]: No inventory was parsed, only implicit localhost is available
+        [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+        PLAY [Automate Cisco ACI] *******************************************************************************************
+
+        TASK [aci-automation : Create tenant] *******************************************************************************
+        changed: [localhost]
+
+        ...
+        ```
+
+        **The output shows `localhost` as the target, although that is not the actual target...**  
+        Additionally, **warnings are shown** when not providing an inventory **and** running against localhost. Take a look at the [configuration section](../ansible/project.md#silence-warnings-about-no-inventory-or-localhost) on how to deal with those.
+
+    </div>
+
+## Configuration file
+
+Configure your inventory file(s) in the `ansible.cfg`, now you do not have to provide it with `--inventory`/`-i` anymore.  
+You can provide multiple files as a comma-separated string, mixes of static and dynamic inventory files and scripts are also possible.
+
+```ini title="ansible.cfg"
+[defaults]
+inventory = inventory.ini,dev.aws_ec2.yml,netbox_inventory.yml
+```
+
+## Inventory variables
+
+Variables *can* be assigned to every host and/or group in the inventory file *directly*, but this makes the file not very readable with a growing number of hosts, groups and variables.
+
+!!! success
+    Use the `group_vars` and `host_vars` folder.
+
+Do not create *files* for the groups or hosts (e.g. `group_vars/web.yml` or `host_vars/node1.yml`), but use **folders** for hosts and groups instead.  
+Underneath these folders, you can create multiple *variables*-files which are **all** loaded by the [host_group_vars plugin](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/host_group_vars_vars.html){:target="_blank"}.
+
+```bash
+host_vars
+├── kafka_node1
+│   ├── network.yml
+│   └── dns.yml
+├── kafka_node2
+│   └── network.yml
+└── kafka_node3
+    └── network.yml
+group_vars/
+├── all
+│   ├── dns.yml
+│   └── vault.yml
+└── kafka_servers
+    └── topics.yml
+```
