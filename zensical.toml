@@ -32,6 +32,7 @@ nav = [
       {"Roles" = "ansible/roles.md"},
       {"Tasks" = "ansible/tasks.md"},
       {"Variables" = "ansible/variables.md"},
+      {"Execution" = "ansible/execution.md"},
   ]},
   {"Ansible Automation Platform" = [
       "automation-platform/index.md",

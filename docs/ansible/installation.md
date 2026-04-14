@@ -95,10 +95,6 @@ pip3 install ansible-core
 The included modules can be listed with `ansible-doc --list ansible.builtin`.  
 If more special modules are needed, the complete *ansible* package **can** be installed, this corresponds to the "old" installation method (*batteries included*).
 
-```bash
-pip3 install ansible
-```
-
 !!! tip
     It makes sense to install **only the *ansible-core* package**. Afterwards, install the few collections necessary for your project via `ansible-galaxy`.
     This way you have an up-to-date, lean installation without unnecessary modules and plugins.  
@@ -333,6 +329,23 @@ You can also build Execution Environments with *ansible-navigator*, the Builder 
 ansible-navigator builder build --tag=demo/openshift-ee --container-runtime=docker
 ```
 
+### Ansible Navigator
+
+The `ansible-navigator` is *text-based user interface* (TUI) for the Red Hat Ansible Automation Platform.
+The Navigator can also makes use of container images and provides an easier to use interface to interact with Execution Environments (than *ansible-runner*).  
+
+Install the `ansible-navigator` binary and its dependencies with the Python package manager:
+
+```bash
+pip3 install ansible-navigator
+```
+
+If you want to use the Navigator with EEs, you'll need a *container runtime*, install Docker or Podman on your system.
+
+With the Navigator you, for example, can inspect **all locally available* Execution Environments
+
+Take a look at the [Execution section](execution.md#execute-with-ansible-navigator) on how to run playbooks with the Navigator.
+
 ### Ansible Runner
 
 Using the EE requires a binary which can make use of the Container images, it is not possible to run them with the `ansible-playbook` binary. You have to use (and install) either the `ansible-navigator` or the `ansible-runner` binary.
@@ -348,76 +361,4 @@ If you want to use it standalone, install the `ansible-runner` binary:
 pip3 install ansible-runner
 ```
 
-To use the Ansible from the container image, e.g. run this command which executes an ad hoc command (*setup* module) against localhost:
-
-```bash
-ansible-runner run --container-image demo/openshift-ee /tmp -m setup --hosts localhost
-```
-
-Most parameters should be self-explanatory:
-
-* *run* - Run ansible-runner in the foreground
-* *--container-image demo/openshift* - Container image to use when running an ansible task
-* */tmp* - base directory containing the ansible-runner metadata (project, inventory, env, etc)
-* *-m setup* - Module to execute
-* *--hosts localhost* - set of hosts to execute against (here only localhost)
-
-The output looks like expected:
-
-``` { .bash .no-copy }
-$ ansible-runner run --container-image demo/openshift-ee /tmp -m setup --hosts localhost
-[WARNING]: No inventory was parsed, only implicit localhost is available
-localhost | SUCCESS => {
-    "ansible_facts": {
-        "ansible_all_ipv4_addresses": [
-            "192.168.178.114",
-            "172.17.0.1"
-        ],
-        "ansible_all_ipv6_addresses": [
-            "2001:9e8:4a14:2401:a00:27ff:febf:4207",
-            "fe80::a00:27ff:febf:4207",
-            "fe80::42:9eff:fef9:df59"
-        ],
-        "ansible_apparmor": {
-            "status": "enabled"
-        },
-        "ansible_architecture": "x86_64",
-        "ansible_bios_date": "12/01/2006",
-        "ansible_bios_vendor": "innotek GmbH",
-        "ansible_bios_version": "VirtualBox",
-        "ansible_board_asset_tag": "NA",
-        "ansible_board_name": "VirtualBox",
-        "ansible_board_serial": "NA",
-        "ansible_board_vendor": "Oracle Corporation",
-        ...
-```
-
-### Ansible Navigator
-
-The `ansible-navigator` is *text-based user interface* (TUI) for the Red Hat Ansible Automation Platform.
-The Navigator also makes use of the Execution Environments and provides an easier to use interface to interact with EEs (than *ansible-runner*).  
-Install the `ansible-navigator` binary and its dependencies with the Python package manager:
-
-```bash
-pip3 install ansible-navigator
-```
-
-If you want to use the Navigator with EEs, you'll need a *container runtime*, install Docker or Podman on your system.
-
-With the Navigator you, for example, can inspect **all locally available* Execution Environments
-
-Take a look at the [Playbooks section](playbook.md#execute-with-ansible-navigator) on how to run playbooks in Execution Environments with the Navigator.
-
-Some `ansible-navigator` commands map to `ansible` commands (prefix every Navigator command with `ansible-navigator`):
-
-| Navigator command                        | Description                                                                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| <nobr>`exec -- ansible ...`</nobr>       | Runs Ansible *ad-hoc* commands.                                                                                    |
-| `builder`                                | Builds new execution environments, the `ansible-builder` utility is installed with `ansible-navigator`.            |
-| `config`                                 | Explore the current ansible configuration as with `ansible-config`.                                                |
-| `doc`                                    | Explore the documentation for modules and plugins as with `ansible-doc`.                                           |
-| `inventory`                              | Inspect the inventory and browser groups and hosts.                                                                |
-| `lint`                                   | Runs best-practice checker, `ansible-lint` needs to be installed locally or in the selected execution-environment. |
-| `run`                                    | Runs Playbooks.                                                                                                    |
-| <nobr>`exec -- ansible-test ...`</nobr>  | Executes sanity, unit and integration tests for Collections.                                                       |
-| <nobr>`exec -- ansible-vault ...`</nobr> | Runs utility to encrypt or decrypt Ansible content.                                                                |
+Take a look at the [Execution section](execution.md#execute-with-ansible-navigator) on how to run playbooks with the Runner.
