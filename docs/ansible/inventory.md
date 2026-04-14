@@ -74,6 +74,74 @@ The most common format for the *Ansible Inventory* is the `.ini` format, but som
 ansible-inventory -i inventory.ini -y --list > inventory.yml
 ```
 
+### Inventory alias
+
+The `inventory_hostname` is the unique identifier for a host in Ansible, but it does **not** need to be the actual (resolvable) hostname used for connecting to the target.  
+You can create a custom *alias* which will be shown in the Ansible output.
+
+<div class="grid" markdown>
+
+```yaml hl_lines="6"
+--- # (1)!
+all:
+  children:
+    managed_nodes:
+      hosts:
+        instance1: # (2)!
+          ansible_host: rhel9-node1 # (3)!
+      vars: # (4)!
+        ansible_ssh_private_key_file: ~/.ssh/id_for_ansible.pem
+        ansible_user: ansible
+        ansible_ssh_pipelining: true
+```
+
+1. The same inventory in `.ini` format:
+
+    ```ini
+    [managed_nodes]
+    instance1 ansible_host=rhel9-node1
+
+    [managed_nodes:vars]
+    ansible_ssh_private_key_file=~/.ssh/id_for_ansible.pem
+    ansible_user=ansible
+    ansible_ssh_pipelining=true
+    ```
+
+2. The *alias*, corresponds to the variable `inventory_hostname` and **is shown in the Ansible output**.
+3. Specifies the **resolvable name** (or ideally the IP) of the host to connect to.
+
+    ```{ .ansible-output .no-copy }
+    TASK [The actual value used for the connection] **********************
+    ok: [instance1] =>
+        ansible_host: rhel9-node1
+    ```
+
+4. A couple of [behavioral connection parameters](https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters){:target="_blank"} for all `managed_nodes` (group variables).
+
+```{ .ansible-output .no-copy }
+TASK [Gathering Facts] ***********************************************
+ok: [instance1]
+
+TASK [The used 'alias', shown as the target name in the output] ******
+ok: [instance1] =>
+    inventory_hostname: instance1
+
+TASK [The actual value used for the connection] **********************
+ok: [instance1] =>
+    ansible_host: rhel9-node1
+
+TASK [What the host itself reports as its FQDN] **********************
+ok: [instance1] =>
+    ansible_facts['fqdn']: rhel9-node1.example.com
+```
+
+</div>
+
+!!! success
+    Although the connection to the host is done via the actual hostname (`rhel9-node1`), the output shows the alias (`instance1`).
+
+An additional example can be be found in the [No inventory section](inventory.md#no-inventory) where an alias is used for localhost to have a cleaner output when connecting to a network/API endpoint.
+
 ## Dynamic inventory
 
 If your Ansible inventory fluctuates over time, with hosts spinning up and shutting down in response to business demands, the static inventory solutions described in [How to build your inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html){:target="_blank"} will not serve your needs. You may need to track hosts from multiple sources: cloud providers, LDAP, Cobbler, and/or enterprise CMDB systems.
@@ -191,7 +259,7 @@ Still, it can be useful to provide a small inventory to have a ***named* target 
 
     !!! success "Named target"
 
-        The following inventory creates an *alias* for `localhost` which will be shown in the playbook output:
+        The following inventory creates an [*alias*](inventory.md#inventory-alias) for `localhost` which will be shown in the playbook output:
 
         ```ini title="inventory.ini"
         [apic]
