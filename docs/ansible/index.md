@@ -1,13 +1,13 @@
 # Ansible
 
-This topic is split into seven main sections, each section covers a different aspect of automation using Ansible.
+This topic is split into multiple main sections, each section covers a different aspect of automation using Ansible.
 
 <div class="grid cards" markdown>
 
 * :lucide-monitor-cog: &nbsp; [**Installation**](installation.md){ data-preview }
 
     ---
-    How to install Ansible and run it, from present to future.
+    How to install Ansible and other tools.
 
 * :lucide-folder-git-2: &nbsp; [**Project**](project.md){ data-preview }
 
@@ -19,7 +19,7 @@ This topic is split into seven main sections, each section covers a different as
     ---
     How to define your inventory and target hosts
 
-* :lucide-rocket: &nbsp; [**Playbook**](playbook.md){ data-preview }
+* :lucide-book-a: &nbsp; [**Playbook**](playbook.md){ data-preview }
 
     ---
     Structure your automation, how to separate playbooks and plays
@@ -43,5 +43,10 @@ This topic is split into seven main sections, each section covers a different as
 
     ---
     All about variables, where to store them, naming conventions and encryption
+
+* :lucide-rocket: &nbsp; [**Execution**](execution.md){ data-preview }
+
+    ---
+    How to run your Ansible content, from CLI to Execution Environments
 
 </div>
