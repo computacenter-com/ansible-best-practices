@@ -58,6 +58,29 @@ To build and use your own Execution Environment take a look at the section [Inst
 
 You can also use the Navigator configuration for **all** your projects, save it as a hidden file in your home directory (e.g. `~/.ansible-navigator.yml`).
 
+??? tip "Create a more *complete* configuration with all *effective* settings?"
+
+    To create a configuration file where defaults, CLI parameters, environment variables, and the settings file will be combined:
+
+    ```bash
+    ansible-navigator settings --effective --ee false > ansible-navigator.yml.sample # (1)!
+    ```
+
+    1. The parameter `--ee false` (do not use Execution Environments) is necessary, otherwise the Navigator will (try to) pull a default image.
+
+        ```{ .bash .no-copy }
+        $ ansible-navigator settings --effective > ansible-navigator.yml.sample
+        Trying to pull ghcr.io/ansible/community-ansible-dev-tools:latest...
+        Getting image source signatures
+        Copying blob 080264fbf0bb [==========>---------------------------] 3.4MiB / 11.6MiB | 2.0 MiB/s
+        ...
+        ```
+
+    !!! warning
+
+        **Saving the file as `ansible-navigator.yml` directly does not work**, this will only create an empty file.  
+        Remove the `.sample` extension or run `mv ansible-navigator.yml.sample ansible-navigator.yml`.
+
 Use the [official Ansible Navigator Documentation](https://ansible.readthedocs.io/projects/navigator/settings/){:target="_blank"} for all other configuration options.
 
 !!! warning
