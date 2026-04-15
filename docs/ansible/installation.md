@@ -342,8 +342,6 @@ pip3 install ansible-navigator
 
 If you want to use the Navigator with EEs, you'll need a *container runtime*, install Docker or Podman on your system.
 
-With the Navigator you, for example, can inspect **all locally available* Execution Environments
-
 Take a look at the [Execution section](execution.md#execute-with-ansible-navigator) on how to run playbooks with the Navigator.
 
 ### Ansible Runner
