@@ -46,9 +46,10 @@ nav = [
       {"Version Control" = "development/git.md"},
       {"Linting" = "development/linting.md"},
       {"Testing" = "development/testing.md"},
-      {"Extending" = "development/extending.md"},
       {"Monitoring & Troubleshooting" = "development/monitoring.md"},
       {"Logging" = "development/logging.md"},
+      {"Extending" = "development/extending.md"},
+      {"Execution Environments" = "development/execution-environment.md"},
   ]},
 ]
 [project.extra.status]

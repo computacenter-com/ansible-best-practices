@@ -1,6 +1,6 @@
 # Development
 
-This topic is split into four main sections, each section covers a different additional tool to consider when *developing* your Ansible content.
+This topic is split into multiple sections, each section covers a different additional tool to consider when *developing* your Ansible content.
 
 <div class="grid cards" markdown>
 
@@ -19,11 +19,6 @@ This topic is split into four main sections, each section covers a different add
     ---
     How to test your Ansible content during development.
 
-* :lucide-blocks: &nbsp; [**Extending**](extending.md){ data-preview }
-
-    ---
-    How to create your own custom modules and plugins.
-
 * :lucide-timer: &nbsp; [**Monitoring & Troubleshooting**](monitoring.md){ data-preview }
 
     ---
@@ -33,6 +28,16 @@ This topic is split into four main sections, each section covers a different add
 
     ---
     How to enable and use logging.
+
+* :lucide-blocks: &nbsp; [**Extending**](extending.md){ data-preview }
+
+    ---
+    How to create your own custom modules and plugins.
+
+* :lucide-package: &nbsp; [**Execution Environments**](execution-environment.md){ data-preview }
+
+    ---
+    How to create your own EEs or extend existing ones.
 
 </div>
 

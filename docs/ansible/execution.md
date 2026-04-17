@@ -26,7 +26,9 @@ To ensure that your Ansible Content works, when running it locally during develo
 
 AAP or AWX use container images to package the Python Runtime, Ansible installation, Python dependencies, collections and other custom components. The *ansible-playbook* command can't run container images, this is where the Navigator comes in.  
 
-The *Ansible (Content) Navigator* is a command-line tool and a text-based user interface (TUI) for creating, reviewing, running and troubleshooting Ansible content, including inventories, playbooks, collections, documentation and container images (execution environments). Take a look at the [Installation section](installation.md#ansible-navigator) on how to install the utility and dependencies.
+The *Ansible (Content) Navigator* is a command-line tool and a text-based user interface (TUI) for creating, reviewing, running and troubleshooting Ansible content, including inventories, playbooks, collections, documentation and container images (execution environments).  
+
+Take a look at the [Installation section](installation.md#ansible-navigator) on how to install the utility and dependencies and the [Development section](../development/execution-environment.md#build-ee-image) on how to build a custom EE image.
 
 Use the following minimal configuration for the Navigator and store it in your project root directory:
 
