@@ -1,6 +1,6 @@
 # Ansible
 
-This topic is split into multiple main sections, each section covers a different aspect of automation using Ansible.
+This topic is split into multiple sections, each section covers a different aspect of automation using Ansible.
 
 <div class="grid cards" markdown>
 

@@ -207,128 +207,6 @@ EEs provide you with:
 * Portability across teams and environments
 * Separation from other automation content and tooling
 
-### Ansible Builder
-
-Ansible Builder is a tool that aids in the creation of Ansible Execution Environments. It does this by using the dependency information defined in various Ansible Content Collections, as well as by the user. Ansible Builder will produce a directory that acts as the build context for the container image build, which will contain the *Containerfile* (*Dockerfile*), along with any other files that need to be added to the image. There is no need to write a single line of Dockerfile, which makes it easy to build and use Execution Environments.
-
-To build an EE, install `ansible-builder` from the Python Package Manager:
-
-```bash
-pip3 install ansible-builder
-```
-
-Define at least the definition file for the Execution Environment and other files, depending on your use-case.
-
-=== "EE definition file"
-    !!! example "execution-environment.yml"
-        ```yaml
-        ---
-        version: 3
-
-        images:
-          base_image: # (1)!
-            name: ghcr.io/ansible-community/community-ee-base:latest
-
-        dependencies: # (2)!
-          galaxy: requirements.yml # (3)!
-          python: requirements.txt # (4)!
-          system: bindep.txt
-
-        ```
-
-        1. Some more useful base images are (take a look if a more recent tag is available):
-            * quay.io/rockylinux/rockylinux:9
-            * ghcr.io/ansible-community/community-ee-minimal:latest
-            * registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel9:1.0.0-456
-            * registry.redhat.io/ansible-automation-platform/ee-minimal-rhel9::2.15.5-4
-        2. If you want to install a specific Ansible version add this configuration under the `dependencies` key:
-        ```yaml
-        dependencies:
-          ansible_core:
-            package_pip: ansible-core==2.14.3
-        ```
-        3. Instead of using a separate file, you can provide collections (and roles) as a list:
-        ```yaml
-        dependencies:
-          galaxy:
-            collections:
-              - kubernetes.core
-            roles:
-              - timgrt.terraform
-        ```
-        4. Instead of using a separate file, you can provide the Python packages as a list:
-        ```yaml
-        dependencies:
-          python:
-            - awxkit
-            - boto
-            - botocore
-            - boto3
-            - openshift
-            - requests-oauthlib
-        ```
-=== "Collection Dependencies"
-    !!! example "requirements.yml"
-
-        ```yaml
-        ---
-        collections:
-          - redhat.openshift
-        ```
-
-=== "Python Dependencies"
-    !!! example "requirements.txt"
-
-        ```text
-        awxkit>=13.0.0
-        boto>=2.49.0
-        botocore>=1.12.249
-        boto3>=1.9.249
-        openshift>=0.6.2
-        requests-oauthlib
-        ```
-
-=== "Cross-Platform requirements"
-    !!! example "bindep.txt"
-
-        If there are RPMS necessary, put them here.
-
-        ```text
-        subversion [platform:rpm]
-        subversion [platform:dpkg]
-        ```
-
-??? failure "Package manager not found?"
-    In case you see an error like this: `unable to execute /usr/bin/dnf: No such file or directory`.
-    This can happen when using RHEL minimal images, you need to adjust the package manager path. Add the following setting to your `execution-environment.yml`:
-
-    ```yaml
-    options:
-      package_manager_path: /usr/bin/microdnf
-    ```
-
-For more information, go to the [Ansible Builder Documentation](https://ansible-builder.readthedocs.io/en/stable/){ target=_blank }.
-
-To build the EE, run this command (assuming you have Docker installed, by default Podman is used):
-
-```bash
-ansible-builder build --tag=demo/openshift-ee --container-runtime=docker -v=3
-```
-
-The resulting container images can be viewed with the `docker images` command:
-
-``` { .bash .no-copy }
-$ docker images
-REPOSITORY                        TAG       IMAGE ID       CREATED              SIZE
-demo/openshift-ee                 latest    2ea9d5d7b185   10 seconds ago       1.14GB
-```
-
-You can also build Execution Environments with *ansible-navigator*, the Builder is installed alongside Navigator.
-
-```bash
-ansible-navigator builder build --tag=demo/openshift-ee --container-runtime=docker
-```
-
 ### Ansible Navigator
 
 The `ansible-navigator` is *text-based user interface* (TUI) for the Red Hat Ansible Automation Platform.
@@ -343,6 +221,24 @@ pip3 install ansible-navigator
 If you want to use the Navigator with EEs, you'll need a *container runtime*, install Docker or Podman on your system.
 
 Take a look at the [Execution section](execution.md#execute-with-ansible-navigator) on how to run playbooks with the Navigator.
+
+### Ansible Builder
+
+Ansible Builder is a tool that aids in the creation of Ansible Execution Environments. It does this by using the dependency information defined in various Ansible Content Collections, as well as by the user. Ansible Builder will produce a directory that acts as the build context for the container image build, which will contain the *Containerfile* (*Dockerfile*), along with any other files that need to be added to the image. There is no need to write a single line of Dockerfile, which makes it easy to build and use Execution Environments.
+
+The builder requires a container runtime (Podman or Docker), install it if necessary:
+
+```bash
+sudo yum install podman
+```
+
+To build an EE, install `ansible-builder` from the Python Package Manager:
+
+```bash
+pip3 install ansible-builder
+```
+
+Take a look at the [Development section](../development/execution-environment.md#build-ee-image) on how to build a new Execution Environment image.  
 
 ### Ansible Runner
 
