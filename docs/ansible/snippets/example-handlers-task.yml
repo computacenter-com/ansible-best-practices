@@ -1,0 +1,13 @@
+- name: Deploy security headers configuration
+  ansible.builtin.copy:
+    src: security-headers.conf
+    dest: /etc/nginx/snippets/security-headers.conf
+    mode: "0644"
+  notify: Restart Nginx # (1)!
+
+- name: Deploy PHP-FPM pool configuration
+  ansible.builtin.template:
+    src: www.conf.j2
+    dest: /etc/php/8.4/fpm/pool.d/www.conf
+    mode: "0644"
+  notify: Restart web stack # (2)!

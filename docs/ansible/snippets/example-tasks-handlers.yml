@@ -1,0 +1,12 @@
+---
+- name: Restart Nginx
+  ansible.builtin.service:
+      name: nginx
+      state: restarted
+  listen: Restart web stack
+
+- name: Restart PHP-FPM
+  ansible.builtin.service:
+      name: php8.4-fpm
+      state: restarted
+  listen: Restart web stack
