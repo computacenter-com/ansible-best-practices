@@ -131,6 +131,97 @@ One of the biggest disadvantages of the dynamic *include_tasks* statement, synta
 !!! info
     There are also big differences in resource consumption and performance, *imports* are quite lean and fast, while *includes* require a lot of management and accounting.
 
+## Handlers
+
+Handlers are special tasks that only run when notified.  
+Tasks can *trigger* one or more handlers to execute using the `notify` keyword, if the task results in a *changed* state (even when used in loops and any of the loop items are changed).
+Handlers are triggered according to its `name` value or the `listen` statement, the name must match!
+
+!!! tip
+
+    **Use the `listen` parameter.**  
+    Not only is it decoupled from the actual task name which gives it a cleaner output, it also allows to group multiple handlers easily.
+
+While handlers are mostly used to restart services, they can use pretty much every module (`import_role` or `include_role` are **not** possible). **Handlers ignore tags**.
+
+<div class="grid" markdown>
+
+```yaml title="roles/demo/tasks/configuration.yml" hl_lines="6 13"
+--8<-- "example-handlers-task.yml"
+```
+
+1. This will trigger the given handler only!
+2. This **will run both handlers** and *could* be triggered like this as well:
+
+    ```yaml
+    - name: Deploy PHP-FPM pool configuration
+      ansible.builtin.template:
+        src: www.conf.j2
+        dest: /etc/php/8.4/fpm/pool.d/www.conf
+        mode: "0644"
+      notify:
+        - Restart Nginx
+        - Restart PHP-FPM
+    ```
+
+```yaml title="roles/demo/handlers/main.yml" hl_lines="6 12"
+--8<-- "example-tasks-handlers.yml"
+```
+
+</div>
+
+??? example "Example Output"
+
+    The task `Deploy PHP-FPM pool configuration` is *changed*, which notifies the `Restart web stack` topic, therefore both handlers are run.
+
+    ```{ .ansible-output .no-copy }
+    ...
+
+    TASK [Deploy security headers configuration] ***************************************************
+    ok: [webserver-node1]
+
+    TASK [Deploy PHP-FPM pool configuration] ***************************************************
+    changed: [webserver-node1]
+
+    ...
+
+    RUNNING HANDLER [demo : Restart Nginx] ************************************************
+    changed: [webserver-node1]
+
+    RUNNING HANDLER [demo : Restart PHP-FPM] ****************************************
+    changed: [webserver-node1]
+    ```
+
+Handlers run **after all the tasks in a particular play** (or after `pre_tasks` or `post_tasks` sections respectively) have been completed, this is efficient because handlers only run once, regardless of how many tasks notify it.  
+
+To run a handler earlier, use the [meta module](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/meta_module.html){:target="_blank"} to *flush* all handlers which were notfied up to this point.
+
+```yaml
+# Handler was notified by earlier task
+- name: Run all handlers now
+  ansible.builtin.meta: flush_handlers
+```
+
+!!! warning
+
+    Handlers have **one global, play-level scope**. Handlers defined in one role are available everywhere, also in other (unrelated) roles!  
+    Each handler should have a globally unique name. If multiple handlers are defined with the same name, only the last one loaded into the play (see [Handler insertion order documentation](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_handlers.html#handler-insertion-order-into-the-play){:target="_blank"}) can be notified and executed, effectively shadowing all of the previous handlers with the same name.
+
+    ??? tip "Target a specific role handler"
+
+        To ensure that a handler from a role is notified as opposed to one from outside the role with the same name, notify it in following form: <nobr>`role_name : handler_name`</nobr>
+
+        ```yaml
+        - name: Deploy security headers configuration
+          ansible.builtin.copy:
+            src: security-headers.conf
+            dest: /etc/nginx/snippets/security-headers.conf
+            mode: "0644"
+          notify: "nginx : Restart Nginx" # (1)!
+        ```
+
+        1. The value needs to be quoted completely as the colon in between would break the YAML syntax!
+
 ## Naming tasks
 
 It is possible to leave off the *name* for a given task, though it is recommended to provide a description about why something is being done instead. This description is shown when the playbook is run.  
