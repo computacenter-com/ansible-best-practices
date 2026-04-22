@@ -1,0 +1,10 @@
+- name: Validate Node Exporter Download URL
+  ansible.builtin.assert:
+    that:
+      - node_exporter_url is url # (1)!
+      - node_exporter_url is search('.*\\.tar\\.gz$') # (2)!
+    quiet: true
+    fail_msg: "The node_exporter_url variable must be a valid URL and point to a tar.gz file!"
+  when:
+    - download_node_exporter is defined # (3)!
+    - download_node_exporter is truthy # (4)!

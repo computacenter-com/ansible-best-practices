@@ -667,14 +667,63 @@ receivers:
 ## Plugins to manipulate data
 
 With the right filter plugin, you can extract a particular value, transform data types and formats, perform mathematical calculations, split and concatenate strings, insert dates and times, and do much more.  
-Test plugins evaluate template expressions and return *True* or *False*. With test plugins you can create conditionals to implement the logic of your tasks, blocks, plays, playbooks, and roles.
+Test plugins evaluate template expressions and return *True* or *False*.
+
+The main difference between tests and filters are that Jinja tests are used for comparisons, whereas filters are used for data manipulation. Tests can also be used in list processing filters, like `map()` and `select()` to choose items in the list.
+
+!!! info
+    In contrast to modules, **plugins are executed on the control node!**
 
 ### Filter plugins
 
-!!! warning
-    **Work in Progress** - More description necessary.
+Filters are used to *transform* input data, they are added with the `|` (*pipe*) symbol, with the expression on the left of it being the first input of the filter. Additional parameters may be passed into the filter itself, they can be either *positional* (passed in order) or *named* (passed as `key=value` pairs).
+
+Ansible has a huge number of plugins available (in multiple collections) or any of the standard [builtin Jinja2 filters](https://jinja.palletsprojects.com/en/stable/templates/#builtin-filters){:target="_blank"} can be used.
+
+```yaml
+--8<-- "example-filter-plugins-task.yml"
+```
+
+1. The multiple filters extract the foldername without extensions from the archive URL (e.g. `https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz`){:target="_blank"}.  
+    1. The `basename` filter extracts `node_exporter-1.10.2.linux-amd64.tar.gz` from the URL.  
+    2. The first `splitext` creates a list of `node_exporter-1.10.2.linux-amd64.tar` and `gz`, the `first` filter extracts the first element of the list.  
+    3. The second `splitext` creates a list of `node_exporter-1.10.2.linux-amd64` and `tar`, the `first` filter extracts the first element of the list again.  
+    4. This results in `node_exporter-1.10.2.linux-amd64`, which is the name of the extracted directory containing the node exporter binary.  
+    Another approach could be to use the `regex_replace` filter: "{{ node_exporter_archive_url | basename | regex_replace('\\.tar\\.gz$', '') }}"
+2. By default, Ansible requires values for all variables in a templated expression.  
+    The special variable `omit` can be used to make the variable **optional**, if the `node_exporter_user` is not defined, the whole key (`owner` or `group`) is ignored as no value is provided.
+
+Some useful filter plugins:
+
+* [Provide default value if variable is undefined with `ansible.builtin.default`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/default_filter.html){:target="_blank"}
+* [Apply a filter on a list of objects with `ansible.builtin.map`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/map_filter.html){:target="_blank"}
+* [Replace a string via regex with `ansible.builtin.regex_replace`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/regex_replace_filter.html){:target="_blank"}
+* [Date formatting with `ansible.builtin.strftime`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/strftime_filter.html){:target="_blank"}
+* [Convert network device CLI output to structured JSON with `ansible.netcommon.parse_cli`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/netcommon/parse_cli_filter.html){:target="_blank"}
+* [Find difference between facts/variables with `ansible.utils.fact_diff`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/utils/fact_diff_filter.html){:target="_blank"}
+* [Convert output of shell commands and file-types to JSON with `community.general.jc`](https://docs.ansible.com/projects/ansible/latest/collections/community/general/jc_filter.html){:target="_blank"}
+
+Take a look at the documentation for a [list of all filter plugins](https://docs.ansible.com/projects/ansible/latest/collections/index_filter.html){:target="_blank"}.
 
 ### Test plugins
 
-!!! warning
-    **Work in Progress** - More description necessary.
+Test plugins evaluate *template expressions* and return `True` or `False`. They are used to [assert expressions](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/assert_module.html){:target="_blank"} or create conditionals for tasks, blocks, plays, playbooks, and roles.  
+Ansible uses the [standard Jinja2 tests](https://jinja.palletsprojects.com/en/stable/templates/#list-of-builtin-tests){:target="_blank"} and adds some specialized test plugins.
+
+```yaml
+--8<-- "example-test-plugins-task.yml"
+```
+
+1. Tests for a [valid URL](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/url_test.html){:target="_blank"}.
+2. Tests if the string (URL) ends with `.tar.gz`. As the *period* symbol (`.`) has a special meaning in a regular expression, it must be *escaped* with two backslashes.
+3. Tests if the variable is defined at all.
+4. Tests if the variable is a [pythonic true](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/truthy_test.html){:target="_blank"}, will convert values like `yes`/`no`, `on`/`off`, `0`/`1` to a strict Python boolean `true`.
+
+Some useful test plugins:
+
+* [Compare version strings with `ansible.builtin.version`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/version_test.html){:target="_blank"}
+* [Pattern is anywhere within string with `ansible.builtin.search`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/search_test.html){:target="_blank"}
+* [Pattern is at start of string with `ansible.builtin.match`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/match_test.html){:target="_blank"}
+* [Does list contain element with `ansible.builtin.contains`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/contains_test.html){:target="_blank"}
+
+Take a look at the documentation for a [list of all test plugins](https://docs.ansible.com/projects/ansible/latest/collections/index_test.html){:target="_blank"}.

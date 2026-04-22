@@ -1,0 +1,8 @@
+- name: Copy node exporter binary to /usr/local/bin
+  ansible.builtin.copy:
+    src: "/tmp/{{ node_exporter_archive_url | basename | splitext | first | splitext | first }}/node_exporter" # (1)!
+    remote_src: true
+    dest: /usr/local/bin/node_exporter
+    mode: "0755"
+    owner: "{{ node_exporter_user | default(omit) }}" # (2)!
+    group: "{{ node_exporter_user | default(omit) }}"
