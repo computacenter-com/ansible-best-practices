@@ -24,7 +24,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     Use the **Search** at the top!
 
 !!! info "Versioning"
-    This guide is updated constantly, last update on **04/2026**.
+    This guide is updated constantly, last update was {% if git.status %}**{{ git.date_ISO | truncate(10, true, '') }}**.{% else %}... not too long ago ... ;P (Git info not found){% endif %}  
 
 </div>
 

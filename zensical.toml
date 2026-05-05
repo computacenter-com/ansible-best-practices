@@ -172,6 +172,8 @@ custom_fences = [
 # https://zensical.org/docs/authoring/content-tabs/#content-tabs
 [project.markdown_extensions.pymdownx.tabbed]
 alternate_style = true
+# https://zensical.org/docs/setup/extensions/macros/#macros
+[project.markdown_extensions.zensical.extensions.macros]
 # https://zensical.org/docs/setup/navigation/#instant-previews
 [project.markdown_extensions.zensical.extensions.preview]
 configurations = [
