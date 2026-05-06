@@ -20,6 +20,40 @@ Some useful command-line parameters when executing your playbook are the followi
 * `--list-tags` lists all available tags
 * `--list-tasks` lists all tasks that would be executed
 
+Ansible runs the play sections in the following order:
+
+1. `pre_tasks`
+2. Handlers that are notified in the `pre_tasks` section
+3. `roles`
+4. `tasks`
+5. Handlers that are notified in the `roles` and `tasks` sections
+6. `post_tasks`
+7. Handlers that are notified in the `post_tasks` section
+
+!!! info
+    The order of these sections in a play does **not** modify the order of execution!
+
+    ??? example
+
+        Although `tasks` are defined first, with the `roles` key second, the **roles will still be executed before the task**.  
+
+        ```yaml
+        ---
+        - name: APIC configuration
+          hosts: aci
+          tasks:
+            - name: Get system info
+              cisco.aci.aci_system:
+                state: query
+          roles:
+            - aci_configuration
+        ```
+
+        !!! tip "Do not mix tasks and roles"
+
+            [All tasks should kept in roles](../ansible/roles.md).  
+            For single additional tasks in a play, use the `pre_tasks` section.
+
 ## Execute with Ansible Navigator
 
 To ensure that your Ansible Content works, when running it locally during development **and** when running it in AAP or AWX later, it is advisable to execute it with the same execution environment.
