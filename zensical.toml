@@ -36,10 +36,12 @@ nav = [
   ]},
   {"Ansible Automation Platform" = [
       "automation-platform/index.md",
+      {"Installation" = "automation-platform/installation.md"},
+      {"Operations" = "automation-platform/operations.md"},
+      {"Troubleshooting" = "automation-platform/troubleshooting.md"},
       {"Job Templates" = "automation-platform/job-templates.md"},
       {"Credentials" = "automation-platform/credentials.md"},
       {"Workflows" = "automation-platform/workflows.md"},
-      {"Operations" = "automation-platform/operations.md"},
   ]},
   {"Ansible Development" = [
       "development/index.md",
