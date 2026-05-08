@@ -18,7 +18,7 @@ For compatibility, all variables are  given an `awx` prefix, they are defined by
 
 !!! info
 
-    These are just some examples, take a look at the [full list of Job environment variables](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/using_automation_execution/controller-job-templates){:target="_blank".}  
+    These are just some examples, take a look at the [full list of Job environment variables](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/using_automation_execution/controller-job-templates){:target="_blank"}.  
 
 These variables could also be used to determine if a playbook was run in AAP/AWX or locally!
 
