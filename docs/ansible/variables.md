@@ -335,6 +335,8 @@ Playbooks often need user input, this may lead to errors like
 
 It is useful to validate the user input early and provide a meaningful error message, if necessary.
 
+Some very simple input variable validation can be done in the [roles `meta/main.yml` file](roles.md#role-argument-validation).
+
 ### Assert module
 
 For simple variable validations, use the [`ansible.builtin.assert` module](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/assert_module.html){:target="_blank"}, it checks if a given expressions evaluates to *true*.

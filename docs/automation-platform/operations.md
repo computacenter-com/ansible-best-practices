@@ -166,7 +166,7 @@ Removing nodes from the Automation Platform differs from RPM or containerized in
 
 === "Containerized"
 
-    For containerized installations, connect to any of the automation controller hosts. These hosts run the automation-controller-*` containers. Connect to an automation-controller-* container via `podman exec` and then use the `awx-manage deprovision_instance` command to remove a node:
+    For containerized installations, connect to any of the automation controller hosts. These hosts run the `automation-controller-*` containers. Connect to one of these containers via `podman exec` and then use the `awx-manage deprovision_instance` command to remove a node:
 
     ```{ .bash .no-copy }
     [aap@controller ~]$ podman exec -it automation-controller-task /bin/bash
@@ -199,11 +199,11 @@ Removing nodes from the Automation Platform differs from RPM or containerized in
     ```
 
     !!! warning
-        You cannot use `node_state=deprovision` with the **first entry** in the `[automationcontroller]` section because the installer needs at least one operational controller.  
+        You cannot use `node_state=deprovision` with the **first entry** in the `automationcontroller` section because the installer needs at least one operational controller.  
         **The installer uses the first entry to launch the remaining installation and configuration.**  
 
         !!! success
-            Just move the controller host (which should be deprovisioned) from the first to a different position in the `[automationcontroller]` section.
+            Just move the controller host (which should be deprovisioned) from the first to a different position in the `automationcontroller` section.
 
     Now, run the `setup.sh` script:
 
