@@ -60,7 +60,7 @@ The variable name should be self-explanatory (*as brief as possible, as detailed
         ```
 
 !!! failure "Avoid deeply nested structures"
-    While it may be tempting to create *nested* variable structures as they can hold loads of information, they may be hard to work with (lopp through, get specific fields, etc.).
+    While it may be tempting to create *nested* variable structures as they can hold loads of information, they may be hard to work with (loop through, get specific fields, etc.).
 
     ```yaml
     logical_volumes:
