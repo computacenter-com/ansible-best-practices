@@ -10,7 +10,7 @@ Collection names consist of a **namespace and a name**, separated by a period (`
 
 !!! question "Collection or Role?"
     If you are writing modules/plugins and/or content which should (or can) be used *outside* of your current project, create a **collection**!  
-    For example, your project automates the installation and configuration of a database, but you also created role(s) to harden the underlying Linux host. All hardeing roles should be moved into a collection.  
+    For example, your project automates the installation and configuration of a database, but you also created role(s) to harden the underlying Linux host. All hardening roles should be moved into a collection.  
     **In most cases, collections make more sense as they are the more flexible distribution format.**  
 
 A collection *can* contain one or more roles in the `roles/` directory and these are almost identical to standalone roles, except you need to move plugins out of the individual roles, and use the FQCN in some places.
@@ -37,7 +37,7 @@ requires_ansible: ">=2.15"
 You can **(and should!)** provide additional information in the collection configuration files.  
 Take a look at the documentation for a complete example and [all valid keys for the `galaxy.yml`](https://docs.ansible.com/projects/ansible/latest/dev_guide/collections_galaxy_meta.html#collections-galaxy-meta){ target=_blank } or the [top-level keys for the `runtime.yml`](https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_collections_structure.html#runtime-yml){ target=_blank }.
 
-To scaffold the collection skeleton, either use  the `ansible-galaxy` (simple and slightly outdated format) or the `ansible-creator` (full-fleged, but may be confusing for beginners) CLI utility.
+To scaffold the collection skeleton, either use  the `ansible-galaxy` (simple and slightly outdated format) or the `ansible-creator` (full-fledged, but may be confusing for beginners) CLI utility.
 
 ### Init with ansible-galaxy
 
