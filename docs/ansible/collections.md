@@ -15,6 +15,10 @@ Collection names consist of a **namespace and a name**, separated by a period (`
 
 A collection *can* contain one or more roles in the `roles/` directory and these are almost identical to standalone roles, except you need to move plugins out of the individual roles, and use the FQCN in some places.
 
+## Installing collections
+
+The [installation section](installation.md#install-collections) describes how to install collections with `ansible-galaxy`.
+
 ## Creating collections
 
 A custom collection does not need much, only a `README.md`, a `galaxy.yml` and a `meta/runtime.yml` with the following content:
