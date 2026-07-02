@@ -29,7 +29,7 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	@touch $(VENV_NAME)/bin/activate
 
 hooks: pre-commit-install ## Installs pre-commit hooks
-	$(info $(COLOUR_BLUE)## Pre-commit hooks (with prek) are ready.$(COLOUR_END))
+	$(info $(COLOUR_BLUE)## Pre-commit hooks (with prek) are ready. Run 'prek run -a' to run all hooks anytime.$(COLOUR_END))
 
 pre-commit-install:
 ifeq ("$(wildcard .git/hooks/pre-commit)","")
@@ -53,4 +53,4 @@ endif
 	@rm -rf $(VENV_NAME) &&	echo -e "$(COLOUR_GREEN)## Python VE removed.$(COLOUR_END)"
 	@rm -rf site && rm -rf .cache && echo -e "$(COLOUR_GREEN)## Zensical build folder and cache removed.$(COLOUR_END)"
 	@rm -rf .git/hooks/pre-commit && echo -e "$(COLOUR_GREEN)## pre-commit hooks removed.$(COLOUR_END)"
-	@rm -rf ~/.cache/pre-commit && echo -e "$(COLOUR_GREEN)## pre-commit cache removed.$(COLOUR_END)"
+	@rm -rf ~/.cache/prek && echo -e "$(COLOUR_GREEN)## pre-commit/prek cache removed.$(COLOUR_END)"
