@@ -96,6 +96,7 @@ features = [
 # ----------------------------------------------------------------------------
 [project.theme.icon.admonition]
 example = "lucide/search-code"
+quote = "lucide/folder-tree"
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme)"
