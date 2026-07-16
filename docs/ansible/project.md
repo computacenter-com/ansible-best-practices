@@ -520,10 +520,23 @@ This makes sure that required collections can be installed, if only the *ansible
 collections:
   - community.general
   - ansible.posix
-
-  - name: cisco.ios
-    version: '>=3.1.0'  
+  - cisco.ios
 ```
+
+??? tip "Add the collection source URL in case galaxy.ansible.com is down"
+
+    ```yaml
+    collections:
+        - name: ansible.posix
+          # source: https://github.com/ansible-collections/ansible.posix
+          # type: git
+        - name: containers.podman
+          version: 1.20.2
+          # source: https://github.com/containers/ansible-podman-collections
+          # type: git
+    ```
+
+    If Galaxy is unavailable, uncomment the `source` and `type` lines to install the collection directly from GitHub.
 
 Install all collections from the *requirements*-file:
 
@@ -531,7 +544,7 @@ Install all collections from the *requirements*-file:
 ansible-galaxy collection install -r requirements.yml
 ```
 
-If you want to install Collections directly from Git (circumventing Galaxy or Automation Hub) use the following configuration:
+If you want to install Collections not available on Galaxy or Automation Hub, use the following configuration:
 
 ```yaml
 collections:
@@ -542,6 +555,8 @@ collections:
 
 1. The Git-URL to the Collection content, ensure that you can pull/clone from this address without authentication. The collection name will be deduced from the `galaxy.yml` of the collection (the content is cloned to a temporary location and then installed as if done with the *ansible-galaxy* utility).
 2. The branch to use, if you want to test with a feature branch, adjust this.
+
+Take a look at the [Ansible documentation for all available options in the `requirements.yml` file](https://docs.ansible.com/projects/ansible/latest/collections_guide/collections_installing.html#install-multiple-collections-with-a-requirements-file){:target="_blank"}.
 
 ### Python packages
 
