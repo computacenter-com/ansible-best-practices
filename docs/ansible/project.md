@@ -17,34 +17,36 @@ Take a look at the [Development section](../development/git.md) for additional i
 
 ## Directory structure
 
-``` { .bash .no-copy }
-.
-├── ansible.cfg
-├── hosts
-├── k8s_install.yml
-├── README.md
-├── requirements.txt
-├── requirements.yml
-└── roles
-    ├── k8s_bootstrap
-    │   ├── files
-    │   │   ├── daemon.json
-    │   │   └── k8s.conf
-    │   ├── tasks
-    │   │   ├── install_kubeadm.yml
-    │   │   ├── main.yml
-    │   │   └── prerequisites.yml
-    │   └── templates
-    │       └── kubernetes.repo.j2
-    ├── k8s_control_plane
-    │   ├── files
-    │   │   └── kubeconfig.sh
-    │   └── tasks
-    │       └── main.yml
-    └── k8s_worker_nodes
-        └── tasks
-            └── main.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    ├── ansible.cfg
+    ├── hosts
+    ├── k8s_install.yml
+    ├── README.md
+    ├── requirements.txt
+    ├── requirements.yml
+    └── roles/
+        ├── k8s_bootstrap/
+        │   ├── files/
+        │   │   ├── daemon.json
+        │   │   └── k8s.conf
+        │   ├── tasks/
+        │   │   ├── install_kubeadm.yml
+        │   │   ├── main.yml
+        │   │   └── prerequisites.yml
+        │   └── templates/
+        │       └── kubernetes.repo.j2
+        ├── k8s_control_plane/
+        │   ├── files/
+        │   │   └── kubeconfig.sh
+        │   └── tasks/
+        │       └── main.yml
+        └── k8s_worker_nodes/
+            └── tasks/
+                └── main.yml
+    ```
 
 ### Filenames
 
@@ -57,8 +59,9 @@ Use descriptive names that are human-readable and **do not shorten more than nec
 === "Good"
 
     !!! success ""
-        ``` { .bash .no-copy }
-        .
+
+        ``` mermaid
+        treeView-beta
         ├── ansible.cfg
         ├── hosts
         ├── k8s_install.yml
@@ -84,12 +87,15 @@ Use descriptive names that are human-readable and **do not shorten more than nec
                 └── tasks
                     └── main.yml
         ```
+
 === "Bad"
 
     !!! failure ""
+
         Playbook-name without underscores and wrong file extension, role folders or task files inconsistent, with underscores and wrong extension.
-        ``` { .bash .no-copy }
-        .
+
+        ``` mermaid
+        treeView-beta
         ├── ansible.cfg
         ├── hosts
         ├── k8s-install.yaml
@@ -143,6 +149,7 @@ Two spaces are used to indent everything, e.g. list items or dictionary keys.
 === "Bad"
 
     !!! failure ""
+
         Playbook with roles **not** indented by two whitespaces.
 
         ``` { .yaml .no-copy }
@@ -168,6 +175,7 @@ The so-called YAML "one-line" syntax is not used, neither for passing parameters
 === "Good"
 
     !!! success ""
+
         ```yaml
         --8<-- "example-install-package-from-repo-task.yml"
         ```
@@ -175,9 +183,11 @@ The so-called YAML "one-line" syntax is not used, neither for passing parameters
         ```yaml
         --8<-- "example-multiple-packages-install-task.yml"
         ```
+
 === "Bad"
 
     !!! failure ""
+
         Task with *One-line* syntax:
 
         ```{ .yaml .no-copy }
@@ -224,7 +234,9 @@ Use the `| bool` filter when using bare variables (expressions consisting of jus
 === "Good"
 
     !!! success ""
+
         Using a variable `upgrade_allowed` with the default value `false`, task is executed when overwritten with `true` value.
+
         ```yaml
         --8<-- "example-boolean-condition-task.yml"
         ```
@@ -232,6 +244,7 @@ Use the `| bool` filter when using bare variables (expressions consisting of jus
 === "Bad"
 
     !!! failure ""
+
         ```{ .yaml .no-copy }
         - name: Upgrade all packages, excluding kernel & foo related packages
           ansible.builtin.package:
