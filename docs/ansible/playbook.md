@@ -11,15 +11,17 @@ icon: lucide/book-a
 The *main* playbook should have a recognizable name, e.g. referencing the projects name or scope.
 If you have multiple playbooks, create a new folder `playbooks` and store all playbooks there, except the *main* playbook (here called `site.yml`).
 
-```{ .bash .no-copy }
-.
-├── ansible.cfg
-├── site.yml
-└── playbooks
-    ├── database.yml
-    ├── loadbalancer.yml
-    └── webserver.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    ├── ansible.cfg
+    ├── site.yml
+    └── playbooks/
+        ├── database.yml
+        ├── loadbalancer.yml
+        └── webserver.yml
+    ```
 
 The `site.yml` file contains references to the other playbooks:
 

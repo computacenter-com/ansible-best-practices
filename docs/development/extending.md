@@ -20,18 +20,21 @@ ansible-galaxy collection init computacenter.utils --init-path collections/ansib
 
 This creates the following structure:
 
-``` { .bash .no-copy }
-collections/
-└── ansible_collections
-    └── computacenter
-        └── utils
-            ├── README.md
-            ├── docs
-            ├── galaxy.yml
-            ├── plugins
-            │   └── README.md
-            └── roles
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    collections/
+    └── ansible_collections/
+        └── computacenter/
+            └── utils/
+                ├── README.md
+                ├── docs/
+                ├── galaxy.yml
+                ├── plugins/
+                │   └── README.md
+                └── roles/
+    ```
 
 Create subfolder beneath the `plugins` folder, `modules` for modules and e.g. `filter` for filter plugins. Take a look into the included `README.md` in the *plugins* folder. Store your custom content in python files in the respective folders.
 
