@@ -12,6 +12,19 @@ The most basic way:
 ansible-playbook playbook.yml
 ```
 
+When executing a *collection playbook*, provide the Full Qualified Collection Name (FQCN) of the playbook, e.g. `namespace.collection.playbook` (without the `.yml` extension).
+
+``` { .bash .no-copy }
+ansible-playbook timgrt.bootstrap.controller
+```
+
+!!! warning
+    **Make sure you check the target hosts in the collection playbook!**  
+    The playbook may reference the `all` group, this might not be what you want.
+
+    !!! tip
+        Take a look at the [Collections](collections.md#playbooks-in-collections) section for more information about how to use playbooks from collections.
+
 Some useful command-line parameters when executing your playbook are the following
 
 * `-C` or `--check` runs the playbook without making any modifications

@@ -1,0 +1,6 @@
+---
+- name: Deploy Webserver with welcome message
+  hosts: "{{ managed_nodes | default('all') }}"
+  become: true
+  roles:
+    - computacenter.demo.webserver
