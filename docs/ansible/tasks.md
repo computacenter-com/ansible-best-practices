@@ -7,15 +7,17 @@ icon: lucide/list-ordered
 **Tasks should always be inside of a role.** Do not use tasks in a play directly.  
 Logically related tasks are to be separated into individual files, the `main.yml` of a role only **imports** other task files.
 
-``` { .bash .no-copy }
-.
-└── roles
-    └── k8s_bootstrap
-        └── tasks
-            ├── install_kubeadm.yml
-            ├── main.yml
-            └── prerequisites.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    └── roles/
+        └── k8s_bootstrap/
+            └── tasks/
+                ├── install_kubeadm.yml
+                ├── main.yml
+                └── prerequisites.yml
+    ```
 
 The file name of a task file should describe the content.
 

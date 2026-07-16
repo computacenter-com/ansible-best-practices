@@ -11,15 +11,17 @@ icon: lucide/book-a
 The *main* playbook should have a recognizable name, e.g. referencing the projects name or scope.
 If you have multiple playbooks, create a new folder `playbooks` and store all playbooks there, except the *main* playbook (here called `site.yml`).
 
-```{ .bash .no-copy }
-.
-├── ansible.cfg
-├── site.yml
-└── playbooks
-    ├── database.yml
-    ├── loadbalancer.yml
-    └── webserver.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    ├── ansible.cfg
+    ├── site.yml
+    └── playbooks/
+        ├── database.yml
+        ├── loadbalancer.yml
+        └── webserver.yml
+    ```
 
 The `site.yml` file contains references to the other playbooks:
 
@@ -58,6 +60,8 @@ A playbook **could** contain `pre_tasks`, `roles`, `tasks` and `post_tasks` sect
     Avoid using both *roles* and *tasks* sections, the latter possibly containing `import_role` or `include_role` tasks. The order of execution between *roles* and *tasks* isn’t obvious, and hence mixing them should be avoided.
 
 Either you need only static importing of roles and you can use the roles section, or you need dynamic inclusion and you should use only the tasks section. Of course, for very simple cases, you can just use tasks without roles (but playbooks/projects grow quickly, refactor to roles early).
+
+When referencing a *collection* role, you need to use the Fully Qualified Collection Name of the role, e.g. `namespace.collection.role_name`.
 
 ### Plays
 

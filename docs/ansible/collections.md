@@ -15,6 +15,10 @@ Collection names consist of a **namespace and a name**, separated by a period (`
 
 A collection *can* contain one or more roles in the `roles/` directory and these are almost identical to standalone roles, except you need to move plugins out of the individual roles, and use the FQCN in some places.
 
+## Installing collections
+
+Take a look at the [installation section](installation.md#install-collections) for the recommended installation of collections.
+
 ## Creating collections
 
 A custom collection does not need much, only a `README.md`, a `galaxy.yml` and a `meta/runtime.yml` with the following content:
@@ -47,21 +51,20 @@ To create a new collection use the following command with your desired namespace
 ansible-galaxy collection init computacenter.demo
 ```
 
-??? example "Expand to view the created collection skeleton"
+??? quote "Expand to view the created collection skeleton"
 
-    ``` { .no-copy }
-    $ tree computacenter/demo/
-    computacenter/demo/
-    ├── README.md
-    ├── docs
-    ├── galaxy.yml
-    ├── meta
-    │   └── runtime.yml
-    ├── plugins
-    │   └── README.md
-    └── roles
-
-    5 directories, 4 files
+    ``` mermaid
+    treeView-beta
+    computacenter/
+    └── demo/
+        ├── docs/
+        ├── galaxy.yml
+        ├── meta/
+        │   └── runtime.yml
+        ├── plugins/
+        │   └── README.md
+        ├── README.md
+        └── roles/
     ```
 
 To create/initialize the collection alongside your existing project, append `--init-path collections/ansible_collections` to the command above.
@@ -84,11 +87,10 @@ ansible-creator init collection computacenter.demo
     The *init* path is different from the `ansible-galaxy` utility!  
     By default, no folder for *namespace* and *collection name* are created, but the collection content skeleton is created in the current folder!
 
-??? example "Expand to view the created collection skeleton"
+??? quote "Expand to view the created collection skeleton"
 
-    ``` { .no-copy }
-    $ tree
-    .
+    ``` mermaid
+    treeView-beta
     ├── CHANGELOG.rst
     ├── CODE_OF_CONDUCT.md
     ├── CONTRIBUTING
@@ -177,8 +179,6 @@ ansible-creator init collection computacenter.demo
     │       ├── __init__.py
     │       └── test_basic.py
     └── tox-ansible.ini
-
-    40 directories, 49 files
     ```
 
 To initialize the collection with the [VScode Ansible extension](https://marketplace.visualstudio.com/items?itemName=redhat.ansible){ target=_blank }, select the extension, click **Collection project**, enter *namespace* and *collection name*, specify the destination directory and click **Create**.
@@ -187,3 +187,67 @@ To initialize the collection with the [VScode Ansible extension](https://marketp
   ![Create Ansible Collection with ansible-creator in VScode](snippets/screenshot-ansible-creator-collection-init.png)
   <figcaption></figcaption>
 </figure>
+
+### Playbooks in collections
+
+Although collections are primarily intended to distribute roles, modules, and plugins, **you can include playbooks in a collection**. Neither the `ansible-galaxy` nor the `ansible-creator` utility create a `playbooks` folder, so you need to create it manually and add your playbooks there.
+
+!!! quote "Collection structure with playbooks folder"
+
+    ``` mermaid
+    treeView-beta
+    computacenter/
+    └── demo/
+        ├── docs/
+        ├── galaxy.yml
+        ├── meta/
+        │   └── runtime.yml
+        ├── plugins/
+        │   └── README.md
+        ├── README.md
+        ├── roles/
+        └── playbooks/ :::highlight ## all collection playbooks must be placed in this folder
+            └── example.yml
+    ```
+
+When adding a playbook, you should **use a variable for the `hosts` parameter** (with the `all` group as the default), so the playbook can be used in different environments.
+
+```yaml
+--8<-- "example-role-from-collection-playbook.yml"
+```
+
+Now, you can *overwrite* the `hosts` variable when executing the playbook:
+
+``` { .bash .no-copy }
+ansible-playbook computacenter.demo.example -e hosts=web
+```
+
+## Using collection playbooks and roles
+
+Roles and playbooks from collection can be used in the same way as roles and playbooks from a standalone project, only the *Fully Qualified Collection Name (FQCN)* must be used.
+
+!!! tip inline end
+    **You don't need the `.yml` extension.**
+
+Execute a collection playbook:
+
+```bash
+ansible-playbook timngrt.bootstrap.controller
+```
+
+Use a collection playbook in a playbook with `import_playbook`:
+
+```yaml
+---
+- ansible.builtin.import_playbook: timngrt.bootstrap.controller
+```
+
+Reference a collection role in a playbook:
+
+```yaml
+---
+- name: Prepare managed nodes for automation
+  hosts: managed_nodes
+  roles:
+    - timngrt.bootstrap.bootstrap_managed
+```

@@ -107,45 +107,51 @@ Depending on your project setup (*classic* role structure or collection), the Mo
 
     The *molecule* configuration files are kept in the role folder you want to test:
 
-    ``` { .bash hl_lines="5-8" .no-copy }
-    roles/
-    └── webserver_demo
-        ├── defaults
-        │   └── main.yml
-        ├── molecule
-        │   └── default
-        │       ├── converge.yml
-        │       └── molecule.yml
-        ├── tasks
-        │   └── main.yml
-        └── templates
-            └── index.html
-    ```
+    !!! quote ""
+
+        ``` mermaid
+        treeView-beta
+        roles/
+        └── webserver_demo/
+            ├── defaults/
+            │   └── main.yml
+            ├── molecule/
+            │   └── default
+            │       ├── converge.yml
+            │       └── molecule.yml
+            ├── tasks/
+            │   └── main.yml
+            └── templates/
+                └── index.html
+        ```
 
 !!! abstract "Collection"
 
     The *molecule* configuration files are kept in a **separate** folder `extensions` in the collection root directory:
 
-    ``` { .bash hl_lines="3-7" .no-copy }
-    .
-    ├── README.md
-    ├── extensions
-    │   └── molecule
-    │       └── default
-    │           ├── converge.yml
-    │           └── molecule.yml
-    ├── galaxy.yml
-    ├── meta
-    │   └── runtime.yml
-    └── roles
-        └── webserver_demo
-            ├── defaults
-            │   └── main.yml
-            ├── tasks
-            │   └── main.yml
-            └── templates
-                └── welcome.html.j2
-    ```
+    !!! quote ""
+
+        ``` mermaid
+        treeView-beta
+        .
+        ├── README.md
+        ├── extensions/ :::highlight
+        │   └── molecule/ :::highlight
+        │       └── default/ :::highlight
+        │           ├── converge.yml :::highlight
+        │           └── molecule.yml :::highlight
+        ├── galaxy.yml
+        ├── meta/
+        │   └── runtime.yml
+        └── roles/
+            └── webserver_demo/
+                ├── defaults/
+                │   └── main.yml
+                ├── tasks/
+                │   └── main.yml
+                └── templates/
+                    └── welcome.html.j2
+        ```
 
     !!! tip
         The Playbook file `converge.yml` **must** reference the role to test with the FQCN!
@@ -163,7 +169,7 @@ You may use this (minimal) example configuration as a starting point.
           name: podman
         platforms: # (1)!
           - name: rhel9-instance1 # (2)!
-            image: ghcr.io/timgrt/rhel9-molecule-test-image:main # (3)!
+            image: ghcr.io/timgrt/ansible-test-image-rhel9:main # (3)!
             pre_build_image: true
             volumes: # (4)!
               - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -216,7 +222,8 @@ You may use this (minimal) example configuration as a starting point.
             * [Ubuntu 20.04](https://hub.docker.com/r/timgrt/ubuntu2004-ansible){ target="_blank" }
             * [Debian 10](https://hub.docker.com/r/timgrt/debian10-ansible){ target="_blank" }
             * [OpenSuse 15](https://hub.docker.com/r/timgrt/opensuse15-ansible){ target="_blank" }
-            * [RHEL 8](https://github.com/TimGrt/rhel8-molecule-test-image/pkgs/container/rhel8-molecule-test-image){ target="_blank" }
+            * [RHEL 8](https://github.com/TimGrt/ansible-test-image-rhel8/pkgs/container/ansible-test-image-rhel8){ target="_blank" }
+            * [RHEL 9](https://github.com/TimGrt/ansible-test-image-rhel9/pkgs/container/ansible-test-image-rhel9){ target="_blank" }
         4. The *volume mount* is necessary for a systemd-enabled container.
         5. When running a webserver inside the container (on port 80), this will publish the container port 80 to the host port 8080. Now, you can check the webserver content by using `http://localhost:8080` (or use the IP of your host).
         6. Additional *groups* the host should be part of. **Use a custom `molecule` group for referencing in `converge.yml`**.  

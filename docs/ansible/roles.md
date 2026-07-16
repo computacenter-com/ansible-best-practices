@@ -72,26 +72,30 @@ ansible-galaxy role init roles/demo
 
 This would create the following directory:
 
-``` { .bash .no-copy }
-roles/demo/
-├── defaults
-│   └── main.yml
-├── files
-├── handlers
-│   └── main.yml
-├── meta
-│   └── main.yml
-├── README.md
-├── tasks
-│   └── main.yml
-├── templates
-├── tests
-│   ├── inventory
-│   └── test.yml
-├── .travis.yml
-└── vars
-    └── main.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    roles/
+    └── demo/
+        ├── defaults/
+        │   └── main.yml
+        ├── files/
+        ├── handlers/
+        │   └── main.yml
+        ├── meta/
+        │   └── main.yml
+        ├── README.md
+        ├── tasks/
+        │   └── main.yml
+        ├── templates/
+        ├── tests/
+        │   ├── inventory
+        │   └── test.yml
+        ├── .travis.yml
+        └── vars/
+            └── main.yml
+    ```
 
 At least the folders (and content) `tests` (a sample inventory and playbook for testing, we will use a different testing method) and `vars` (variable definitions, not used according to this Best Practice Guide, because we use only *group_vars*, *host_vars* and *defaults*) are not necessary. Also the `.travis.yml` (a CI/CD solution) definition is not useful.
 
@@ -100,24 +104,28 @@ At least the folders (and content) `tests` (a sample inventory and playbook for 
 
 Consider the following role skeleton, note the missing *vars* and *test* folder and the newly added [Molecule folder](../development/testing.md#molecule).
 
-``` { .bash .no-copy }
-roles/role_skeleton/
-├── defaults
-│   └── main.yml
-├── files
-├── handlers
-│   └── main.yml
-├── meta
-│   └── main.yml
-├── molecule
-│   └── default
-│       ├── converge.yml
-│       └── molecule.yml
-├── README.md
-├── tasks
-│   └── main.yml
-└── templates
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    └── roles/
+        └── role_skeleton/
+            ├── defaults/
+            │   └── main.yml
+            ├── files/
+            ├── handlers/
+            │   └── main.yml
+            ├── meta/
+            │   └── main.yml
+            ├── molecule/
+            │   └── default/
+            │       ├── converge.yml
+            │       └── molecule.yml
+            ├── README.md
+            ├── tasks/
+            │   └── main.yml
+            └── templates/
+    ```
 
 You need to define the following parameter in your custom `ansible.cfg`:
 

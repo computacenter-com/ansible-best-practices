@@ -17,34 +17,36 @@ Take a look at the [Development section](../development/git.md) for additional i
 
 ## Directory structure
 
-``` { .bash .no-copy }
-.
-├── ansible.cfg
-├── hosts
-├── k8s_install.yml
-├── README.md
-├── requirements.txt
-├── requirements.yml
-└── roles
-    ├── k8s_bootstrap
-    │   ├── files
-    │   │   ├── daemon.json
-    │   │   └── k8s.conf
-    │   ├── tasks
-    │   │   ├── install_kubeadm.yml
-    │   │   ├── main.yml
-    │   │   └── prerequisites.yml
-    │   └── templates
-    │       └── kubernetes.repo.j2
-    ├── k8s_control_plane
-    │   ├── files
-    │   │   └── kubeconfig.sh
-    │   └── tasks
-    │       └── main.yml
-    └── k8s_worker_nodes
-        └── tasks
-            └── main.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    treeView-beta
+    ├── ansible.cfg
+    ├── hosts
+    ├── k8s_install.yml
+    ├── README.md
+    ├── requirements.txt
+    ├── requirements.yml
+    └── roles/
+        ├── k8s_bootstrap/
+        │   ├── files/
+        │   │   ├── daemon.json
+        │   │   └── k8s.conf
+        │   ├── tasks/
+        │   │   ├── install_kubeadm.yml
+        │   │   ├── main.yml
+        │   │   └── prerequisites.yml
+        │   └── templates/
+        │       └── kubernetes.repo.j2
+        ├── k8s_control_plane/
+        │   ├── files/
+        │   │   └── kubeconfig.sh
+        │   └── tasks/
+        │       └── main.yml
+        └── k8s_worker_nodes/
+            └── tasks/
+                └── main.yml
+    ```
 
 ### Filenames
 
@@ -57,8 +59,9 @@ Use descriptive names that are human-readable and **do not shorten more than nec
 === "Good"
 
     !!! success ""
-        ``` { .bash .no-copy }
-        .
+
+        ``` mermaid
+        treeView-beta
         ├── ansible.cfg
         ├── hosts
         ├── k8s_install.yml
@@ -84,12 +87,15 @@ Use descriptive names that are human-readable and **do not shorten more than nec
                 └── tasks
                     └── main.yml
         ```
+
 === "Bad"
 
     !!! failure ""
+
         Playbook-name without underscores and wrong file extension, role folders or task files inconsistent, with underscores and wrong extension.
-        ``` { .bash .no-copy }
-        .
+
+        ``` mermaid
+        treeView-beta
         ├── ansible.cfg
         ├── hosts
         ├── k8s-install.yaml
@@ -143,6 +149,7 @@ Two spaces are used to indent everything, e.g. list items or dictionary keys.
 === "Bad"
 
     !!! failure ""
+
         Playbook with roles **not** indented by two whitespaces.
 
         ``` { .yaml .no-copy }
@@ -168,6 +175,7 @@ The so-called YAML "one-line" syntax is not used, neither for passing parameters
 === "Good"
 
     !!! success ""
+
         ```yaml
         --8<-- "example-install-package-from-repo-task.yml"
         ```
@@ -175,9 +183,11 @@ The so-called YAML "one-line" syntax is not used, neither for passing parameters
         ```yaml
         --8<-- "example-multiple-packages-install-task.yml"
         ```
+
 === "Bad"
 
     !!! failure ""
+
         Task with *One-line* syntax:
 
         ```{ .yaml .no-copy }
@@ -224,7 +234,9 @@ Use the `| bool` filter when using bare variables (expressions consisting of jus
 === "Good"
 
     !!! success ""
+
         Using a variable `upgrade_allowed` with the default value `false`, task is executed when overwritten with `true` value.
+
         ```yaml
         --8<-- "example-boolean-condition-task.yml"
         ```
@@ -232,6 +244,7 @@ Use the `| bool` filter when using bare variables (expressions consisting of jus
 === "Bad"
 
     !!! failure ""
+
         ```{ .yaml .no-copy }
         - name: Upgrade all packages, excluding kernel & foo related packages
           ansible.builtin.package:
@@ -520,10 +533,23 @@ This makes sure that required collections can be installed, if only the *ansible
 collections:
   - community.general
   - ansible.posix
-
-  - name: cisco.ios
-    version: '>=3.1.0'  
+  - cisco.ios
 ```
+
+??? tip "Add the collection source URL in case galaxy.ansible.com is down"
+
+    ```yaml
+    collections:
+        - name: ansible.posix
+          # source: https://github.com/ansible-collections/ansible.posix
+          # type: git
+        - name: containers.podman
+          version: 1.20.2
+          # source: https://github.com/containers/ansible-podman-collections
+          # type: git
+    ```
+
+    If Galaxy is unavailable, uncomment the `source` and `type` lines to install the collection directly from GitHub.
 
 Install all collections from the *requirements*-file:
 
@@ -531,7 +557,7 @@ Install all collections from the *requirements*-file:
 ansible-galaxy collection install -r requirements.yml
 ```
 
-If you want to install Collections directly from Git (circumventing Galaxy or Automation Hub) use the following configuration:
+If you want to install Collections not available on Galaxy or Automation Hub, use the following configuration:
 
 ```yaml
 collections:
@@ -542,6 +568,8 @@ collections:
 
 1. The Git-URL to the Collection content, ensure that you can pull/clone from this address without authentication. The collection name will be deduced from the `galaxy.yml` of the collection (the content is cloned to a temporary location and then installed as if done with the *ansible-galaxy* utility).
 2. The branch to use, if you want to test with a feature branch, adjust this.
+
+Take a look at the [Ansible documentation for all available options in the `requirements.yml` file](https://docs.ansible.com/projects/ansible/latest/collections_guide/collections_installing.html#install-multiple-collections-with-a-requirements-file){:target="_blank"}.
 
 ### Python packages
 
