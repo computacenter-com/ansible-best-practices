@@ -25,6 +25,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
 
 !!! info "Versioning"
     This guide is updated constantly, last update was {% if git.status %}**{{ git.date_ISO | truncate(10, true, '') }}**.{% else %}... not too long ago ... ;P (Git info not found){% endif %}  
+    Take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest updates.
 
 </div>
 
@@ -59,5 +60,5 @@ Those guidelines are **opinionated** and are based on the experience of many pro
 
 !!! success
     **If you have good and best practices yourself, please share them, we all can learn.**  
-    Open a [documentation request](https://github.com/computacenter-com/ansible-best-practices/issues/new/choose) or fork the repository and open a Pull Request afterwards.  
-    Take a look at our [Contributing guidelines](https://github.com/computacenter-com/ansible-best-practices/blob/main/.github/CONTRIBUTING.md) on how to setup a development environment and additional information.
+    Open a [documentation request](https://github.com/computacenter-com/ansible-best-practices/issues/new/choose){ target="_blank" } or fork the repository and open a Pull Request afterwards.  
+    Take a look at our [Contributing guidelines](https://github.com/computacenter-com/ansible-best-practices/blob/main/.github/CONTRIBUTING.md){ target="_blank" } on how to setup a development environment and additional information.
