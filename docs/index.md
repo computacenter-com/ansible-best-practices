@@ -23,9 +23,8 @@ Those guidelines are **opinionated** and are based on the experience of many pro
 !!! tip "Looking for something specific?"
     Use the **Search** at the top!
 
-!!! info "Versioning"
-    This guide is updated constantly, last update was {% if git.status %}**{{ git.date_ISO | truncate(10, true, '') }}**.{% else %}... not too long ago ... ;P (Git info not found){% endif %}  
-    Take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest updates.
+!!! info "Guide is updated constantly!"
+    Last update was {% if git.status %}on **{{ git.date_ISO | truncate(10, true, '') }}**{% else %}... not too long ago ... ;P (Git info not found){% endif %}, take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest updates.
 
 </div>
 
