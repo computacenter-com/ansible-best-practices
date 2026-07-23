@@ -132,7 +132,8 @@ link = "https://github.com/computacenter-com/ansible-best-practices/actions"
 name = "CI/CD Pipelines"
 
 [project.extra.status]
-new = "Recently added or updated"
+new = "Recently added"
+updated = "Recently updated"
 
 # ----------------------------------------------------------------------------
 # Markdown Extensions
