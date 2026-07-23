@@ -1,4 +1,5 @@
 ---
+status: updated
 icon: lucide/notebook-text
 ---
 
@@ -8,16 +9,75 @@ Variables are essential for reusable automation content. There are many ways to 
 
 ## Where to put variables
 
-I always store all my variables at the following **three** locations:
+Use the following locations for all **external** variables:
 
 * *group_vars* folder
 * *host_vars* folder
-* *defaults* folder in roles
 
-The *defaults*-folder contains only default values for all variables used by the role.
+All external variables should have default values defined in the *defaults*-folder of the role.
+If a default value is not useful or a role variable **must** be set by the user, use the `ansible.builtin.assert` module or other validations to ensure the playbook/role fails early with a useful message.  
+Take a look at the [validation section](#variable-validation) for additional information.
 
 Using `extra-vars` should be kept to a minimum. They overwrite everything else, even runtime vars (Variable set by `register` or `set_fact`), which can be quite surprising.  
 When using the **Automation Platform**, you can provide variables to *Job Templates* via *Survey*, these are basically `extra-vars` as well.
+
+### Variable folders
+
+Instead of using single files for the variables, **use folders** with the same name. All files below this folder will be loaded.
+
+=== "Good"
+    !!! success ""
+        !!! success inline end ""
+            All variables in all files under the `group_vars/all` folder are loaded, instead of having all variables in a single `group_vars/all.yml` file.  
+
+            The same goes for the `defaults/main` folder in the role, the variables from all files are loaded.
+
+        !!! quote ""
+
+            ``` mermaid
+            treeView-beta
+            ├── inventory
+            ├── group_vars/
+            │   └── all/ :::highlight
+            │       ├── connection.yml :::highlight
+            │       └── common.yml :::highlight
+            ├── README.md
+            ├── requirements.yml
+            └── roles/
+            └── minikube/
+                    ├── defaults/
+                    |   └── main/ :::highlight
+                    │       ├── configuration.yml :::highlight
+                    │       └── installation.yml :::highlight
+                    └── tasks/
+                        ├── download_minikube.yml
+                        ├── install_minikube.yml
+                        └── main.yml
+            ```
+
+=== "Bad"
+    !!! failure ""
+
+        !!! failure inline end ""
+            All variables need to be stored in `group_vars/all.yml` and the `defaults/main.yml` in the role, which makes the files big and confusing.
+        !!! quote ""
+
+            ``` mermaid
+            treeView-beta
+            ├── inventory
+            ├── group_vars/
+            │   └── all.yml :::highlight
+            ├── README.md
+            ├── requirements.yml
+            └── roles/
+            └── minikube/
+                    ├── defaults/
+                    |   └── main.yml :::highlight
+                    └── tasks/
+                        ├── download_minikube.yml
+                        ├── install_minikube.yml
+                        └── main.yml
+            ```
 
 ## Naming Variables
 
@@ -83,6 +143,26 @@ The variable name should be self-explanatory (*as brief as possible, as detailed
     If dealing/creating with structures like these, ensure that at least every item contains the same set of keys.
 
     **Aim for *flat* variables if possible.**
+
+Variables in roles are **prefixed** with the role name and `_role_*` to avoid collisions.
+
+=== "Good"
+    !!! success ""
+
+        ```yaml title="roles/minikube/defaults/main.yml"
+        minikube_role_download_directory: "{{ ansible_user_dir }}"
+        minikube_role_additional_start_parameter: "--cpus=4 --memory=6g --addons=ingress --container-runtime=containerd"
+        ```
+
+=== "Bad"
+    !!! failure ""
+
+        ``` { .yaml .no-copy title="roles/minikube/defaults/main.yml" }
+        download_directory: "{{ ansible_user_dir }}"
+        additional_start_parameter: "--cpus=4 --memory=6g --addons=ingress --container-runtime=containerd"
+        ```
+
+Use *default* values for variables in roles, stored in the role's `defaults` folder, so that thy can be overridden by the user.
 
 ## Referencing variables
 
