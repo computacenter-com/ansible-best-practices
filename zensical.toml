@@ -61,7 +61,8 @@ nav = [
 [project.theme]
 variant = "modern"
 
-custom_dir = "docs/assets/overrides"
+# Uncomment to display announcement banner
+# custom_dir = "docs/assets/overrides"
 
 logo = "assets/images/ansible-logo-black.png"
 favicon = "assets/images/ansible-logo-black.png"

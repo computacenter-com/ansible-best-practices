@@ -24,7 +24,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     Use the **Search** at the top!
 
 !!! info "Guide is updated constantly!"
-    Last update was {% if git.status %}on **{{ git.date_ISO | truncate(10, true, '') }}**{% else %}... not too long ago ... ;P (Git info not found){% endif %}, take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest updates.
+    Last update was {% if git.status %}on **{{ git.tag }}**{% else %}... not too long ago ... ;P (Git info not found){% endif %}, take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest changes.
 
 </div>
 
