@@ -54,8 +54,7 @@ nav = [
       {"Execution Environments" = "development/execution-environment.md"},
   ]},
 ]
-[project.extra.status]
-new = "Recently added"
+
 # ----------------------------------------------------------------------------
 # Section for configuring theme options
 # ----------------------------------------------------------------------------
@@ -131,6 +130,10 @@ name = "Original Repository"
 icon = "simple/githubactions"
 link = "https://github.com/computacenter-com/ansible-best-practices/actions"
 name = "CI/CD Pipelines"
+
+[project.extra.status]
+new = "Recently added"
+updated = "Recently updated"
 
 # ----------------------------------------------------------------------------
 # Markdown Extensions

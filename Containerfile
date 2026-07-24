@@ -15,14 +15,6 @@ COPY zensical.toml .
 # Build new documentation
 RUN zensical build --strict
 
-FROM python:3.14-alpine
-STOPSIGNAL SIGKILL
-RUN adduser -D docs
-USER docs
-WORKDIR /tmp
-# Only copying the generated documentation from the builder stage to reduce image size and leave out unused files and dependencies
-COPY --from=builder /tmp/site ./site
-EXPOSE 8080
-HEALTHCHECK CMD wget --no-verbose --tries=1 --spider http://localhost:8080 || exit 1
-# Run webserver
-CMD ["python", "-m", "http.server", "8080", "-d", "site/"]
+# Hardened image from https://images.redhat.com/?name=nginx
+FROM registry.access.redhat.com/hi/nginx:latest
+COPY --from=builder /tmp/site /usr/share/nginx/html

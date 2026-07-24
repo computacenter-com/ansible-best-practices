@@ -1,4 +1,5 @@
 ---
+status: updated
 icon: lucide/folder-git-2
 ---
 
@@ -322,7 +323,12 @@ ansible-config validate -t all # (1)!
     ```
 
 !!! tip
-    The following shows a couple of useful configuration settings, for a full view of all *base* settings use the [documentation](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#common-options){:target="_blank"}.
+    The following shows a couple of useful configuration settings, for a full view of all *base* settings use the [documentation](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#common-options){:target="_blank"}.  
+    **To create a new config file with all available (but commented) settings, use the following command**:
+
+    ```bash
+    ansible-config init -t all --disabled > ansible.cfg
+    ```
 
 ### Show check mode
 
