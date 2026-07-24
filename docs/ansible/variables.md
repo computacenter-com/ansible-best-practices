@@ -1,23 +1,113 @@
 ---
+status: updated
 icon: lucide/notebook-text
 ---
 
 # Variables
 
-Variables are essential for reusable automation content. There are many ways to provide variables and variables at different locations override each other. There are [22 levels of variable precedence](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence){:target="_blank"}.
+Variables are essential for reusable automation content. There are many ways to provide variables and variables at different locations override each other.
+Ansible has [22 levels of variable precedence](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence){:target="_blank"}, mostly used are the following.
+
+<div class="grid" markdown>
+
+```mermaid
+flowchart TD
+
+High@{ shape: sm-circ, label: "Highest precedence" }
+Low@{ shape: sm-circ, label: "Lowest precedence" }
+text@{ shape: text, label: "Extra Vars (22)<br>Registered/Set Facts (19)<br>Task Vars (17)<br>Block Vars (16)<br>Play Vars (12)<br>Inventory Host Vars (9)<br>Inventory Group Vars (6)<br>Group Vars all (4)<br>Role Defaults (2)" }
+
+subgraph textblock [" "]
+  text
+end
+
+subgraph arrowblock [" "]
+  direction TD
+  High -- "High<br> | <br>Low" ---> Low
+end
+
+classDef styling fill:none,stroke:none;
+class text,textblock,arrowblock styling;
+```
+
+<br>
+When setting a variable with the same name in different places Ansible loads every possible variable it finds, and then chooses the variable to apply **based on variable precedence**.
+The different **variables will override each other in a certain order**, this also applies to *behavioral parameters* which be set in the Ansible configuration, as command-line options, and using playbook keywords.  
+For example, you can define the user that Ansible uses to connect to remote devices as a variable with `ansible_user`, in a configuration file with `DEFAULT_REMOTE_USER`, as a command-line option with `-u`, and with the playbook keyword `remote_user`.
+
+</div>
 
 ## Where to put variables
 
-I always store all my variables at the following **three** locations:
+Use the following locations for all **external** variables:
 
 * *group_vars* folder
 * *host_vars* folder
-* *defaults* folder in roles
 
-The *defaults*-folder contains only default values for all variables used by the role.
+All external variables should have default values defined in the *defaults*-folder of the role.
+If a default value is not useful or a role variable **must** be set by the user, use the `ansible.builtin.assert` module or other validations to ensure the playbook/role fails early with a useful message.  
+Take a look at the [validation section](#variable-validation) for additional information.
 
 Using `extra-vars` should be kept to a minimum. They overwrite everything else, even runtime vars (Variable set by `register` or `set_fact`), which can be quite surprising.  
 When using the **Automation Platform**, you can provide variables to *Job Templates* via *Survey*, these are basically `extra-vars` as well.
+
+### Variable folders
+
+Instead of using single files for the variables, **use folders** with the same name. All files below this folder will be loaded.
+
+=== "Good"
+    !!! success ""
+        !!! success inline end ""
+            All variables in all files under the `group_vars/all` folder are loaded, instead of having all variables in a single `group_vars/all.yml` file.  
+
+            The same goes for the `defaults/main` folder in the role, the variables from all files are loaded.
+
+        !!! quote ""
+
+            ``` mermaid
+            treeView-beta
+            ├── inventory
+            ├── group_vars/
+            │   └── all/ :::highlight
+            │       ├── connection.yml :::highlight
+            │       └── common.yml :::highlight
+            ├── README.md
+            ├── requirements.yml
+            └── roles/
+            └── minikube/
+                    ├── defaults/
+                    |   └── main/ :::highlight
+                    │       ├── configuration.yml :::highlight
+                    │       └── installation.yml :::highlight
+                    └── tasks/
+                        ├── download_minikube.yml
+                        ├── install_minikube.yml
+                        └── main.yml
+            ```
+
+=== "Bad"
+    !!! failure ""
+
+        !!! failure inline end ""
+            All variables need to be stored in `group_vars/all.yml` and the `defaults/main.yml` in the role, which makes the files big and confusing.
+        !!! quote ""
+
+            ``` mermaid
+            treeView-beta
+            ├── inventory
+            ├── group_vars/
+            │   └── all.yml :::highlight
+            ├── README.md
+            ├── requirements.yml
+            └── roles/
+            └── minikube/
+                    ├── defaults/
+                    |   └── main.yml :::highlight
+                    └── tasks/
+                        ├── download_minikube.yml
+                        ├── install_minikube.yml
+                        └── main.yml
+            ```
 
 ## Naming Variables
 
@@ -83,6 +173,26 @@ The variable name should be self-explanatory (*as brief as possible, as detailed
     If dealing/creating with structures like these, ensure that at least every item contains the same set of keys.
 
     **Aim for *flat* variables if possible.**
+
+Variables in roles are **prefixed** with the role name and `_role_*` to avoid collisions.
+
+=== "Good"
+    !!! success ""
+
+        ```yaml title="roles/minikube/defaults/main.yml"
+        minikube_role_download_directory: "{{ ansible_user_dir }}"
+        minikube_role_additional_start_parameter: "--cpus=4 --memory=6g --addons=ingress --container-runtime=containerd"
+        ```
+
+=== "Bad"
+    !!! failure ""
+
+        ``` { .yaml .no-copy title="roles/minikube/defaults/main.yml" }
+        download_directory: "{{ ansible_user_dir }}"
+        additional_start_parameter: "--cpus=4 --memory=6g --addons=ingress --container-runtime=containerd"
+        ```
+
+Use *default* values for variables in roles, stored in the role's `defaults` folder, so that thy can be overridden by the user.
 
 ## Referencing variables
 
