@@ -5,7 +5,37 @@ icon: lucide/notebook-text
 
 # Variables
 
-Variables are essential for reusable automation content. There are many ways to provide variables and variables at different locations override each other. There are [22 levels of variable precedence](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence){:target="_blank"}.
+Variables are essential for reusable automation content. There are many ways to provide variables and variables at different locations override each other.
+Ansible has [22 levels of variable precedence](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence){:target="_blank"}, mostly used are the following.
+
+<div class="grid" markdown>
+
+```mermaid
+flowchart TD
+
+High@{ shape: sm-circ, label: "Highest precedence" }
+Low@{ shape: sm-circ, label: "Lowest precedence" }
+text@{ shape: text, label: "Extra Vars (22)<br>Registered/Set Facts (19)<br>Task Vars (17)<br>Block Vars (16)<br>Play Vars (12)<br>Inventory Host Vars (9)<br>Inventory Group Vars (6)<br>Group Vars all (4)<br>Role Defaults (2)" }
+
+subgraph textblock [" "]
+  text
+end
+
+subgraph arrowblock [" "]
+  direction TD
+  High -- "High<br> | <br>Low" ---> Low
+end
+
+classDef styling fill:none,stroke:none;
+class text,textblock,arrowblock styling;
+```
+
+<br>
+When setting a variable with the same name in different places Ansible loads every possible variable it finds, and then chooses the variable to apply **based on variable precedence**.
+The different **variables will override each other in a certain order**, this also applies to *behavioral parameters* which be set in the Ansible configuration, as command-line options, and using playbook keywords.  
+For example, you can define the user that Ansible uses to connect to remote devices as a variable with `ansible_user`, in a configuration file with `DEFAULT_REMOTE_USER`, as a command-line option with `-u`, and with the playbook keyword `remote_user`.
+
+</div>
 
 ## Where to put variables
 
