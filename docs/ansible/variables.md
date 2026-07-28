@@ -182,6 +182,11 @@ Instead of using single files for the variables, **use folders** with the same n
         !!! quote ""
 
             ``` mermaid
+            ---
+            config:
+              treeView:
+                rowIndent: 20
+            ---
             treeView-beta
             ├── inventory
             ├── group_vars/
@@ -210,6 +215,11 @@ Instead of using single files for the variables, **use folders** with the same n
         !!! quote ""
 
             ``` mermaid
+            ---
+            config:
+              treeView:
+                rowIndent: 20
+            ---
             treeView-beta
             ├── inventory
             ├── group_vars/

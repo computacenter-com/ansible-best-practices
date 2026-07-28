@@ -18,17 +18,24 @@ Take a look at the [Development section](../development/git.md) for additional i
 
 ## Directory structure
 
+The most basic directory structure for a *classic* Ansible project should look like the following, if your project should not be used as a collection itself.  
+
 !!! quote ""
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
-    ├── ansible.cfg
-    ├── hosts
-    ├── k8s_install.yml
+    ├── ansible.cfg ## # small configuration file, e.g. for setting the inventory or other callback plugins
+    ├── hosts ## # inventory file
+    ├── k8s_install.yml ## # main playbook file
     ├── README.md
-    ├── requirements.txt
-    ├── requirements.yml
-    └── roles/
+    ├── requirements.txt ## # Python dependencies
+    ├── requirements.yml ## # Collection dependencies
+    └── roles/ ## # roles directory containing ONLY folders with content
         ├── k8s_bootstrap/
         │   ├── files/
         │   │   ├── daemon.json
@@ -62,6 +69,11 @@ Use descriptive names that are human-readable and **do not shorten more than nec
     !!! success ""
 
         ``` mermaid
+        ---
+        config:
+          treeView:
+            rowIndent: 20
+        ---
         treeView-beta
         ├── ansible.cfg
         ├── hosts
@@ -96,6 +108,11 @@ Use descriptive names that are human-readable and **do not shorten more than nec
         Playbook-name without underscores and wrong file extension, role folders or task files inconsistent, with underscores and wrong extension.
 
         ``` mermaid
+        ---
+        config:
+          treeView:
+            rowIndent: 20
+        ---
         treeView-beta
         ├── ansible.cfg
         ├── hosts

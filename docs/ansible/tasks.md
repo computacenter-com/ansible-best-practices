@@ -10,6 +10,11 @@ Logically related tasks are to be separated into individual files, the `main.yml
 !!! quote ""
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     └── roles/
         └── k8s_bootstrap/

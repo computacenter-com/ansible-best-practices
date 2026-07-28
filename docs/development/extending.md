@@ -23,6 +23,11 @@ This creates the following structure:
 !!! quote ""
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     collections/
     └── ansible_collections/

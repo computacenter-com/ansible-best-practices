@@ -75,6 +75,11 @@ This would create the following directory:
 !!! quote ""
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     roles/
     └── demo/
@@ -107,6 +112,11 @@ Consider the following role skeleton, note the missing *vars* and *test* folder 
 !!! quote ""
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     └── roles/
         └── role_skeleton/
