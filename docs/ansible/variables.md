@@ -32,10 +32,127 @@ class text,textblock,arrowblock styling;
 
 <br>
 When setting a variable with the same name in different places Ansible loads every possible variable it finds, and then chooses the variable to apply **based on variable precedence**.
-The different **variables will override each other in a certain order**, this also applies to *behavioral parameters* which be set in the Ansible configuration, as command-line options, and using playbook keywords.  
+The different **variables will override each other in a certain order**, this also applies to *behavioral parameters* which can be set in the Ansible configuration, as command-line options, and using playbook keywords.  
 For example, you can define the user that Ansible uses to connect to remote devices as a variable with `ansible_user`, in a configuration file with `DEFAULT_REMOTE_USER`, as a command-line option with `-u`, and with the playbook keyword `remote_user`.
-
 </div>
+
+??? example "Example playbook and project directory structure with all possible variable locations"
+
+    !!! tip
+        **Do not use all of these locations!**  
+        Use `group_vars` and `host_vars` for **external variables**, at most use `block` and/or `task` vars and registered/`set_fact` vars for **internal/runtime variables**.
+
+    ```ini title="inventories/inventory.ini"
+    [web]
+    node1 demo="Inventory File Host variable (Level 8 of 22)"
+
+    [web:vars]
+    demo="Inventory File Group variable (Level 3 of 22)"
+    ```
+
+    ```bash
+    ansible-playbook -i inventories/inventory.ini -e 'demo="Extra Vars (Level 22 of 22)"'
+    ```
+
+    <div class="grid" markdown>
+
+    ```yaml
+    ---
+    - name: Demo playbook to show variable precedence
+      hosts: web
+      vars:
+        demo: "Play vars (Level 12 of 22)"
+      vars_prompt: # (1)!
+        - prompt: Input demo variable value
+          name: demo
+          default: "Play vars_prompt (Level 13 of 22)"
+      vars_files: # Level 14 of 22
+        - variable_file.yml # (2)!
+      tasks:
+        - name: Include variable file in playbook
+          ansible.builtin.include_vars: # Level 18 of 22
+            file: variable_file_include.yml # (3)!
+
+        - name: Defining block with variable
+          vars:
+            demo: "Block vars (Level 16 of 22)"
+          block:
+            - name: Show variable value with task var inside block
+              ansible.builtin.debug:
+                var: demo
+              vars:
+                demo: "Task vars (Level 17 of 22)"
+
+        - name: Include role with variable in playbook
+          ansible.builtin.include_role:
+            name: demo_role
+          vars:
+            demo: "Role (and include_role) params (Level 20 of 22)"
+
+        - name: Include task file with variable in playbook
+          ansible.builtin.include_tasks:
+            file: task_file_include.yml
+          vars:
+            demo: "Include params (Level 21 of 22) this "
+
+        - name: Set demo variable using set_fact in playbook
+          ansible.builtin.set_fact:
+            demo: "Registered vars and set_fact (Level 19 of 22)"
+    ```
+
+    1. **Do not use *interactive* variable input!**  
+         This prevents the easy usage with EEs, requires extensive variable validation, ...
+    2. Variable file included via `vars_files` in playbook, role or task file.
+
+        ```yaml
+        ---
+        demo: "Play vars_files (Level 14 of 22)"
+        ```
+    3. Variables included by using the `include_vars` module. Works like `vars_files`, but has a higher precedence (Level 18 instead of 14).
+
+        ```yaml
+        ---
+        demo: "include_vars (Level 18 of 22)"
+        ```
+
+    !!! quote ""
+
+        ``` mermaid
+        ---
+        config:
+          treeView:
+            rowIndent: 20
+        ---
+        treeView-beta
+        ├── ansible.cfg
+        ├── group_vars
+        │   ├── all.yml ## Playbook group_vars/all (Level 5 of 22)
+        │   └── web.yml ## Playbook group_vars/* (Level 7 of 22)
+        ├── host_vars
+        │   └── node1.yml ## Playbook host_vars/* (Level 10 of 22)
+        ├── inventories
+        │   ├── group_vars
+        │   │   ├── all.yml ## Inventory group_vars/all (Level 4 of 22)
+        │   │   └── web.yml ## Inventory group_vars/* (Level 6 of 22)
+        │   ├── host_vars
+        │   │   └── node1.yml ## Inventory host_vars/* (Level 9 of 22)
+        │   └── inventory.ini
+        ├── playbook.yml
+        ├── README.md
+        ├── roles
+        │   └── demo_role
+        │       ├── defaults
+        │       │   └── main.yml ## Role defaults (Level 2 of 22)
+        │       ├── tasks
+        │       │   └── main.yml
+        │       └── vars
+        │           └── main.yml ## Role vars (Level 15 of 22)
+        ├── task_file_include.yml
+        ├── variable_file_include.yml
+        └── variable_file.yml
+        ```
+
+    </div>
 
 ## Where to put variables
 
