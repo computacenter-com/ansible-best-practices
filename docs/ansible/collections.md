@@ -54,6 +54,11 @@ ansible-galaxy collection init computacenter.demo
 ??? quote "Expand to view the created collection skeleton"
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     computacenter/
     └── demo/
@@ -90,6 +95,11 @@ ansible-creator init collection computacenter.demo
 ??? quote "Expand to view the created collection skeleton"
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     ├── CHANGELOG.rst
     ├── CODE_OF_CONDUCT.md
@@ -195,6 +205,11 @@ Although collections are primarily intended to distribute roles, modules, and pl
 !!! quote "Collection structure with playbooks folder"
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+    ---
     treeView-beta
     computacenter/
     └── demo/

@@ -14,6 +14,11 @@ If you have multiple playbooks, create a new folder `playbooks` and store all pl
 !!! quote ""
 
     ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 30
+    ---
     treeView-beta
     ├── ansible.cfg
     ├── site.yml

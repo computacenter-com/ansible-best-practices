@@ -110,6 +110,11 @@ Depending on your project setup (*classic* role structure or collection), the Mo
     !!! quote ""
 
         ``` mermaid
+        ---
+        config:
+          treeView:
+            rowIndent: 20
+        ---
         treeView-beta
         roles/
         └── webserver_demo/
@@ -132,6 +137,11 @@ Depending on your project setup (*classic* role structure or collection), the Mo
     !!! quote ""
 
         ``` mermaid
+        ---
+        config:
+          treeView:
+            rowIndent: 20
+        ---
         treeView-beta
         .
         ├── README.md
