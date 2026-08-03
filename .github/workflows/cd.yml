@@ -1,5 +1,5 @@
 ---
-name: Deployment
+name: Github Pages Deployment
 on:
   release:
     types:

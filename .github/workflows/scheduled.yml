@@ -1,4 +1,4 @@
-name: Scheduled
+name: Scheduled links check
 on:
   workflow_dispatch:
   schedule:
