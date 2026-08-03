@@ -16,6 +16,6 @@ jobs:
         with:
           python-version: '3'
       - name: Run hooks with prek
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@v3.0.0
         env:
           SKIP: ${{ github.event_name == 'workflow_dispatch' && 'no-commit-to-branch' || '' }}
