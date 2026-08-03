@@ -2,7 +2,7 @@ name: Scheduled links check
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 7 * * 1'
+    - cron: '0 */1 * * *'
 jobs:
   md-dead-link-check:
     name: Check all links weekly
