@@ -1,14 +1,14 @@
 ---
-name: Create release
+name: Create release and deploy
 on:
   workflow_dispatch:
-permissions:
-  contents: write
 jobs:
   release:
     name: Create release from main
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -24,3 +24,12 @@ jobs:
               --title="${{ steps.release_tag_definition.outputs.release_tag }}" \
               --generate-notes \
               --fail-on-no-commits
+  call-deployment:
+    name: Deployment
+    needs: release
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+      packages: write
+    uses: ./.github/workflows/cd.yml
