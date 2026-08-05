@@ -4,11 +4,7 @@ on:
   release:
     types:
       - published
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-  packages: write
+  workflow_call:
 jobs:
   deploy:
     name: Deploy to GitHub Pages
@@ -16,6 +12,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+      packages: write
     steps:
       - name: Enable Pages and extract various metadata
         uses: actions/configure-pages@v6
