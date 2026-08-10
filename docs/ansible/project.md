@@ -80,23 +80,23 @@ Use descriptive names that are human-readable and **do not shorten more than nec
         ├── k8s_install.yml
         ├── README.md
         ├── requirements.yml
-        └── roles
-            ├── k8s_bootstrap
-            │   ├── files
+        └── roles/
+            ├── k8s_bootstrap/
+            │   ├── files/
             │   │   ├── daemon.json
             │   │   └── k8s.conf
-            │   ├── tasks
+            │   ├── tasks/
             │   │   ├── install_kubeadm.yml
             │   │   ├── main.yml
             │   │   └── prerequisites.yml
-            │   └── templates
+            │   └── templates/
             │       └── kubernetes.repo.j2
-            ├── k8s_control_plane
-            │   ├── files
+            ├── k8s_control_plane/
+            │   ├── files/
             │   │   └── kubeconfig.sh
-            │   └── tasks
+            │   └── tasks/
             │       └── main.yml
-            └── k8s_worker_nodes
+            └── k8s_worker_nodes/
                 └── tasks
                     └── main.yml
         ```
