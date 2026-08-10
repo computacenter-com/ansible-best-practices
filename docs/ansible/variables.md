@@ -196,7 +196,7 @@ Instead of using single files for the variables, **use folders** with the same n
             ├── README.md
             ├── requirements.yml
             └── roles/
-            └── minikube/
+                └── minikube/
                     ├── defaults/
                     |   └── main/ :::highlight
                     │       ├── configuration.yml :::highlight
@@ -227,7 +227,7 @@ Instead of using single files for the variables, **use folders** with the same n
             ├── README.md
             ├── requirements.yml
             └── roles/
-            └── minikube/
+                └── minikube/
                     ├── defaults/
                     |   └── main.yml :::highlight
                     └── tasks/
