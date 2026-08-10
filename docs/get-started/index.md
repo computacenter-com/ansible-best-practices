@@ -14,7 +14,7 @@ Use version control and follow a basic Git workflow. Use Pre-Commit to enforce c
 Decide on a proper naming convention and stick to it.
 
 * [Naming content](../ansible/project.md#filenames)
-* [Variable storage](../ansible/variables.md#where-to-put-variables)
+* [Variable storage](../ansible/variables.md#defining-variables)
 
 ## 3. Configure Ansible
 

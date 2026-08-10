@@ -154,7 +154,70 @@ For example, you can define the user that Ansible uses to connect to remote devi
 
     </div>
 
-## Where to put variables
+## Facts
+
+!!! tip inline end
+    **Facts can't be set manually or overwritten**.
+
+Ansible facts are data related to remote systems, including operating systems, IP addresses, attached filesystems, and more. The *facts* data is stored in the `ansible_facts` variable, **they can be used as any other variable**.  
+Facts are gathered by default at the beginning of a playbook run, but can be disabled with `gather_facts: false` in the playbook. Still, facts can be gathered at any time during a playbook run with the `ansible.builtin.setup` module or other, vendor-specific modules, e.g.
+
+* [`cisco.ios.ios_facts` for Cisco IOS devices](https://docs.ansible.com/projects/ansible/latest/collections/cisco/ios/ios_facts_module.html){:target="_blank"}
+* [`cisco.nxos.nxos_facts` for Cisco NX-OS devices](https://docs.ansible.com/projects/ansible/latest/collections/cisco/nxos/nxos_facts_module.html){:target="_blank"}
+* [`cisco.iosxr.iosxr_facts` for Cisco IOS-XR devices](https://docs.ansible.com/projects/ansible/latest/collections/cisco/iosxr/iosxr_facts_module.html){:target="_blank"}
+* [`arista.eos.eos_facts` for Arista EOS devices](https://docs.ansible.com/projects/ansible/latest/collections/arista/eos/eos_facts_module.html){:target="_blank"}
+* [`fortinet.fortimanager.fmgr_fact` for Fortinet FortiManager devices](https://docs.ansible.com/projects/ansible/latest/collections/fortinet/fortimanager/fmgr_fact_module.html){:target="_blank"}
+* ...
+
+The `setup` module in Ansible automatically discovers a standard set of facts about each host. If you want to add custom values to your facts, you can write a custom facts module. Take a look at the [Extending section](../development/extending.md#custom-facts).
+
+### set_fact module
+
+!!! warning
+    The name of the `ansible.builtin.set_fact` module is misleading, it **does not set actual facts (by default), it sets normal host-scoped variables**.
+
+The module allows to define host variables at runtime, for example to dynamically set variables based on the results of previous tasks.
+
+To set actual facts, use the `cacheable: true` parameter, **this actually creates 2 copies of the variable**, a normal host variable with high precedence and a lower `ansible_fact` one.
+
+<div class="grid" markdown>
+
+```yaml title="Set host-scoped variable"
+--8<-- "example-set-fact-task.yml"
+```
+
+1. The `omit` filter is used to avoid errors if the key does not exist in `ansible_facts`, which is the case when not using the `cacheable` parameter.
+
+```yaml title="Set host-scoped fact AND actual fact" hl_lines="3"
+--8<-- "example-set-fact-cacheable-task.yml"
+```
+
+</div>
+
+<div class="grid" markdown>
+
+```ansible-output
+TASK [Show variable value and ansible_facts content] ***
+ok: [localhost] => {
+    "msg": [
+        "Host vars: Best practices",
+        "Ansible facts: "
+    ]
+```
+
+```ansible-output
+TASK [Show variable value and ansible_facts content] ***
+ok: [localhost] => {
+    "msg": [
+        "Host vars: Best practices",
+        "Ansible facts: Best practices"
+    ]
+}
+```
+
+</div>
+
+## Defining variables
 
 Use the following locations for all **external** variables:
 

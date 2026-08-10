@@ -1,0 +1,10 @@
+- name: Set fact for demo variable
+  ansible.builtin.set_fact:
+    demo: "Best practices"
+
+
+- name: Show variable value and ansible_facts content
+  ansible.builtin.debug:
+    msg:
+      - "Host vars: {{ hostvars[inventory_hostname]['demo'] }}"
+      - "Ansible facts: {{ ansible_facts['demo'] | default(omit) }}" # (1)!
