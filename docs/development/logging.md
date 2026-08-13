@@ -172,7 +172,7 @@ ansible-navigator:
     save-as: "logs/{playbook_status}-{playbook_name}-{time_stamp}.json" # (5)!
 ```
 
-1. When the usage of [Execution Environments](../ansible/installation.md#execution-environments) is **disabled**, the **local** `ansible-core` binary is used.
+1. When the usage of [Execution Environments](../ansible/installation.md#execution-environments){ data-preview } is **disabled**, the **local** `ansible-core` binary is used.
 2. **This will only change the `stdout` format** from JSON to YAML, the log files are always in JSON format!
 3. Choose an appropriate log level from `info`, `warning`, `error`, `critical` up to `debug` here or use the CLI parameter, e.g. `--log-level debug`.
 4. This changes the Navigator mode from the `interactive` TUI to the *classic* `stdout` (as if using `ansible-playbook`).
@@ -333,7 +333,7 @@ Logs can (and should) be send to third-party external log aggregation services. 
 | <nobr>`system_tracking`</nobr> | Provides fact data gathered by Ansible setup module, when job templates are run **with** *Enable Fact Cache* selected. |
 | <nobr>`awx`</nobr>             | Provides generic server logs, which include logs that would normally be written to a file.                             |
 
-Take a look at the [Automation Platform section](../automation-platform/index.md) for additional information.
+Take a look at the [Automation Platform section](../automation-platform/index.md){ data-preview } for additional information.
 
 ## Specialised logging solution
 

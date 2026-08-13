@@ -169,7 +169,7 @@ Facts are gathered by default at the beginning of a playbook run, but can be dis
 * [`fortinet.fortimanager.fmgr_fact` for Fortinet FortiManager devices](https://docs.ansible.com/projects/ansible/latest/collections/fortinet/fortimanager/fmgr_fact_module.html){:target="_blank"}
 * ...
 
-The `setup` module in Ansible automatically discovers a standard set of facts about each host. If you want to add custom values to your facts, you can write a custom facts module. Take a look at the [Extending section](../development/extending.md#custom-facts).
+The `setup` module in Ansible automatically discovers a standard set of facts about each host. If you want to add custom values to your facts, you can write a custom facts module. Take a look at the [Extending section](../development/extending.md#custom-facts){ data-preview }.
 
 ### set_fact module
 
@@ -622,7 +622,7 @@ repos:
         - id: check-vault-files
 ```
 
-Take a look at the [development section](../development/linting.md#git-pre-commit-hook) for additional information.
+Take a look at the [development section](../development/linting.md#git-pre-commit-hook){ data-preview } for additional information.
 
 ## Variable validation
 
@@ -949,7 +949,7 @@ examplepassword: !unsafe 234%234{435lkj{{lkjsdf
 !!! abstract
     When handling values returned by lookup plugins, Ansible uses a data type called `unsafe` to block templating. Marking data as unsafe prevents malicious users from abusing Jinja2 templates to execute arbitrary code on target machines. The Ansible implementation `!unsafe` ensures that these values are never templated. You can use the same unsafe data type in variables you define, to prevent templating errors and information disclosure.
 
-For complex variables such as hashes or arrays, use `!unsafe` on the individual elements, take a look at [this example for AWX/AAP automation](../automation-platform/credentials.md#automation-and-templating).
+For complex variables such as hashes or arrays, use `!unsafe` on the individual elements, take a look at [this example for AWX/AAP automation](../automation-platform/credentials.md#automation-and-templating){ data-preview }.
 
 For Jinja2 templates this behavior can be achieved with the `{% raw %}` and `{% endraw %}` tags.  
 Consider the following *template* where *name_of_receiver_group* should be replaced with a variable you set elsewhere, but *details* contains stuff which should stay as it is:

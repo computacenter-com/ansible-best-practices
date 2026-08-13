@@ -108,7 +108,7 @@ Define at least the definition file for the Execution Environment and other file
 
 For more information, go to the [Ansible Builder Documentation](https://docs.ansible.com/projects/builder/en/stable/definition/){ target=_blank }.
 
-The `requirements.*` files should already be part of the [project directory](../ansible/project.md#dependencies), add the `execution-environment.yml` to the project root directory as well.
+The `requirements.*` files should already be part of the [project directory](../ansible/project.md#dependencies){ data-preview }, add the `execution-environment.yml` to the project root directory as well.
 
 ## Build EE image
 
@@ -144,7 +144,7 @@ localhost/custom-ee               latest    39466794b6cd   6 minutes ago        
 
     1. The parameter `--ee false` seems counter-intuitive at first, but is necessary to run locally. Without it, the Navigator tries to download the `ghcr.io/ansible/community-ansible-dev-tools:latest` image.
 
-Once, the EE image is built, execute it with [Ansible Navigator](../ansible/execution.md#execute-with-ansible-navigator) or push it to a container registry and use it in AAP/AWX.
+Once, the EE image is built, execute it with [Ansible Navigator](../ansible/execution.md#execute-with-ansible-navigator){ data-preview } or push it to a container registry and use it in AAP/AWX.
 
 ## Possible EE build errors
 

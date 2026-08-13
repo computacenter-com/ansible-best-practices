@@ -14,7 +14,7 @@ Keep your playbooks and inventory file in git (or another version control system
 !!! tip
     Always use version control!
 
-Take a look at the [Development section](../development/git.md) for additional information.
+Take a look at the [Development section](../development/git.md){ data-preview } for additional information.
 
 ## Directory structure
 
@@ -408,7 +408,7 @@ Even if you don't set this, the path is displayed automatically for every task w
 
 ### Silence warnings about no inventory or localhost
 
-Ansible will issue a warning when [no inventory](../ansible/inventory.md#no-inventory) was loaded and notes that it will use an implicit localhost-only inventory. Additionally, when running against localhost only (for example, when automating against API endpoints), you'll receive a warning as well.
+Ansible will issue a warning when [no inventory](../ansible/inventory.md#no-inventory){ data-preview } was loaded and notes that it will use an implicit localhost-only inventory. Additionally, when running against localhost only (for example, when automating against API endpoints), you'll receive a warning as well.
 
 ``` { .ansible-output .no-copy }
 $ ansible-playbook aci_automation.yml
