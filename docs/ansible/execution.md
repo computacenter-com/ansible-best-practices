@@ -82,7 +82,7 @@ Use the following minimal configuration for the Navigator and store it in your p
 !!! tip inline end
     You can use `ansible-navigator` **without** Execution environments!  
 
-    Add `#!yaml enabled: false` under the `execution-environment` key to use the local `ansible-core` binary.
+    Add `enabled: false` under the `execution-environment` key to use the local `ansible-core` binary.
 
 ```yaml title="ansible-navigator.yml"
 ---

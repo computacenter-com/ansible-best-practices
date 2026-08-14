@@ -35,7 +35,7 @@ callbacks_enabled = ansible.posix.timer, ansible.posix.profile_tasks
 
 ??? example "Example output"
 
-    ```{ .ansible-output .no-copy .hl_lines='1'}
+    ``` { .ansible-output .no-copy hl_lines='6 10 21-42'}
     $ ansible-playbook -i inventory.ini create_workshop_environment.yml
 
     PLAY [Create Workshop environment] ****************************************************************************************************
@@ -135,7 +135,7 @@ cgexec -g memory:ansible_profile ansible-playbook playbook.yml
 
 ??? example "Example output"
 
-    ```{ .ansible-output .no-copy }
+    ``` { .ansible-output .no-copy }
     $ cgexec -g memory:ansible_profile ansible-playbook -i inventory.ini create_workshop_environment.yml
 
     PLAY [Create Workshop environment] ******************************************************
@@ -215,7 +215,7 @@ cgexec -g cpuacct,memory,pids:ansible_profile ansible-playbook playbook.yml
 
 ??? example "Example output"
 
-    ```{ .ansible-output .no-copy }
+    ``` { .ansible-output .no-copy }
     $ cgexec -g cpuacct,memory,pids:ansible_profile ansible-playbook -i inventory.ini create_workshop_environment.yml
 
     PLAY [Create Workshop environment] *****************************************************************************
