@@ -4,47 +4,47 @@ This topic is split into multiple sections, each section covers a different aspe
 
 <div class="grid cards" markdown>
 
-* :lucide-monitor-cog: &nbsp; [**Installation**](installation.md){ data-preview }
+* :lucide-monitor-cog: &nbsp; [**Installation**](installation.md)
 
     ---
     How to install Ansible and other tools.
 
-* :lucide-folder-git-2: &nbsp; [**Project**](project.md){ data-preview }
+* :lucide-folder-git-2: &nbsp; [**Project**](project.md)
 
     ---
     Your Ansible project, version control, configuration, dependencies and more
 
-* :lucide-server: &nbsp; [**Inventory**](inventory.md){ data-preview }
+* :lucide-server: &nbsp; [**Inventory**](inventory.md)
 
     ---
     How to define your inventory and target hosts
 
-* :lucide-book-a: &nbsp; [**Playbook**](playbook.md){ data-preview }
+* :lucide-book-a: &nbsp; [**Playbook**](playbook.md)
 
     ---
     Structure your automation, how to separate playbooks and plays
 
-* :lucide-boxes: &nbsp; [**Collections**](collections.md){ data-preview }
+* :lucide-boxes: &nbsp; [**Collections**](collections.md)
 
     ---
     A distribution format for Ansible content that can contain playbooks, roles, modules, and plugins
 
-* :lucide-square-stack: &nbsp; [**Roles**](roles.md){ data-preview }
+* :lucide-square-stack: &nbsp; [**Roles**](roles.md)
 
     ---
     A best practice in itself, including how to create and fill the role folder
 
-* :lucide-list-ordered: &nbsp; [**Tasks**](tasks.md){ data-preview }
+* :lucide-list-ordered: &nbsp; [**Tasks**](tasks.md)
 
     ---
     Everything about tasks, module usage, tags, loops and filters
 
-* :lucide-notebook-text: &nbsp; [**Variables**](variables.md){ data-preview }
+* :lucide-notebook-text: &nbsp; [**Variables**](variables.md)
 
     ---
     All about variables, where to store them, naming conventions and encryption
 
-* :lucide-rocket: &nbsp; [**Execution**](execution.md){ data-preview }
+* :lucide-rocket: &nbsp; [**Execution**](execution.md)
 
     ---
     How to run your Ansible content, from CLI to Execution Environments

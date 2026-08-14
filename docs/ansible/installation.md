@@ -238,7 +238,7 @@ To build an EE, install `ansible-builder` from the Python Package Manager:
 pip3 install ansible-builder
 ```
 
-Take a look at the [Development section](../development/execution-environment.md#build-ee-image) on how to build a new Execution Environment image.  
+Take a look at the [Development section](../development/execution-environment.md#build-ee-image){ data-preview } on how to build a new Execution Environment image.  
 
 ### Ansible Runner
 

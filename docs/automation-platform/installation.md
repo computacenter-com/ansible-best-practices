@@ -1,22 +1,22 @@
 ---
+status: updated
 icon: lucide/server-cog
 ---
 
 # AAP Installation
 
-!!! tip
-    Currently (Q2 2026), three different methods to install AAP are available:
+The Ansible Automation Platform (AAP) can be installed **containerized** (with Podman on RHEL) or via **Operator** (on RedHat OpenShift).  
+Depending on the environment and requirements, different *deployment models* can be used, from a single host (*Growth Topology*) to multiple hosts with high availability (*Enterprise Topology*).
 
-    1. RPM (on RHEL)
-    2. Containerized (with Podman on RHEL)
-    3. Operator (on RedHat OpenShift)
+!!! info
 
-    **The RPM-based method is deprecated**, use the *Containerized* method (or Operator).  
+    The Ansible Automation Platform **RPM** installer was deprecated in 2.5 and removed in Ansible Automation Platform 2.7.  
+    Take a look at the [migration guide in the Red Hat documentation](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/migrate-migrate_from_existing_deployment_topologies){:target="_blank".} to learn about supported migration paths.
 
-To *plan* the Automation Platform installation refer to the [Red Hat documentation](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/plan-assembly_overview_tested_deployment_models)!  
+To *plan* the Automation Platform installation refer to the [Red Hat documentation](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/plan-assembly_overview_tested_deployment_models)!  
 The following shows examples from a *containerized* installation.
 
-The [containerized inventory growth topology](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/plan-ref_cont_a_env_a){:target="_blank".} installs all the components and services on a single machine, whereas the [containerized enterprise topology](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/plan-ref_cont_b_env_a){:target="_blank".} splits these components and services across multiple machines.
+The [containerized inventory growth topology](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/plan-ref_cont_a_env_a){:target="_blank".} installs all the components and services on a single machine, whereas the [containerized enterprise topology](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/plan-ref_cont_b_env_a){:target="_blank".} splits these components and services across multiple machines.
 
 The Ansible Automation Platform is installed (on RHEL) via Ansible, it requires an `inventory` file which differs slightly for RPM and containerized installation
 

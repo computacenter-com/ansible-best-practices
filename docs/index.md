@@ -24,33 +24,33 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     Use the **Search** at the top!
 
 !!! info "Guide is updated constantly!"
-    Last update was {% if git.status %}on **{{ git.tag | replace('.', '-') }}**{% else %}... not too long ago ... ;P (Git info not found){% endif %}, take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest changes.
+    Last update was <% if git.status %>on **<< git.tag | replace('.', '-') >>**<% else %>... not too long ago ... ;P (Git info not found)<% endif %>, take a look at the [release notes](https://github.com/computacenter-com/ansible-best-practices/releases/latest){ target="_blank" } for the latest changes.
 
 </div>
 
 <div class="grid cards" markdown>
 
-* :material-lightbulb: &nbsp; [**Mindset**](mindset/index.md){ data-preview }
+* :material-lightbulb: &nbsp; [**Mindset**](mindset/index.md)
 
     ---
     The *Zen of Ansible*, some guiding principles to keep in mind when automating with Ansible.
 
-* :material-new-box: &nbsp; [**Get started**](get-started/index.md){ data-preview }
+* :material-new-box: &nbsp; [**Get started**](get-started/index.md)
 
     ---
     Starting a new automation project? A step-by-step guide to set up everything for a successful Ansible project.
 
-* :material-ansible: &nbsp; [**Ansible**](ansible/index.md){ data-preview }
+* :material-ansible: &nbsp; [**Ansible**](ansible/index.md)
 
     ---
     Tips & Tricks for Ansible, from installation and project setup, roles and collections, up to tasks and variables.
 
-* :material-code-tags: &nbsp; [**Ansible Development**](development/index.md){ data-preview }
+* :material-code-tags: &nbsp; [**Ansible Development**](development/index.md)
 
     ---
     Developing, testing, logging and troubleshooting Ansible content. Things to consider when your project is making progress.
 
-* :fontawesome-brands-redhat: &nbsp; [**Ansible Automation Platform**](automation-platform/index.md){ data-preview }
+* :fontawesome-brands-redhat: &nbsp; [**Ansible Automation Platform**](automation-platform/index.md)
 
     ---
     Useful things when your project reaches production level or you are the Administrator of AAP.

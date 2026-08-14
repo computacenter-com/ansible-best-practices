@@ -139,56 +139,79 @@ updated = "Recently updated"
 # ----------------------------------------------------------------------------
 # Markdown Extensions
 # ----------------------------------------------------------------------------
-# https://zensical.org/docs/setup/extensions/python-markdown/#abbreviations
 [project.markdown_extensions.abbr]
-# https://zensical.org/docs/setup/extensions/python-markdown/#admonition
+# https://zensical.org/docs/authoring/content-tabs/#content-tabs
+
 [project.markdown_extensions.admonition]
-# https://zensical.org/docs/setup/extensions/python-markdown/#attribute-lists
+# https://zensical.org/docs/setup/extensions/python-markdown/#admonition
+
 [project.markdown_extensions.attr_list]
-# https://zensical.org/docs/setup/footer/#configuration
-[project.markdown_extensions.footnotes]
-# https://zensical.org/docs/setup/extensions/python-markdown/#markdown-in-html
+# https://zensical.org/docs/setup/extensions/python-markdown/#attribute-lists
+
 [project.markdown_extensions.md_in_html]
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#caption
+# https://zensical.org/docs/setup/extensions/python-markdown/#markdown-in-html
+
+# ----------------------------------------------------------------------------
+# Markdown Extensions PyMdownX
+# ----------------------------------------------------------------------------
 [project.markdown_extensions.pymdownx.blocks.caption]
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#details
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#caption
+
 [project.markdown_extensions.pymdownx.details]
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#emoji
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#details
+
 [project.markdown_extensions.pymdownx.emoji]
-emoji_index = "zensical.extensions.emoji.twemoji"
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#emoji
 emoji_generator = "zensical.extensions.emoji.to_svg"
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#highlight
+emoji_index = "zensical.extensions.emoji.twemoji"
+
 [project.markdown_extensions.pymdownx.highlight]
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#highlight
 anchor_linenums = true
 line_spans = "__span"
 linenums_style = "pymdownx-inline"
 pygments_lang_class = true
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#inlinehilite
+
 [project.markdown_extensions.pymdownx.inlinehilite]
-# https://zensical.org/docs/authoring/formatting/#add-keyboard-keys
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#inlinehilite
+
 [project.markdown_extensions.pymdownx.keys]
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#snippets
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#keys
+
 [project.markdown_extensions.pymdownx.snippets]
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#snippets
 auto_append = ["includes/abbreviations.md"]
 base_path = [".", "docs/ansible/snippets", "docs/automation-platform/snippets"]
-# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#superfences
+
 [project.markdown_extensions.pymdownx.superfences]
-custom_fences = [
-  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }
-]
-# https://zensical.org/docs/authoring/content-tabs/#content-tabs
+# https://zensical.org/docs/setup/extensions/python-markdown-extensions/#superfences
+custom_fences = [{ name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }]
+
 [project.markdown_extensions.pymdownx.tabbed]
+# https://zensical.org/docs/authoring/content-tabs/#content-tabs
 alternate_style = true
-# https://zensical.org/docs/setup/extensions/macros/#macros
+
+# ----------------------------------------------------------------------------
+# Markdown Extensions Zensical
+# ----------------------------------------------------------------------------
 [project.markdown_extensions.zensical.extensions.macros]
-# https://zensical.org/docs/setup/navigation/#instant-previews
+# https://zensical.org/docs/setup/extensions/macros/#macros
+on_undefined = "strict"
+j2_block_start_string = "<%"
+j2_block_end_string = "%>"
+j2_variable_start_string = "<<"
+j2_variable_end_string = ">>"
+j2_comment_start_string = "<#"
+j2_comment_end_string = "#>"
+
 [project.markdown_extensions.zensical.extensions.preview]
+# https://zensical.org/docs/setup/navigation/#instant-previews
 configurations = [
-    { targets.include = [
-        "ansible/*",
-        "automation-platform/*",
-        "development/*",
-        "get-started/*",
-        "mindset/*"
-    ]}
+  { sources.include = [
+    "index.md",
+    "get-started/index.md",
+    "ansible/index.md",
+    "automation-platform/index.md",
+    "development/index.md"
+    ]},
 ]

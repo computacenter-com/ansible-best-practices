@@ -155,7 +155,7 @@ There are already loads of [inventory plugins](https://docs.ansible.com/ansible/
 
 ### Custom dynamic inventory
 
-In case no suitable inventory plugin exists, you can easily write your own. Take a look at the [Ansible Development - Extending](../development/extending.md#inventory-plugins) section for additional information.
+In case no suitable inventory plugin exists, you can easily write your own. Take a look at the [Ansible Development - Extending](../development/extending.md#inventory-plugins){ data-preview } section for additional information.
 
 ## In-Memory Inventory
 
@@ -249,7 +249,7 @@ Take a look at the following example, the first *play* creates a couple of Conta
 ## No inventory
 
 An inventory is not always necessary, depending on your use-case and the modules used.  
-For example, network modules do not run on the managed nodes (as, in most cases, they do not have a usable Python interpreter), they are executed on the Ansible control node. Therefore, you'll need to use the `local` connection method running against `localhost`. The module itself handles the connection, mostly you'll need to provide the endpoint, username, password, certificate validation, etc. in every task (take a look at the [module_defaults section](../ansible/playbook.md#module-defaults) to simplify this).  
+For example, network modules do not run on the managed nodes (as, in most cases, they do not have a usable Python interpreter), they are executed on the Ansible control node. Therefore, you'll need to use the `local` connection method running against `localhost`. The module itself handles the connection, mostly you'll need to provide the endpoint, username, password, certificate validation, etc. in every task (take a look at the [module_defaults section](../ansible/playbook.md#module-defaults){ data-preview } to simplify this).  
 
 Still, it can be useful to provide a small inventory to have a ***named* target for a cleaner output**.
 
@@ -322,7 +322,7 @@ Still, it can be useful to provide a small inventory to have a ***named* target 
         ```
 
         **The output shows `localhost` as the target, although that is not the actual target...**  
-        Additionally, **warnings are shown** when not providing an inventory **and** running against localhost. Take a look at the [configuration section](../ansible/project.md#silence-warnings-about-no-inventory-or-localhost) on how to deal with those.
+        Additionally, **warnings are shown** when not providing an inventory **and** running against localhost. Take a look at the [configuration section](../ansible/project.md#silence-warnings-about-no-inventory-or-localhost){ data-preview } on how to deal with those.
 
     </div>
 

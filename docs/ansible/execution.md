@@ -64,7 +64,7 @@ Ansible runs the play sections in the following order:
 
         !!! tip "Do not mix tasks and roles"
 
-            [All tasks should kept in roles](../ansible/roles.md).  
+            [All tasks should kept in roles](../ansible/roles.md){ data-preview }.  
             For single additional tasks in a play, use the `pre_tasks` section.
 
 ## Execute with Ansible Navigator
@@ -75,7 +75,7 @@ AAP or AWX use container images to package the Python Runtime, Ansible installat
 
 The *Ansible (Content) Navigator* is a command-line tool and a text-based user interface (TUI) for creating, reviewing, running and troubleshooting Ansible content, including inventories, playbooks, collections, documentation and container images (execution environments).  
 
-Take a look at the [Installation section](installation.md#ansible-navigator) on how to install the utility and dependencies and the [Development section](../development/execution-environment.md#build-ee-image) on how to build a custom EE image.
+Take a look at the paragraph [Installation](installation.md#ansible-navigator) on how to install the utility and dependencies and the topic [Ansible Development > Execution Environments](../development/execution-environment.md#build-ee-image){ data-preview } on how to build a custom EE image.
 
 Use the following minimal configuration for the Navigator and store it in your project root directory:
 
@@ -101,7 +101,7 @@ ansible-navigator:
 ```
 
 1. Specifies the name of the execution environment image to use, change this, if you want to use your own. The *pull policy* will download the image if it is not already present (this also means no updated images will be downloaded!).  
-To build and use your own Execution Environment take a look at the section [Installation > Execution Environments](installation.md#execution-environments).
+To build and use your own Execution Environment take a look at the chapter [Installation > Execution Environments](installation.md#execution-environments).
 2. Specifies the user-interface mode, with `stdout` it will output to standard-out as with the usual `ansible-playbook` command. Use `interactive` to use the TUI. You can provide the CLI-parameter `-m` or `--mode` to overwrite the configuration.
 3. Specifies the name for artifacts created from completed playbooks. For example, for a successful run of the `site.yml` playbook a log file like `logs/successful-site-2023-11-01T12:20:20.907856+00:00.json`. For failed runs it would be `logs/failed-site-2023-11-01T12:29:17.020432+00:00.json`. With the *replay* command, you now can observe output of previous playbook runs, e.g. `ansible-navigator replay logs/failed-site-2023-11-01T12\:29\:33.129179+00\:00.json`.
 
@@ -139,7 +139,7 @@ Use the [official Ansible Navigator Documentation](https://ansible.readthedocs.i
     logs/
     ```
 
-    Take a look at the [Logging section](../development/logging.md#logging-with-ansible-navigator) for additional information.
+    Take a look at the [Logging section](../development/logging.md#logging-with-ansible-navigator){ data-preview } for additional information.
 
 Executing a playbook with the Navigator is as easy as before, just run it like this:
 

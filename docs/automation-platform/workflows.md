@@ -4,7 +4,7 @@ icon: lucide/workflow
 
 # Workflows
 
-[Workflows](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/using_automation_execution/controller-workflow-job-templates){:target="_blank"}  link together a sequence of disparate resources like [Job templates](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/using_automation_execution/controller-job-templates){:target="_blank"}, other Workflow job templates, [Project syncs](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/using_automation_execution/controller-projects){:target="_blank"} or [Inventory source syncs](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/using_automation_execution/controller-jobs#controller-inventory-sync-jobs_jobs-in-controller){:target="_blank"}.
+[Workflows](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/develop-assembly_ug_controller_workflow_job_templates){:target="_blank"}  link together a sequence of disparate resources like [Job templates](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/develop-assembly_ug_controller_job_templates){:target="_blank"}, other Workflow job templates, [Project syncs](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/develop-ref_projects_manage_playbooks_with_source_control#proc-controller-updating-a-project){:target="_blank"} or [Inventory source syncs](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/develop-con_controller_inventory_sync_jobs){:target="_blank"}.
 
 ## Variables across workflow steps
 
