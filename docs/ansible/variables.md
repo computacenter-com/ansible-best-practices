@@ -517,7 +517,7 @@ The `ansible.builtin.debug` module on the other hand is a bad example, it will o
         ??? info "Output of playbook run"
             Using the *stdout_callback: community.general.yaml* for better readability, see [Ansible configuration](project.md#ansible-configuration){:target="_blank"} for more info.  
 
-            ``` { .ansible-output .no-copy .hl_lines="22" }
+            ``` { .ansible-output .no-copy hl_lines="22" }
             $ ansible-playbook nolog.yml -v
 
             [...]
@@ -583,7 +583,7 @@ The `ansible.builtin.debug` module on the other hand is a bad example, it will o
 
         ??? info "Output of playbook run"
 
-            ``` { .ansible-output .no-copy .hl_lines="22" }
+            ``` { .ansible-output .no-copy hl_lines="22" }
             $ ansible-playbook nolog.yml -v
 
             [...]
@@ -694,9 +694,9 @@ Take a look at the following example.
     ```
     { .annotate }
 
-    1. This is an optional field, as you can in the [JSON Schema](#__tabbed_5_2) definition in line 47
-    2. That is not a FQDN! The [JSON Schema](#__tabbed_5_2) definition validates that it is (line 17), as well as checking if the required domain is used.
-    3. The memory value is expected to be a string, prefixed with GB. The [JSON Schema](#__tabbed_5_2) definition (line 34) ensures the correct type and prefix.
+    1. This is an optional field, as you can in the [JSON Schema](#__tabbed_7_2) definition in line 47
+    2. That is not a FQDN! The [JSON Schema](#__tabbed_7_2) definition validates that it is (line 17), as well as checking if the required domain is used.
+    3. The memory value is expected to be a string, prefixed with GB. The [JSON Schema](#__tabbed_7_2) definition (line 34) ensures the correct type and prefix.
 
 === "JSON Schema"
 
@@ -786,7 +786,7 @@ pip3 install jsonschema
 
 ??? example "Playbook output showing validation errors"
 
-    ```{ .ansible-output .hl_lines="11 12 22 23" .no-copy }
+    ``` { .ansible-output hl_lines="11 12 22 23" .no-copy }
     TASK [Variable file validation] ****************************************************************************************
     fatal: [localhost]: FAILED! =>
         changed: false

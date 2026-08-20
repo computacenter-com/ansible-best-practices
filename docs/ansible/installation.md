@@ -105,14 +105,14 @@ Most OS package managers like *apt* or *yum* also provide the `ansible-core` or 
 ??? example "Installing Ansible with OS package manager"
     Even in fairly recent distributions the Ansible versions are not up to date:
 
-    ``` { .bash .no-copy .title="Python package manager" .hl_lines="3" }
+    ``` { .bash .no-copy .title="Python package manager" hl_lines="3" }
     $ pip3 show ansible-core
     Name: ansible-core
     Version: 2.14.3
     ...
     ```
 
-    ``` { .bash .no-copy .title="RockyLinux 8.7 (RHEL 8)" .hl_lines="4" }
+    ``` { .bash .no-copy .title="RockyLinux 8.7 (RHEL 8)" hl_lines="4" }
     $ dnf info ansible-core
     Available Packages
     Name         : ansible-core
@@ -125,7 +125,7 @@ Most OS package managers like *apt* or *yum* also provide the `ansible-core` or 
     ...
     ```
 
-    ``` { .bash .no-copy .title="Ubuntu 22.04" .hl_lines="3" }
+    ``` { .bash .no-copy .title="Ubuntu 22.04" hl_lines="3" }
     $ apt info ansible-core
     Package: ansible-core
     Version: 2.12.0-1ubuntu0.1
