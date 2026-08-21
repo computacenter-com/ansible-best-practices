@@ -122,6 +122,12 @@ For example, you can define the user that Ansible uses to connect to remote devi
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+                .ini: file-type-config
+                .md: file-type-markdown
+                .yml: file-type-light-yaml-official
         ---
         treeView-beta
         ├── ansible.cfg
@@ -249,6 +255,11 @@ Instead of using single files for the variables, **use folders** with the same n
             config:
               treeView:
                 rowIndent: 20
+                defaultIconPack: vscode-icons
+                showIcons: true
+                extensionIcons:
+                    .md: file-type-markdown
+                    .yml: file-type-light-yaml-official
             ---
             treeView-beta
             ├── inventory
@@ -282,6 +293,11 @@ Instead of using single files for the variables, **use folders** with the same n
             config:
               treeView:
                 rowIndent: 20
+                defaultIconPack: vscode-icons
+                showIcons: true
+                extensionIcons:
+                  .md: file-type-markdown
+                  .yml: file-type-light-yaml-official
             ---
             treeView-beta
             ├── inventory

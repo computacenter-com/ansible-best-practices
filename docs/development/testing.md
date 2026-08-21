@@ -114,6 +114,12 @@ Depending on your project setup (*classic* role structure or collection), the Mo
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+              .j2: file-type-jinja
+              .md: file-type-markdown
+              .yml: file-type-light-yaml-official
         ---
         treeView-beta
         roles/
@@ -127,7 +133,7 @@ Depending on your project setup (*classic* role structure or collection), the Mo
             ├── tasks/
             │   └── main.yml
             └── templates/
-                └── index.html
+                └── index.html.j2
         ```
 
 !!! abstract "Collection"
@@ -141,6 +147,12 @@ Depending on your project setup (*classic* role structure or collection), the Mo
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+              .j2: file-type-jinja
+              .md: file-type-markdown
+              .yml: file-type-light-yaml-official
         ---
         treeView-beta
         .

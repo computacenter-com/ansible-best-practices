@@ -17,7 +17,12 @@ If you have multiple playbooks, create a new folder `playbooks` and store all pl
     ---
     config:
       treeView:
-        rowIndent: 30
+        rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .cfg: file-type-config
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     ├── ansible.cfg

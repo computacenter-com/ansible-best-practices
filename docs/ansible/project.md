@@ -26,6 +26,18 @@ The most basic directory structure for a *classic* Ansible project should look l
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        filenameIcons:
+          hosts: file-type-config
+          requirements.txt: file-type-pypi
+        extensionIcons:
+          .cfg: file-type-config
+          .j2: file-type-jinja
+          .json: file-type-json
+          .md: file-type-markdown
+          .sh: file-type-shell
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     ├── ansible.cfg ## # small configuration file, e.g. for setting the inventory or other callback plugins
@@ -72,6 +84,15 @@ Use descriptive names that are human-readable and **do not shorten more than nec
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+              .conf: file-type-config
+              .j2: file-type-jinja
+              .json: file-type-json
+              .md: file-type-markdown
+              .sh: file-type-shell
+              .yml: file-type-light-yaml-official
         ---
         treeView-beta
         ├── ansible.cfg
@@ -111,6 +132,15 @@ Use descriptive names that are human-readable and **do not shorten more than nec
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+              .conf: file-type-config
+              .j2: file-type-jinja
+              .json: file-type-json
+              .md: file-type-markdown
+              .sh: file-type-shell
+              .yml: file-type-light-yaml-official
         ---
         treeView-beta
         ├── ansible.cfg
