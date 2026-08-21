@@ -14,6 +14,15 @@ Logically related tasks are to be separated into individual files, the `main.yml
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+            .conf: file-type-config
+            .j2: file-type-jinja
+            .json: file-type-json
+            .md: file-type-markdown
+            .sh: file-type-shell
+            .yml: file-type-light-yaml-official
     ---
     treeView-beta
     └── roles/

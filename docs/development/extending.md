@@ -27,6 +27,11 @@ This creates the following structure:
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .md: file-type-markdown
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     collections/

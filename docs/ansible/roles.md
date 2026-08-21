@@ -79,6 +79,13 @@ This would create the following directory:
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        filenameIcons:
+          .travis.yml: file-type-travis
+          inventory: file-type-config
+        extensionIcons:
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     roles/
@@ -116,6 +123,15 @@ Consider the following role skeleton, note the missing *vars* and *test* folder 
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .conf: file-type-config
+          .j2: file-type-jinja
+          .json: file-type-json
+          .md: file-type-markdown
+          .sh: file-type-shell
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     └── roles/
