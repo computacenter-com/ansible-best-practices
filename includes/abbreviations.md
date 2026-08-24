@@ -1,6 +1,8 @@
 <!-- markdownlint-disable -->
 *[CI]: Continuous Integration
 *[CD]: Continuous Deployment
+*[CLI]: Command-line interface
+*[EDA]: Event-Driven Ansible
 *[EE]: Execution Environment
 *[EEs]: Execution Environments
 *[FQCN]: Full Qualified Collection Name

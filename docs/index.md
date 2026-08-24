@@ -55,6 +55,11 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     ---
     Useful things when your project reaches production level or you are the Administrator of AAP.
 
+* :material-sprout: &nbsp; [**Ansible Ecosystem**](ecosystem/index.md)
+
+    ---
+    Expand Ansible automation, from Event-Driven Ansible, to ansible-sign and other use cases or projects.
+
 </div>
 
 !!! success

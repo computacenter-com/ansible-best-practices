@@ -53,6 +53,11 @@ nav = [
       {"Extending" = "development/extending.md"},
       {"Execution Environments" = "development/execution-environment.md"},
   ]},
+  {"Ecosystem" = [
+    "ecosystem/index.md",
+    {"Event-Driven Ansible" = "ecosystem/event-driven-ansible.md"},
+    {"Ansible Sign" = "ecosystem/ansible-sign.md"},
+  ]},
 ]
 
 # ----------------------------------------------------------------------------
