@@ -1,4 +1,5 @@
 ---
+status: new
 icon: lucide/square-activity
 ---
 # Event-Driven Ansible
