@@ -58,6 +58,11 @@ ansible-galaxy collection init computacenter.demo
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .md: file-type-markdown
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     computacenter/
@@ -99,6 +104,23 @@ ansible-creator init collection computacenter.demo
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        filenameIcons:
+          LICENSE: file-type-license
+        extensionIcons:
+          .cfg: file-type-config
+          .ini: file-type-config
+          .j2: file-type-jinja
+          .json: file-type-json
+          .md: file-type-markdown
+          .py: file-type-python
+          .rst: file-type-rest
+          .sh: file-type-shell
+          .toml: file-type-toml
+          .txt: file-type-text
+          .yaml: file-type-light-yaml-official
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     ├── CHANGELOG.rst
@@ -209,6 +231,11 @@ Although collections are primarily intended to distribute roles, modules, and pl
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .md: file-type-markdown
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     computacenter/

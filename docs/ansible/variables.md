@@ -122,6 +122,12 @@ For example, you can define the user that Ansible uses to connect to remote devi
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+                .ini: file-type-config
+                .md: file-type-markdown
+                .yml: file-type-light-yaml-official
         ---
         treeView-beta
         ├── ansible.cfg
@@ -171,6 +177,53 @@ Facts are gathered by default at the beginning of a playbook run, but can be dis
 
 The `setup` module in Ansible automatically discovers a standard set of facts about each host. If you want to add custom values to your facts, you can write a custom facts module. Take a look at the [Extending section](../development/extending.md#custom-facts){ data-preview }.
 
+Use/reference facts by utilizing the variable `ansible_facts` and traverse for specific values, for example:
+
+```yaml
+{{ ansible_facts.default_ipv4.address }} # (1)!
+```
+
+1. Can also be written as:
+
+    ``` yaml
+    {{ ansible_facts['default_ipv4']['address'] }}
+    ```
+
+    [**This enables the use of variables inside!**](#referencing-variables)
+
+!!! danger "Deprecated facts usage"
+
+    By default, you can also access some Ansible facts as top-level variables with the `ansible_` prefix, for example `ansible_distribution`.  
+    **This is deprecated and will be removed with ansible-core 2.24!** Use the syntax shown above.
+
+    ??? example "Playbook output with deprecation notice"
+
+        ``` { .ansible-output .no-copy }
+        TASK [Gathering Facts] *****************************************************************************************************************
+        ok: [localhost]
+
+        TASK [Output fact with top-level variable method] **************************************************************************************
+        [WARNING]: Deprecation warnings can be disabled by setting `deprecation_warnings=False` in ansible.cfg.
+        [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+        Origin: /home/timgrt/ansible-community-call-solutions/2026-09-08-demo-fact-caching/demo.yml:8:14
+
+        6     - name: Output fact with top-level variable method
+        7       ansible.builtin.debug:
+        8         var: ansible_distribution
+                    ^ column 14
+
+        Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+
+        ok: [localhost] => {
+            "ansible_distribution": "Ubuntu"
+        }
+
+        TASK [Output fact as ansible_facts key-value] ******************************************************************************************
+        ok: [localhost] => {
+            "ansible_facts.distribution": "Ubuntu"
+        }
+        ```
+
 ### set_fact module
 
 !!! warning
@@ -196,7 +249,7 @@ To set actual facts, use the `cacheable: true` parameter, **this actually create
 
 <div class="grid" markdown>
 
-```ansible-output
+``` { .ansible-output .no-copy }
 TASK [Show variable value and ansible_facts content] ***
 ok: [localhost] => {
     "msg": [
@@ -205,7 +258,7 @@ ok: [localhost] => {
     ]
 ```
 
-```ansible-output
+``` { .ansible-output .no-copy }
 TASK [Show variable value and ansible_facts content] ***
 ok: [localhost] => {
     "msg": [
@@ -249,6 +302,11 @@ Instead of using single files for the variables, **use folders** with the same n
             config:
               treeView:
                 rowIndent: 20
+                defaultIconPack: vscode-icons
+                showIcons: true
+                extensionIcons:
+                    .md: file-type-markdown
+                    .yml: file-type-light-yaml-official
             ---
             treeView-beta
             ├── inventory
@@ -282,6 +340,11 @@ Instead of using single files for the variables, **use folders** with the same n
             config:
               treeView:
                 rowIndent: 20
+                defaultIconPack: vscode-icons
+                showIcons: true
+                extensionIcons:
+                  .md: file-type-markdown
+                  .yml: file-type-light-yaml-official
             ---
             treeView-beta
             ├── inventory
@@ -342,7 +405,7 @@ The variable name should be self-explanatory (*as brief as possible, as detailed
 !!! failure "Avoid deeply nested structures"
     While it may be tempting to create *nested* variable structures as they can hold loads of information, they may be hard to work with (loop through, get specific fields, etc.).
 
-    ```yaml
+    ``` { .yaml .no-copy }
     logical_volumes:
       - device: /dev/sdb1
         volume_group: SSD-RAID1

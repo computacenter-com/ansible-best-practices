@@ -10,7 +10,8 @@ repo_name = "computacenter-com/ansible-best-practices"
 
 extra_javascript = [
     "https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js",
-    "assets/javascripts/extra/tablesort.js"
+    "assets/javascripts/extra/tablesort.js",
+    "assets/javascripts/extra/mermaid-logos.js"
 ]
 
 extra_css = [

@@ -1,4 +1,5 @@
 ---
+status: new
 icon: lucide/folder-git-2
 ---
 
@@ -26,6 +27,18 @@ The most basic directory structure for a *classic* Ansible project should look l
     config:
       treeView:
         rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        filenameIcons:
+          hosts: file-type-config
+          requirements.txt: file-type-pypi
+        extensionIcons:
+          .cfg: file-type-config
+          .j2: file-type-jinja
+          .json: file-type-json
+          .md: file-type-markdown
+          .sh: file-type-shell
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     ├── ansible.cfg ## # small configuration file, e.g. for setting the inventory or other callback plugins
@@ -72,6 +85,15 @@ Use descriptive names that are human-readable and **do not shorten more than nec
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+              .conf: file-type-config
+              .j2: file-type-jinja
+              .json: file-type-json
+              .md: file-type-markdown
+              .sh: file-type-shell
+              .yml: file-type-light-yaml-official
         ---
         treeView-beta
         ├── ansible.cfg
@@ -111,6 +133,15 @@ Use descriptive names that are human-readable and **do not shorten more than nec
         config:
           treeView:
             rowIndent: 20
+            defaultIconPack: vscode-icons
+            showIcons: true
+            extensionIcons:
+              .conf: file-type-config
+              .j2: file-type-jinja
+              .json: file-type-json
+              .md: file-type-markdown
+              .sh: file-type-shell
+              .yml: file-type-light-yaml-official
         ---
         treeView-beta
         ├── ansible.cfg
@@ -321,7 +352,21 @@ inventory = inventory/production.ini
 
 # Playbook-Output in YAML instead of JSON
 callback_result_format = yaml
+
+# New hosts in playbook run are scanned, but same hosts in subsequent play(s) not again
+gathering = smart # (1)!
 ```
+
+1. Default setting is `implicit` which always gathers facts, even multiple times when host is addressed again in subsequent plays.  
+    Following settings are available:
+
+    | Setting    | Description                                                                                                                                                |
+    | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | `implicit` | Facts will be gathered per play unless `gather_facts: false` is set. **Cache plugins are ignored!**                                                        |
+    | `explicit` | Facts will not be gathered **unless directly requested** in the play.                                                                                      |
+    | `smart`    | Each new host that has no facts discovered will be scanned, but if the same host is addressed in multiple plays it will not be contacted again in the run. |
+
+    To retain Ansible facts for repeated use, select a different cache plugin. Take a look at the [Fact caching section](#fact-caching) for details.
 
 To *validate* your configuration file use the `ansible-config` utility:
 
@@ -507,6 +552,103 @@ display_skipped_hosts = false
         ```
 
     </div>
+
+### Fact caching
+
+Facts are stored in memory by default. To retain Ansible facts for repeated use, select a [different cache plugin](https://docs.ansible.com/projects/ansible/latest/collections/index_cache.html){:target="_blank"}.  
+Not only does fact caching **improve performance** and playbook runtime, you have access to variables and **information about all hosts even when you are only managing a small number of servers**.
+
+=== "`ansible.builtin.jsonfile` cache"
+
+    The builtin `jsonfile` cache plugin uses JSON formatted files, one for each host, saved to the filesystem.
+
+    !!! info inline
+        Useful for local, per-user fact caching. Does get cluttered/hard to navigate when targeting a huge number of hosts.
+
+    ``` ini title="ansible.cfg"
+    [defaults]
+    fact_caching = ansible.builtin.jsonfile
+    fact_caching_connection = ~/.ansible/facts # (1)!
+    fact_caching_timeout = 3600 # (2)!
+    fact_caching_prefix = ansible_facts_
+    ```
+
+    1. Saves all fact cache files in a sub-folder of the default Ansible cache/tmp folder.
+    2. Expiration timeout of one hour.
+
+    ??? example
+
+        ```{ .bash .no-copy }
+        $ grep distribution  ~/.ansible/facts/ansible_facts_instance1
+        "ansible_distribution": "RedHat",
+        "ansible_distribution_file_parsed": true,
+        "ansible_distribution_file_path": "/etc/redhat-release",
+        "ansible_distribution_file_search_string": "Red Hat",
+        "ansible_distribution_file_variety": "RedHat",
+        "ansible_distribution_major_version": "9",
+        "ansible_distribution_release": "Plow",
+        "ansible_distribution_version": "9.8",
+        ```
+
+        Facts are available, even when not gathered directly as with the `debug` module used in an ad-hoc command:
+
+        ```{ .bash .no-copy }
+        $ ansible instance2 -m debug -a var=ansible_facts.distribution
+        instance2 | SUCCESS => {
+            "ansible_facts.distribution": "RedHat"
+        }
+        ```
+
+=== "`community.general.redis` cache"
+
+    JSON file caching stores facts on the local filesystem. This has some limitations:
+
+    * Each control node has its own cache, so running a playbook from a different controller does not benefit from gathered facts
+    * File I/O can become a bottleneck with thousands of hosts
+
+    Redis can be used as the fact caching backend, it is an **in-memory key–value database**, used as a distributed cache and message broker.  
+
+    !!! info inline
+        Redis is a network service, multiple users and even Ansible control nodes can share the same cache.
+
+    ``` ini title="ansible.cfg"
+    [defaults]
+    fact_caching = community.general.redis # (1)!
+    fact_caching_connection = localhost:6379:0 # (2)!
+    fact_caching_timeout = 3600 # (3)!
+    fact_caching_prefix = ansible_facts_
+    ```
+
+    1. Install the necessary collection:
+
+        ```bash
+        ansible-galaxy collection install community.general
+        ```
+
+    2. Here, Redis is running locally on Port 6379, facts are stored in DB 0. The connection string format is `host:port:db:password`.  
+        For local development, start a container with Redis:
+
+        ```bash
+        podman run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+        ```
+
+        The rdis-stack image also provides a user interface (on port 8001) which makes viewing and searching facts and fact values easy.
+    3. Expiration timeout of one hour.
+
+    ??? example
+
+
+        ```{ .bash .no-copy }
+        $ redis-cli -h localhost -p 6379 get "ansible_facts_instance1" | python3 -m json.tool | grep distribution
+        "ansible_distribution": "RedHat",
+        "ansible_distribution_file_parsed": true,
+        "ansible_distribution_file_path": "/etc/redhat-release",
+        "ansible_distribution_file_search_string": "Red Hat",
+        "ansible_distribution_file_variety": "RedHat",
+        "ansible_distribution_major_version": "9",
+        "ansible_distribution_release": "Plow",
+        "ansible_distribution_version": "9.8",
+        ```
 
 ### Configure ansible-galaxy
 

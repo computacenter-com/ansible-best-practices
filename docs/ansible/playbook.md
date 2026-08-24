@@ -1,4 +1,5 @@
 ---
+status: new
 icon: lucide/book-a
 ---
 
@@ -17,7 +18,12 @@ If you have multiple playbooks, create a new folder `playbooks` and store all pl
     ---
     config:
       treeView:
-        rowIndent: 30
+        rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .cfg: file-type-config
+          .yml: file-type-light-yaml-official
     ---
     treeView-beta
     ├── ansible.cfg
@@ -89,6 +95,26 @@ Separate the two plays into their respective playbooks files and reference them 
 ```yaml title="k8s_installation.yml"
 --8<-- "example-k8s-installation-playbook.yml"
 ```
+
+### Facts
+
+Ansible facts are data related to the targeted remote systems, including operating systems, IP addresses, attached filesystems, and more.  
+Facts are [gathered by default with every playbook run][fact gathering configuration], if you don't need the information/variables, disable the fact gathering:
+
+[fact gathering configuration]: project.md#ansible-configuration "Can be configured in the ansible.cfg!"
+
+```yaml hl_lines="3"
+- name: Netbox administration
+  hosts: netbox # (1)!
+  gather_facts: false
+  roles:
+    - netbox_integrations
+    - netbox_customization
+```
+
+1. When automating the Netbox, the API is targeted and the modules itself are running **locally**, the playbook targets runs with a **local** connection. Therefore, all gathered facts are information about `localhost`, hold no information about the Netbox itself and are more or less *useless* in this case.
+
+Facts can be used/referenced as any other variable, take a look at the [variables section](variables.md#facts){ data-preview } for additional information.
 
 ### Module defaults
 
