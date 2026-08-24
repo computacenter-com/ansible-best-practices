@@ -20,13 +20,13 @@ repos:
       - id: markdownlint
         name: 📋 Check Markdown syntax
   - repo: https://github.com/ansible-community/ansible-lint
-    rev: v26.6.0
+    rev: v26.8.0
     hooks:
       - id: ansible-lint
         language_version: python3
         name: 🔎 Check documentation examples with ansible-lint
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.37.4
+    rev: 0.38.0
     hooks:
       - id: check-github-workflows
         name: ➿ Check GitHub Workflows
@@ -35,7 +35,7 @@ repos:
       - id: check-renovate
         name: 🔤 Check Renovate configuration
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         name: ❓ Check for typos
