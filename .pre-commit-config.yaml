@@ -34,12 +34,12 @@ repos:
         name: 📚 Check GitHub Issue Forms
       - id: check-renovate
         name: 🔤 Check Renovate configuration
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.3
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.49.1
     hooks:
-      - id: codespell
+      - id: typos
         name: ❓ Check for typos
-        entry: codespell
+        args: ['--config', '.typos.toml', '--force-exclude']
   - repo: https://github.com/AlexanderDokuchaev/md-dead-link-check
     rev: "v1.3.0"
     hooks:
