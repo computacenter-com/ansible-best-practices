@@ -1,0 +1,8 @@
+[files]
+extend-exclude = [
+    ".config/gitleaks.toml"
+]
+[default.extend-words]
+## Project-specific acronym
+aci = "aci"
+ome = "ome"
