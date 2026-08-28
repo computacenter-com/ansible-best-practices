@@ -210,7 +210,7 @@ While handlers are mostly used to restart services, they can use pretty much eve
 
 Handlers run **after all the tasks in a particular play** (or after `pre_tasks` or `post_tasks` sections respectively) have been completed, this is efficient because handlers only run once, regardless of how many tasks notify it.  
 
-To run a handler earlier, use the [meta module](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/meta_module.html){:target="_blank"} to *flush* all handlers which were notfied up to this point.
+To run a handler earlier, use the [meta module](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/meta_module.html){:target="_blank"} to *flush* all handlers which were notified up to this point.
 
 ```yaml
 # Handler was notified by earlier task
@@ -760,7 +760,7 @@ While it possible to use *nested* loops (as in a [programming language](../minds
 === "Multiple task files"
 
     !!! info inline end
-        As the number of list elements can be *dynamic*, the `inlude_tasks` module is necessary. Take a look at the [import vs. include](#import-vs-include) section for additional info.
+        As the number of list elements can be *dynamic*, the `include_tasks` module is necessary. Take a look at the [import vs. include](#import-vs-include) section for additional info.
 
     ```yaml title="Task invoking the outer loop"
     --8<-- "example-nested-loops-outer-task.yml"

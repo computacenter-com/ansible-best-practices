@@ -34,11 +34,11 @@ For a single log file use the `log_path` parameter in the `defaults` section.
 
 === "Example output"
 
-    You'll get a warning, if the log file is not *writeable* as the path does not exist or permissions are insufficient.
+    You'll get a warning, if the log file is not *writable* as the path does not exist or permissions are insufficient.
 
     ```ansible-output
     $ ansible-playbook facts.yml
-    [WARNING]: log file at '/home/timgrt/demo/logs/ansible.log' is not writeable and we cannot create it, aborting
+    [WARNING]: log file at '/home/timgrt/demo/logs/ansible.log' is not writable and we cannot create it, aborting
 
     PLAY [Gather facts from all managed nodes] *********************************************
 
