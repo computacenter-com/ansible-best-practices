@@ -153,6 +153,75 @@ There are already loads of [inventory plugins](https://docs.ansible.com/ansible/
 * [netbox.netbox.nb_inventory](https://docs.ansible.com/ansible/latest/collections/netbox/netbox/nb_inventory_inventory.html){:target="_blank"}
 * [vmware.vmware.vms](https://docs.ansible.com/ansible/latest/collections/vmware/vmware/vms_inventory.html){:target="_blank"}
 
+<div class="grid" markdown>
+
+``` yaml title="netbox_inventory.yml"
+plugin: netbox.netbox.nb_inventory # (1)!
+api_endpoint: https://demo.netbox.dev/ # (2)!
+validate_certs: true
+timeout: 30
+strict: true
+
+query_filters:
+  - cluster_group: emea
+  - cluster_group: north-america
+  - role: database_server
+oob_ip_as_primary_ip: true
+keyed_groups: # (3)!
+  - prefix: provider
+    key: cluster_type
+    parent_group: providers
+groups: # (4)!
+  emea_database_servers: (cluster_group == "emea") and ('database_server' in device_roles)
+  north_america_database_servers: (cluster_group == "north-america") and ('database_server' in device_roles)
+```
+
+1. Requires the `pytz` Python package.
+2. The authentication is done by *exporting* the `NETBOX_TOKEN` environment variable.
+
+    ```bash
+    export NETBOX_TOKEN=nbt_3ldq...
+    ```
+
+3. Only possibility to create *group* of *groups*, here the `providers` group with its **dynamic** child groups (in the example `provider_digitalocean` and `provider_google_cloud`).
+4. Every object in Netbox has a *display* name and an API-friendly *slug*, e.g. [cluster group slug](https://netboxlabs.com/docs/netbox/models/virtualization/clustergroup/#slug){:target="_blank"}.  
+   By default, Netbox replaces whitespaces in the display name with dashes, but dashes are not allowed in Ansible group names!  
+   A similar group could be achieved with the following:
+
+    ```yaml
+    group_by:
+      - cluster_group
+    ```
+
+    But this will create a invalid group name of `cluster_group_north-america`.
+
+!!! example "Example output from dynamic inventory"
+
+    ``` { .bash .no-copy }
+    $ ansible-inventory -i netbox_inventory.yml --graph
+    @all:
+      |--@ungrouped:
+      |--@emea_database_servers:
+      |  |--vm41
+      |  |--vm42
+      |  |--vm43
+      |--@providers:
+      |  |--@provider_digitalocean:
+      |  |  |--vm41
+      |  |  |--vm42
+      |  |  |--vm43
+      |  |--@provider_google_cloud:
+      |  |  |--vm81
+      |  |  |--vm82
+      |  |  |--vm83
+      |--@north_america_database_servers:
+      |  |--vm81
+      |  |--vm82
+      |  |--vm83
+    ```
+
+</div>
+
 ### Custom dynamic inventory
 
 In case no suitable inventory plugin exists, you can easily write your own. Take a look at the [Ansible Development - Extending](../development/extending.md#inventory-plugins){ data-preview } section for additional information.
@@ -343,22 +412,34 @@ Variables *can* be assigned to every host and/or group in the inventory file *di
 !!! success
     Use the `group_vars` and `host_vars` folder.
 
-Do not create *files* for the groups or hosts (e.g. `group_vars/web.yml` or `host_vars/node1.yml`), but use **folders** for hosts and groups instead.  
+Do not create *files* for the groups or hosts (e.g. `group_vars/web.yml` or `host_vars/node1.yml`), but [use **folders** for hosts and groups](variables.md#variable-folders) instead.  
 Underneath these folders, you can create multiple *variables*-files which are **all** loaded by the [host_group_vars plugin](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/host_group_vars_vars.html){:target="_blank"}.
 
-```bash
-host_vars
-├── kafka_node1
-│   ├── network.yml
-│   └── dns.yml
-├── kafka_node2
-│   └── network.yml
-└── kafka_node3
-    └── network.yml
-group_vars/
-├── all
-│   ├── dns.yml
-│   └── vault.yml
-└── kafka_servers
-    └── topics.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .yml: file-type-light-yaml-official
+    ---
+    treeView-beta
+    host_vars/
+    ├── kafka_node1/
+    │   ├── network.yml
+    │   └── dns.yml
+    ├── kafka_node2/
+    │   └── network.yml
+    └── kafka_node3
+        └── network.yml
+    group_vars/
+    ├── all/
+    │   ├── dns.yml
+    │   └── vault.yml
+    └── kafka_servers/
+        └── topics.yml
+    ```
