@@ -343,22 +343,34 @@ Variables *can* be assigned to every host and/or group in the inventory file *di
 !!! success
     Use the `group_vars` and `host_vars` folder.
 
-Do not create *files* for the groups or hosts (e.g. `group_vars/web.yml` or `host_vars/node1.yml`), but use **folders** for hosts and groups instead.  
+Do not create *files* for the groups or hosts (e.g. `group_vars/web.yml` or `host_vars/node1.yml`), but [use **folders** for hosts and groups](variables.md#variable-folders) instead.  
 Underneath these folders, you can create multiple *variables*-files which are **all** loaded by the [host_group_vars plugin](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/host_group_vars_vars.html){:target="_blank"}.
 
-```bash
-host_vars
-├── kafka_node1
-│   ├── network.yml
-│   └── dns.yml
-├── kafka_node2
-│   └── network.yml
-└── kafka_node3
-    └── network.yml
-group_vars/
-├── all
-│   ├── dns.yml
-│   └── vault.yml
-└── kafka_servers
-    └── topics.yml
-```
+!!! quote ""
+
+    ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .yml: file-type-light-yaml-official
+    ---
+    treeView-beta
+    host_vars/
+    ├── kafka_node1/
+    │   ├── network.yml
+    │   └── dns.yml
+    ├── kafka_node2/
+    │   └── network.yml
+    └── kafka_node3
+        └── network.yml
+    group_vars/
+    ├── all/
+    │   ├── dns.yml
+    │   └── vault.yml
+    └── kafka_servers/
+        └── topics.yml
+    ```

@@ -360,20 +360,34 @@ This file may be used as a minimal starting point, it includes a small example:
 
 The Python file needs to be stored in a collection, e.g.:
 
-``` { .bash .no-copy }
-collections/
-└── ansible_collections
-    └── computacenter
-        └── utils
-            ├── README.md
-            ├── docs
-            ├── galaxy.yml
-            ├── plugins
-            │   ├── README.md
-            │   └── filter
-            │       └── cc_filter_plugins.py
-            └── roles
-```
+!!! quote ""
+
+    ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .yml: file-type-light-yaml-official
+          .py: file-type-python
+          .md: file-type-markdown
+    ---
+    treeView-beta
+    collections/
+    └── ansible_collections/
+        └── computacenter/
+            └── utils/
+                ├── README.md
+                ├── docs/
+                ├── galaxy.yml
+                ├── plugins/
+                │   ├── README.md
+                │   └── filter
+                │       └── cc_filter_plugins.py
+                └── roles/
+    ```
 
 Now, the filter can be used:
 
@@ -483,18 +497,32 @@ This file may be used as a minimal starting point, it includes a small example:
 
 The Python file needs to be stored in a collection, e.g.:
 
-``` { .bash .no-copy }
-collections/
-└── ansible_collections
-    └── computacenter
-        └── utils
-            ├── README.md
-            ├── plugins
-            │   ├── README.md
-            │   └── inventory
-            │       └── cc_cisco_prime.py
-            └── roles
-```
+!!! quote ""
+
+    ``` mermaid
+    ---
+    config:
+      treeView:
+        rowIndent: 20
+        defaultIconPack: vscode-icons
+        showIcons: true
+        extensionIcons:
+          .yml: file-type-light-yaml-official
+          .py: file-type-python
+          .md: file-type-markdown
+    ---
+    treeView-beta
+    collections/
+    └── ansible_collections/
+        └── computacenter/
+            └── utils/
+                ├── README.md
+                ├── plugins/
+                │   ├── README.md
+                │   └── inventory/
+                │       └── cc_cisco_prime.py
+                └── roles/
+    ```
 
 To run this script, create a inventory file with the correct entries, as in the *examples* section of the inventory script.
 
