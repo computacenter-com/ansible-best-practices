@@ -632,7 +632,8 @@ Not only does fact caching **improve performance** and playbook runtime, you hav
         podman run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
         ```
 
-        The rdis-stack image also provides a user interface (on port 8001) which makes viewing and searching facts and fact values easy.
+        The `redis/redis-stack` image also provides a user interface (on port 8001) which makes viewing and searching facts and fact values easy.
+
     3. Expiration timeout of one hour.
 
     ??? example

@@ -296,6 +296,166 @@ In most of the use cases, both shell and command modules perform the same job. H
 Parsing shell meta-characters can lead to unexpected commands being executed if quoting is not done correctly so it is more secure to use the command module when possible. To sanitize any variables passed to the shell module, you should use `{{ var | quote }}` instead of  
 just `{{ var }}` to make sure they do not include evil things like semicolons.
 
+??? failure "Exploit task with shell module"
+
+    The playbook retrieves a couple of settings from `/etc/login.defs` (e.g. the algorithm used for password encryption).  
+    The different settings are provided with a loop, the actual command uses the `grep` utility and some CLI trickery to only return the value of the setting.  
+
+    <div class="grid" markdown>
+
+    ``` { .yaml .no-copy hl_lines="11 15" }
+    - name: Hacking playbooks - command vs. shell module
+      hosts: demo
+      vars:
+        login_parameters_list:
+          - PASS_MIN_DAYS
+          - PASS_WARN_AGE
+          - ENCRYPT_METHOD
+      tasks:
+        - name: Get configured parameters from /etc/login.defs
+          ansible.builtin.shell:
+            cmd: cat /etc/login.defs | grep {{ item }} | grep -v '#' | awk '{print $2}'
+          register: output
+          changed_when: false
+          become: true
+          loop: "{{ login_parameters_list }}"
+    ```
+
+    !!! example "Example output"
+
+        ``` { .ansible-output .no-copy }
+        TASK [Output configured parameters from /etc/login.defs] ***
+        ok: [demo-instance] => (item=PASS_MIN_DAYS) => {
+            "msg": "0"
+        }
+        ok: [demo-instance] => (item=PASS_WARN_AGE) => {
+            "msg": "7"
+        }
+        ok: [demo-instance] => (item=ENCRYPT_METHOD) => {
+            "msg": "SHA512"
+        }
+        ```
+
+    </div>
+
+    !!! warning
+        The variable `login_parameters_list` can be overwritten when running the playbook, **this allows an attacker to inject arbitrary commands into the playbook!**
+
+    By overwriting the variable `login_parameters_list` (the list items) an attacker could **install unwanted/insecure packages like `tftp-server` or even delete files!**
+
+    ??? example "State of tftp-server package <u>before</u> running exploited playbook"
+
+        Package is not installed, only **available**.
+
+        ```{ .bash hl_lines="3" .no-copy }
+        $ ansible demo -a "yum info tftp-server"
+        demo-instance | CHANGED | rc=0 >>
+        Available Packages
+        Name         : tftp-server
+        Version      : 5.2
+        Release      : 40.el9
+        Architecture : x86_64
+        Size         : 39 k
+        Source       : tftp-5.2-40.el9.src.rpm
+        Repository   : appstream
+        Summary      : The server for the Trivial File Transfer Protocol (TFTP)
+        URL          : http://www.kernel.org/pub/software/network/tftp/
+        License      : BSD
+        Description  : The Trivial File Transfer Protocol (TFTP) is normally used only for
+                    : booting diskless workstations.  The tftp-server package provides the
+                    : server for TFTP, which allows users to transfer files to and from a
+                    : remote machine. TFTP provides very little security, and should not be
+                    : enabled unless it is expressly needed.  The TFTP server is run by using
+                    : systemd socket activation, and is disabled by default.
+        ```
+
+    An attacker could run the playbook with the following `extra_vars` parameter to install the `tftp-server` package:
+
+    ```bash
+    ansible-playbook command-vs-shell.yml -e '{"login_parameters_list": ["something & yum -y install tftp-server"]}'
+    ```
+
+    The list variable is overwritten with a single item, the first part uses a dummy value to grep for (`something`), the second part uses the `&` operator to run a second command in the background, which installs the `tftp-server` package.
+
+    ??? example "State of tftp-server package <u>after</u> running exploited playbook"
+
+        Package is **installed**!
+
+        ```{ .bash hl_lines="4" .no-copy }
+        $ ansible demo -a "yum info tftp-server"
+        demo-instance | CHANGED | rc=0 >>
+        Last metadata expiration check: 0:10:41 ago on Mon Sep  7 11:46:48 2026.
+        Installed Packages
+        Name         : tftp-server
+        Version      : 5.2
+        Release      : 40.el9
+        Architecture : x86_64
+        Size         : 64 k
+        Source       : tftp-5.2-40.el9.src.rpm
+        Repository   : @System
+        From repo    : appstream
+        Summary      : The server for the Trivial File Transfer Protocol (TFTP)
+        URL          : http://www.kernel.org/pub/software/network/tftp/
+        License      : BSD
+        Description  : The Trivial File Transfer Protocol (TFTP) is normally used only for
+                    : booting diskless workstations.  The tftp-server package provides the
+                    : server for TFTP, which allows users to transfer files to and from a
+                    : remote machine. TFTP provides very little security, and should not be
+                    : enabled unless it is expressly needed.  The TFTP server is run by using
+                    : systemd socket activation, and is disabled by default.
+        ```
+
+    !!! success "Using the `quote` filter prevents command injection"
+
+        ``` { .yaml hl_lines="3" }
+        - name: Get configured parameters from /etc/login.defs
+          ansible.builtin.shell:
+            cmd: cat /etc/login.defs | grep {{ item | quote }} | grep -v '#' | awk '{print $2}'
+          register: output
+          changed_when: false
+          become: true
+          loop: "{{ login_parameters_list }}"
+        ```
+
+        The command will execute, but only for the dummy value!
+
+        ??? example "Playbook output and state of tftp-server package"
+
+            ```{ .ansible-output .no-copy }
+            TASK [Get configured parameters from /etc/login.defs] *****************************************************************************************
+            ok: [demo-instance] => (item=something & yum -y install tftp-server)
+
+            TASK [Output configured parameters from /etc/login.defs] **************************************************************************************
+            ok: [demo-instance] => (item=something & yum -y install tftp-server) => {
+                "msg": ""
+            }
+            ```
+
+            *Grep-ing* for `something` returns nothing, the `yum install` command is not executed, the `tftp-server` package is **not** installed.
+
+            ``` { .bash hl_lines="4" .no-copy }
+            $ ansible demo -a "yum info tftp-server"
+            community-call-demo | CHANGED | rc=0 >>
+            Last metadata expiration check: 0:00:58 ago on Mon Sep  7 12:47:50 2026.
+            Available Packages
+            Name         : tftp-server
+            Version      : 5.2
+            Release      : 40.el9
+            Architecture : x86_64
+            Size         : 39 k
+            Source       : tftp-5.2-40.el9.src.rpm
+            Repository   : appstream
+            Summary      : The server for the Trivial File Transfer Protocol (TFTP)
+            URL          : http://www.kernel.org/pub/software/network/tftp/
+            License      : BSD
+            Description  : The Trivial File Transfer Protocol (TFTP) is normally used only for
+                        : booting diskless workstations.  The tftp-server package provides the
+                        : server for TFTP, which allows users to transfer files to and from a
+                        : remote machine. TFTP provides very little security, and should not be
+                        : enabled unless it is expressly needed.  The TFTP server is run by using
+                        : systemd socket activation, and is disabled by default.
+            ```
+
 ### *creates* and *removes*
 
 When using non-idempotent modules like `command` or `shell` it is **your** responsibility to ensure the executed command does not do anything unexpected.  
