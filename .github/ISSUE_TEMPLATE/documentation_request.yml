@@ -29,8 +29,11 @@ body:
       options:
         - Overview
         - Mindset
+        - Get started
         - Ansible
+        - Ansible Automation Platform
         - Ansible Development
+        - Ecosystem
     validations:
       required: true
 
@@ -40,18 +43,32 @@ body:
       label: Which sub-section?
       description: Which sub-section of the Guide needs an update, if applicable?
       options:
-        - The Zen of Ansible
-        - Installation
-        - Project
-        - Inventory
-        - Variables
-        - Playbook
-        - Roles
-        - Tasks
-        - Version Control
-        - Linting
-        - Testing
-        - Extending
+        - Mindeset > The Zen of Ansible
+        - Get started > Checklist
+        - Ansible > Installation
+        - Ansible > Project structure
+        - Ansible > Inventory
+        - Ansible > Playbook
+        - Ansible > Collections
+        - Ansible > Roles
+        - Ansible > Tasks
+        - Ansible > Variables
+        - Ansible > Execution
+        - Ansible Automation Platform > Installation
+        - Ansible Automation Platform > Operations
+        - Ansible Automation Platform > > Troubleshooting
+        - Ansible Automation Platform > Job Templates
+        - Ansible Automation Platform > Credentials
+        - Ansible Automation Platform > Workflows
+        - Ansible Development > Version Control
+        - Ansible Development > Linting
+        - Ansible Development > Testing
+        - Ansible Development > Monitoring & Troubleshooting
+        - Ansible Development > Logging
+        - Ansible Development > Extending
+        - Ansible Development > Execution Environments
+        - Ecosystem > Event-driven Ansible
+        - Ecosystem > Ansible Sign
     validations:
       required: false
 
