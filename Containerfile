@@ -18,3 +18,4 @@ RUN zensical build --strict
 # Hardened image from https://images.redhat.com/?name=nginx
 FROM registry.access.redhat.com/hi/nginx:latest
 COPY --from=builder /tmp/site /usr/share/nginx/html
+STOPSIGNAL SIGQUIT
