@@ -1,0 +1,21 @@
+---
+- name: Verify
+  hosts: molecule
+  become: true
+  tasks:
+    - name: Get service facts
+      ansible.builtin.service_facts:
+
+    # Service may have started, returning 'OK' in the service module, but may have failed later.
+    - name: Ensure that webserver is in running state
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['services']['httpd.service']['state'] == 'running'
+
+    # Task will fail if HTTP return code is not 200
+    - name: Ensure webserver displays index page and returns HTTP 200
+      ansible.builtin.uri:
+        url: http://localhost
+        return_content: true
+        status_code: 200
+        validate_certs: false

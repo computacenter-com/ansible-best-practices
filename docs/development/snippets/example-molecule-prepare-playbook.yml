@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: molecule
+  become: true
+  tasks:
+    - name: Install OpenSSH for ssh-keygen
+      ansible.builtin.package:
+        name: openssh
+        state: present

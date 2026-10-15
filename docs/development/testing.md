@@ -2,6 +2,7 @@
 icon: lucide/flask-conical
 ---
 
+<!-- Multiple headings with the same content are not allowed in Markdown, so we disable the rule for this file. -->
 <!-- markdownlint-disable MD024 -->
 # Testing
 
@@ -284,15 +285,7 @@ You may use this (minimal) example configuration as a starting point.
         For example, if you want to test SSH Key-Pair creation in your container (this is also used by the *user* module to create SSH keys), install the necessary packages before running the role itself.
 
         ```yaml
-        ---
-        - name: Prepare
-          hosts: molecule
-          become: true
-          tasks:
-            - name: Install OpenSSH for ssh-keygen
-              ansible.builtin.package:
-                name: openssh
-                state: present
+        --8<-- "example-molecule-prepare-playbook.yml"
         ```
 
         Remember, you are using a Container image, not every package from the distribution is installed by default to minimize the image size.
@@ -304,19 +297,7 @@ You may use this (minimal) example configuration as a starting point.
         The `verify.yml` contains your tests for your role.
 
         ```yaml
-        ---
-        - name: Verify
-          hosts: molecule
-          become: true
-          tasks:
-            - name: Get service facts
-              ansible.builtin.service_facts:
-
-            # Service may have started, returning 'OK' in the service module, but may have failed later.
-            - name: Ensure that MariaDB is in running state
-              assert:
-                that:
-                  - ansible_facts['services']['mariadb.service']['state'] == 'running'
+        --8<-- "example-molecule-verify-playbook.yml"
         ```
 
 #### Molecule variables
@@ -376,16 +357,16 @@ For example, you can have a default scenario which uses Podman containers as inf
 roles/
 └── webserver_demo
     ├── defaults
-    │   └── main.yml
+    │   └── main.yml
     ├── molecule
-    │   ├── default
-    │   |   ├── converge.yml
-    │   |   └── molecule.yml
-    │   └── libvirt
-    │       ├── converge.yml
-    │       └── molecule.yml
+    │   ├── default
+    │   |   ├── converge.yml
+    │   |   └── molecule.yml
+    │   └── libvirt
+    │       ├── converge.yml
+    │       └── molecule.yml
     ├── tasks
-    │   └── main.yml
+    │   └── main.yml
     └── templates
         └── index.html
 ```
@@ -521,23 +502,7 @@ Copy the three files in the separate tabs, a playbook for creating the testing e
     !!! example "testing_environment.yml"
 
         ```yaml
-        ---
-        - name: Create or delete demo environment for local testing
-          hosts: localhost
-          connection: local
-          vars:
-            testing_image: docker.io/timgrt/rockylinux9-ansible:latest
-          tasks:
-            - name: "{{ (delete | default(false)) | ternary('Delete', 'Create') }} demo instance"
-              containers.podman.podman_container:
-                name: "{{ item }}"
-                hostname: "{{ item }}"
-                image: "{{ testing_image }}"
-                volumes:
-                  - /sys/fs/cgroup:/sys/fs/cgroup:ro
-                command: "/usr/sbin/init"
-                state: "{{ (delete | default(false)) | ternary('absent', 'started') }}"
-              loop: "{{ groups['test'] }}"
+        --8<-- "example-testing-environment-creation-playbook.yml"
         ```
 
 === "Testing inventory"
@@ -554,17 +519,12 @@ Copy the three files in the separate tabs, a playbook for creating the testing e
         ```
 
 === "Testing Playbook"
-    !!! example "testing_inventory.yml"
+    !!! example "testing_playbook.yml"
         Add your tasks to this playbook and start testing. If you want to use your own playbook, target the `test` group as well.
 
         ```yaml
         ---
-        - name: Testing playbook
-          hosts: test
-          tasks:
-            - name: Output distribution
-              ansible.builtin.debug:
-                msg: "{{ ansible_distribution }}"
+        --8<-- "example-testing-environment-playbook.yml"
         ```
 
 ### Usage

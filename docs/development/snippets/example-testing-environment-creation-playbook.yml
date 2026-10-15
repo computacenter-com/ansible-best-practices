@@ -1,0 +1,17 @@
+---
+- name: Create or delete demo environment for local testing
+  hosts: localhost
+  connection: local
+  vars:
+    testing_image: docker.io/timgrt/rockylinux9-ansible:latest
+  tasks:
+    - name: "{{ (delete | default(false)) | ternary('Delete', 'Create') }} demo instance" # noqa name[template]
+      containers.podman.podman_container:
+        name: "{{ item }}"
+        hostname: "{{ item }}"
+        image: "{{ testing_image }}"
+        volumes:
+          - /sys/fs/cgroup:/sys/fs/cgroup:ro
+        command: "/usr/sbin/init"
+        state: "{{ (delete | default(false)) | ternary('absent', 'started') }}"
+      loop: "{{ groups['test'] }}"

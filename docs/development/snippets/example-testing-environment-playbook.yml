@@ -1,0 +1,6 @@
+- name: Testing playbook
+  hosts: test
+  tasks:
+    - name: Output distribution
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts['distribution'] }}"
