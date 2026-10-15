@@ -221,3 +221,10 @@ configurations = [
     "development/index.md"
     ]},
 ]
+
+# ----------------------------------------------------------------------------
+# Plugins
+# ----------------------------------------------------------------------------
+[project.plugins.minify]
+minify_html = true
+minify_js = true
