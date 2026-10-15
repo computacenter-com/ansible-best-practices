@@ -31,6 +31,3 @@ kinds:
   - playbook: "**/*playbook*.yml"
   - tasks: "**/*task*.yml"
   - vars: "**/*variables*.yml"
-
-# Offline mode disables installation of requirements.yml and schema refreshing
-offline: true

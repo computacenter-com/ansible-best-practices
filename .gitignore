@@ -4,3 +4,5 @@ ve-docs-dev/
 site/
 # Assets downloaded by privacy plugin
 .cache/
+# Ansible cache folder created by ansible-lint
+.ansible/
