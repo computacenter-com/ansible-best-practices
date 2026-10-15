@@ -1,0 +1,4 @@
+---
+# Collections used in example playbooks and should be installed when running ansible-lint hook
+collections:
+  - containers.podman
