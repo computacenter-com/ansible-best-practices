@@ -1,4 +1,4 @@
-FROM python:3.14-alpine AS builder
+FROM python:3.15-alpine AS builder
 WORKDIR /tmp
 # Install Git executable and copy Git folder to determine last commit date for documentation build on index page
 RUN apk upgrade --update-cache -a \
