@@ -1,4 +1,5 @@
 ---
+render_macros: true
 hide:
     - navigation
     - toc

@@ -54,4 +54,4 @@ endif
 	@rm -rf $(VENV_NAME) &&	echo -e "$(COLOUR_GREEN)## Python VE removed.$(COLOUR_END)"
 	@rm -rf site && rm -rf .cache && echo -e "$(COLOUR_GREEN)## Zensical build folder and cache removed.$(COLOUR_END)"
 	@rm -rf .git/hooks/pre-commit && echo -e "$(COLOUR_GREEN)## pre-commit hooks removed.$(COLOUR_END)"
-	@rm -rf ~/.cache/prek && echo -e "$(COLOUR_GREEN)## pre-commit/prek cache removed.$(COLOUR_END)"
+	@rm -rf ~/.cache/prek && rm -rf ~/.ansible && echo -e "$(COLOUR_GREEN)## pre-commit/prek and Ansible cache removed.$(COLOUR_END)"
