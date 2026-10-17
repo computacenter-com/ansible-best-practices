@@ -1,0 +1,63 @@
+# Social card layout
+size: { width: 1200, height: 630 }
+layers:
+  - background:
+      color: "#244991"
+  - size: { width: 2400, height: 2400 }
+    offset: { x: -1024, y: 64 }
+    icon:
+      value: material/circle
+      color: "#5c6bc0"
+  # Site name
+  - size: { width: 768, height: 42 }
+    offset: { x: 62, y: 74 }
+    typography:
+      content: "{{ config.site_name }}"
+      color: white
+      font:
+        family: Roboto
+        style: Bold
+  # Title
+  - size: { width: 832, height: 310 }
+    offset: { x: 62, y: 160 }
+    typography:
+      content: "{{ page.title }}"
+      align: start
+      color: white
+      line:
+        amount: 3
+        height: 1.25
+      font:
+        family: Roboto
+        style: Bold
+  # Logo
+  - size: { width: 300, height: 300 }
+    offset: { x: 892, y: 2 }
+    icon:
+      value: community/zen-bull-blank
+  # Page description
+  - size: { width: 864, height: 64 }
+    offset: { x: 64, y: 512 }
+    typography:
+      content: "{{ config.site_description }}"
+      align: start
+      color: white
+      line:
+        amount: 2
+        height: 1.5
+      font:
+        family: Roboto
+        style: Regular
+
+# Meta tags
+tags:
+
+  # Open Graph
+  og:type: website
+  og:title: "{{ config.site_name }}"
+  og:description: "{{ config.site_description }}"
+  og:image: "{{ image.url }}"
+  og:image:type: "{{ image.type }}"
+  og:image:width: "{{ image.width }}"
+  og:image:height: "{{ image.height }}"
+  og:url: "{{ page.canonical_url }}"

@@ -1,6 +1,6 @@
 [project]
 site_name = "Ansible Best Practices"
-site_description = "Best Practices and Style Guide for Ansible Projects"
+site_description = "Style Guide and Good Practices for Ansible Projects"
 site_author = "Tim Grützmacher"
 site_url = "https://computacenter-com.github.io/ansible-best-practices/"
 copyright = "Copyright &copy; Tim Grützmacher 2026"
@@ -66,17 +66,11 @@ nav = [
 # ----------------------------------------------------------------------------
 [project.theme]
 variant = "modern"
-
 # Uncomment to display announcement banner
-# custom_dir = "docs/assets/overrides"
-
+custom_dir = "docs/assets/overrides"
 logo = "assets/images/ansible-logo-black.png"
 favicon = "assets/images/ansible-logo-black.png"
-
 language = "en"
-
-# Zensical provides a number of feature toggles that change the behavior
-# of the documentation site.
 features = [
     # "announce.dismiss",
     "content.code.annotate",
@@ -97,9 +91,6 @@ features = [
     "toc.integrate"
 ]
 
-# ----------------------------------------------------------------------------
-# The "theme" defines colors and more.
-# ----------------------------------------------------------------------------
 [project.theme.icon.admonition]
 example = "lucide/search-code"
 quote = "lucide/folder-tree"
@@ -146,7 +137,7 @@ updated = "Recently updated"
 # Markdown Extensions
 # ----------------------------------------------------------------------------
 [project.markdown_extensions.abbr]
-# https://zensical.org/docs/authoring/content-tabs/#content-tabs
+# https://zensical.org/docs/authoring/tooltips/#add-abbreviations
 
 [project.markdown_extensions.admonition]
 # https://zensical.org/docs/setup/extensions/python-markdown/#admonition
@@ -170,6 +161,9 @@ updated = "Recently updated"
 # https://zensical.org/docs/setup/extensions/python-markdown-extensions/#emoji
 emoji_generator = "zensical.extensions.emoji.to_svg"
 emoji_index = "zensical.extensions.emoji.twemoji"
+options.custom_icons = [
+    "docs/assets/overrides/.icons",
+]
 
 [project.markdown_extensions.pymdownx.highlight]
 # https://zensical.org/docs/setup/extensions/python-markdown-extensions/#highlight
@@ -229,3 +223,8 @@ configurations = [
 [project.plugins.minify]
 minify_html = true
 minify_js = true
+
+[project.plugins.social]
+enabled = true
+cards_layout_dir = "includes/social-cards-layouts"
+cards_layout = "custom"
