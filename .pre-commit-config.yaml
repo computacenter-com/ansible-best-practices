@@ -34,6 +34,12 @@ repos:
         name: 📚 Check GitHub Issue Forms
       - id: check-renovate
         name: 🔤 Check Renovate configuration
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: "44.165.3"
+    hooks:
+      - id: renovate-config-validator
+        name: 🛠️  Check renovate config
+        args: [--strict]
   - repo: https://github.com/crate-ci/typos
     rev: v1.51.1
     hooks:
