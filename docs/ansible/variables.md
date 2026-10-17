@@ -1,5 +1,4 @@
 ---
-status: updated
 icon: lucide/notebook-text
 ---
 

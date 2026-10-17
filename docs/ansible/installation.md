@@ -1,5 +1,5 @@
 ---
-icon: lucide/monitor-cog
+icon: lucide/hard-drive-download
 ---
 
 # Installation

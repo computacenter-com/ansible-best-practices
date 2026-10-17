@@ -1,5 +1,4 @@
 ---
-status: new
 icon: lucide/folder-git-2
 ---
 
