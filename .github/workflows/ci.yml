@@ -14,8 +14,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v7
         with:
-          python-version: '3'
+          python-version: '3.14'
       - name: Run hooks with prek
-        uses: j178/prek-action@v3.0.1
+        uses: j178/prek-action@v3.1.0
         env:
           SKIP: ${{ github.event_name == 'workflow_dispatch' && 'no-commit-to-branch' || '' }}
