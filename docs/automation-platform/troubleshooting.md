@@ -1,5 +1,6 @@
 ---
 icon: lucide/server-crash
+description: Some tips and tricks when the Platform is not working correctly
 ---
 
 # Troubleshooting AAP

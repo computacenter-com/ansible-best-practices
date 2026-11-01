@@ -1,5 +1,6 @@
 ---
 icon: lucide/workflow
+description: Building and orchestrating complex workflows with multiple job templates
 ---
 
 # Workflows

@@ -1,5 +1,6 @@
 ---
 icon: lucide/list-ordered
+description: Everything about tasks, module usage, tags, loops and filters
 ---
 
 # Tasks

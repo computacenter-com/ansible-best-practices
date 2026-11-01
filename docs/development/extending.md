@@ -1,5 +1,6 @@
 ---
 icon: lucide/blocks
+description: How to create your own custom modules and plugins
 ---
 
 # Extending Ansible

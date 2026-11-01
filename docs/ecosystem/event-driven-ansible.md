@@ -1,6 +1,6 @@
 ---
-status: new
 icon: lucide/square-activity
+description: How Event-Driven Ansible works and how to use it
 ---
 # Event-Driven Ansible
 

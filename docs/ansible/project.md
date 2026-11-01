@@ -1,5 +1,6 @@
 ---
 icon: lucide/folder-git-2
+description: Your Ansible project, version control, configuration, dependencies and more
 ---
 
 # Project

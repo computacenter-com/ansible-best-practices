@@ -1,5 +1,6 @@
 ---
 icon: lucide/book-a
+description: Structure your automation, how to separate playbooks and plays
 ---
 
 # Playbooks

@@ -1,5 +1,6 @@
 ---
 icon: lucide/server-cog
+description: Considerations when installing the Ansible Automation Platform
 ---
 
 # AAP Installation

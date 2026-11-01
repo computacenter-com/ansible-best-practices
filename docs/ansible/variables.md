@@ -1,5 +1,6 @@
 ---
 icon: lucide/notebook-text
+description: All about variables, where to store them, naming conventions and encryption
 ---
 
 # Variables

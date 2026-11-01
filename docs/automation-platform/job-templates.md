@@ -1,5 +1,6 @@
 ---
 icon: lucide/clipboard-type
+description: A blueprint for automating and orchestrating complex IT tasks
 ---
 
 # Job Templates

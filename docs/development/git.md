@@ -1,5 +1,6 @@
 ---
 icon: lucide/git-pull-request-arrow
+description: Small guide for version controlling Ansible content
 ---
 
 # Version Control

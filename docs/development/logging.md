@@ -1,5 +1,6 @@
 ---
 icon: lucide/text-search
+description: How to enable and use logging
 ---
 
 # Logging

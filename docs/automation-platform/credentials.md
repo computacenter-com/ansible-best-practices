@@ -1,5 +1,6 @@
 ---
 icon: lucide/key-round
+description: Secret handling in AAP with custom credentials
 ---
 
 # Credentials

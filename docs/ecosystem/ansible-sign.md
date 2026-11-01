@@ -1,6 +1,6 @@
 ---
-status: new
 icon: lucide/file-pen-line
+description: Signing and verifying to ensure the Ansible content supply chain remains untampered
 ---
 
 # Ansible Sign

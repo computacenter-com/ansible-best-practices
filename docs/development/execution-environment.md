@@ -1,5 +1,6 @@
 ---
 icon: lucide/package
+description: How to create your own EEs or extend existing ones
 ---
 
 # Execution Environments

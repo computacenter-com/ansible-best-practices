@@ -1,5 +1,6 @@
 ---
 icon: lucide/hard-drive-download
+description: How to install Ansible itself and other content
 ---
 
 # Installation

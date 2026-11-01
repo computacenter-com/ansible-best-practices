@@ -1,5 +1,6 @@
 ---
 icon: lucide/search-check
+description: Installation and usage of the Ansible Best Practice checker
 ---
 
 # Linting
