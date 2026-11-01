@@ -224,6 +224,8 @@ configurations = [
 minify_html = true
 minify_js = true
 
+[project.plugins.meta]
+
 [project.plugins.social]
 enabled = true
 cards_layout_dir = "includes/social-cards-layouts"
