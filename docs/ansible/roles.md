@@ -1,5 +1,6 @@
 ---
 icon: lucide/square-stack
+description: A best practice in itself, including how to create and fill the role folder
 ---
 
 # Roles

@@ -4,7 +4,7 @@ This topic is split into multiple sections, each section covers a different aspe
 
 <div class="grid cards" markdown>
 
-* :lucide-monitor-cog: &nbsp; [**Installation**](installation.md)
+* :lucide-hard-drive-download: &nbsp; [**Installation**](installation.md)
 
     ---
     How to install Ansible and other tools.

@@ -1,0 +1,81 @@
+# Social card layout
+size: { width: 1200, height: 630 }
+layers:
+  - background:
+      color: "#FAFAFF"
+  - size: { width: 2000, height: 2000 }
+    offset: { x: -100, y: 0 }
+    origin: end center
+    icon:
+      value: material/circle
+      color: "#49ABEB"
+  - size: { width: 1800, height: 1800 }
+    offset: { x: 50, y: 0 }
+    origin: end center
+    icon:
+      value: material/circle
+      color: "#0D21A0"
+  - size: { width: 1600, height: 1600 }
+    offset: { x: 200, y: 0 }
+    origin: end center
+    icon:
+      value: material/circle
+      color: "#011749"
+  # Logo
+  - size: { width: 220, height: 220 }
+    offset: { x: 580, y: -20 }
+    icon:
+      value: community/zen-bull-blank
+  # Site name
+  - size: { width: 768, height: 42 }
+    offset: { x: 62, y: 74 }
+    typography:
+      content: "{{ config.site_name }}"
+      color: white
+      font:
+        family: Roboto
+        style: Bold
+  # Page title
+  - size: { width: 780, height: 310 }
+    offset: { x: 62, y: 160 }
+    typography:
+      content: "{{ page.title }}"
+      overflow: shrink
+      align: start
+      color: white
+      line:
+        amount: 3
+        height: 1.25
+      font:
+        family: Roboto
+        style: Bold
+  # Page description
+  - size: { width: 750, height: 64 }
+    offset: { x: 62, y: 420 }
+    typography:
+      content: "{{ page.meta.get('description', config.site_description) or '' }}"
+      align: start
+      color: white
+      line:
+        amount: 2
+        height: 1.5
+      font:
+        family: Roboto
+        style: Regular
+
+definitions:
+  - &page_description >-
+    {{ page.meta.get("description", config.site_description) or "" }}
+
+# Meta tags
+tags:
+
+  # Open Graph
+  og:type: website
+  og:title: "{{ config.site_name }}"
+  og:description: *page_description
+  og:image: "{{ image.url }}"
+  og:image:type: "{{ image.type }}"
+  og:image:width: "{{ image.width }}"
+  og:image:height: "{{ image.height }}"
+  og:url: "{{ page.canonical_url }}"

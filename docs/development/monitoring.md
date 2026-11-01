@@ -1,5 +1,6 @@
 ---
 icon: lucide/timer
+description: How to monitor your playbook for resource consumption or time taken
 ---
 
 # Monitoring & Troubleshooting

@@ -1,5 +1,6 @@
 ---
 icon: lucide/boxes
+description: How to install or create custom collections for Ansible content
 ---
 
 # Collections

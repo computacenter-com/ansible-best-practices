@@ -1,5 +1,6 @@
 ---
 icon: lucide/server
+description: How to manage your inventory of hosts and groups in Ansible
 ---
 
 # Inventory

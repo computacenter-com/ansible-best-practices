@@ -4,6 +4,7 @@ hide:
     - navigation
     - toc
     - footer
+description: Guiding principles to keep in mind when automating with Ansible
 ---
 
 # Welcome!

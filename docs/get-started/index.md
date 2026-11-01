@@ -1,3 +1,6 @@
+---
+description: How to get started with Ansible content development
+---
 # Get started
 
 When starting a new automation project, you (and potentially together with your team!) will need to make a couple of initial decisions and prepare your project, before starting to develop the actual automation content.

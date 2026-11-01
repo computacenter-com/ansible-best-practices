@@ -1,5 +1,6 @@
 ---
 icon: lucide/id-card-lanyard
+description: How to operate AAP at scale
 ---
 
 # Managing & operating AAP

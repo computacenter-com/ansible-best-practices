@@ -1,5 +1,6 @@
 ---
 icon: lucide/rocket
+description: How to run your Ansible content, from CLI to Execution Environments
 ---
 
 # Executing playbooks
