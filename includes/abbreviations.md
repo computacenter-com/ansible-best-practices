@@ -9,3 +9,4 @@
 *[GPG]: GNU Privacy Guard
 *[TUI]: Text-based User Interface
 *[VE]: Virtual Environment
+*[SemVer]: Semantic Versioning
