@@ -22,7 +22,7 @@ extra_css = [
 nav = [
   {"Ansible Best Practice Guide" = "index.md"},
   {"Mindset" = "mindset/index.md"},
-  {"Get started" = "get-started/index.md"},
+  {"Get started" = "get-started/get-started-steps.md"},
   {"Ansible" = [
       "ansible/index.md",
       {"Installation" = "ansible/installation.md"},

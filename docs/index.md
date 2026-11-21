@@ -37,7 +37,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     ---
     The *Zen of Ansible*, some guiding principles to keep in mind when automating with Ansible.
 
-* :material-new-box: &nbsp; [**Get started**](get-started/index.md)
+* :material-new-box: &nbsp; [**Get started**](get-started/get-started-steps.md)
 
     ---
     Starting a new automation project? A step-by-step guide to set up everything for a successful Ansible project.
