@@ -68,7 +68,7 @@ Don't put too much logic in your playbook, put it in your roles (or even in cust
 A playbook **could** contain `pre_tasks`, `roles`, `tasks` and `post_tasks` sections, try to limit your playbooks to a **list of a roles**.
 
 !!! warning
-    Avoid using both *roles* and *tasks* sections, the latter possibly containing `import_role` or `include_role` tasks. The order of execution between *roles* and *tasks* isn’t obvious, and hence mixing them should be avoided.
+    Avoid using both *roles* and *tasks* sections, the latter possibly containing `import_role` or `include_role` tasks. The order of execution between *roles* and *tasks* isn't obvious, and hence mixing them should be avoided.
 
 Either you need only static importing of roles and you can use the roles section, or you need dynamic inclusion and you should use only the tasks section. Of course, for very simple cases, you can just use tasks without roles (but playbooks/projects grow quickly, refactor to roles early).
 
@@ -223,7 +223,7 @@ With the `collections` list defined as part of the play definition, you could wr
 
 !!! warning
     If your playbook uses both the collections keyword and one or more roles, the roles do not inherit the collections set by the playbook!  
-    The collections keyword merely creates an ordered *search path* for non-namespaced plugin and role references. It does not install content or otherwise change Ansible’s behavior around the loading of plugins or roles. Note that an FQCN is still required for non-action or module plugins (for example, lookups, filters, tests).
+    The collections keyword merely creates an ordered *search path* for non-namespaced plugin and role references. It does not install content or otherwise change Ansible's behavior around the loading of plugins or roles. Note that an FQCN is still required for non-action or module plugins (for example, lookups, filters, tests).
 
 !!! tip
-    It is preferable to use a module or plugin’s FQCN over the `collections` keyword!
+    It is preferable to use a module or plugin's FQCN over the `collections` keyword!

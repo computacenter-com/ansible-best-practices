@@ -286,14 +286,14 @@ Modules are reusable, standalone scripts that can be used by the Ansible API, th
 
 ## Developing plugins
 
-Plugins extend Ansible’s core functionality and **execute on the control node within the /usr/bin/ansible process.** Plugins offer options and extensions for the core features of Ansible e.g. transforming data, logging output, connecting to inventory, and more. Take a look into the [*Ansible Developer Documentation*](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html){:target="_blank"} for an overview of the different plugin types.
+Plugins extend Ansible's core functionality and **execute on the control node within the /usr/bin/ansible process.** Plugins offer options and extensions for the core features of Ansible e.g. transforming data, logging output, connecting to inventory, and more. Take a look into the [*Ansible Developer Documentation*](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html){:target="_blank"} for an overview of the different plugin types.
 
 All plugins must
 
 * be written in Python ([*in a compatible version of Python*](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#control-node-requirements){:target="_blank"})
 * raise errors ([*when things go wrong*](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html#raising-errors){:target="_blank"})
 * return strings in unicode ([*to run through Jinja2*](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html#string-encoding){:target="_blank"})
-* conform to Ansible’s configuration and documentation standards ([*how to use your plugin*](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html#plugin-configuration-documentation-standards){:target="_blank"})
+* conform to Ansible's configuration and documentation standards ([*how to use your plugin*](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html#plugin-configuration-documentation-standards){:target="_blank"})
 
 Depending on the type of plugin you want to create, different considerations need to be taken, the next subsections give a brief overview with a small example. Always use the latest Ansible documentation for additional information.
 
@@ -349,8 +349,8 @@ This file may be used as a minimal starting point, it includes a small example:
             }
     ```
 
-    1. This is the most generic [AnsibleError object](https://github.com/ansible/ansible/blob/devel/lib/ansible/errors/__init__.py){:target="_blank"}, depending on the specific plugin type you’re developing you may want to use different ones.
-    2. Use this to convert plugin output to convert output into Python’s unicode type (*to_text*) or for wrapping other exceptions into error messages (*to_native*).
+    1. This is the most generic [AnsibleError object](https://github.com/ansible/ansible/blob/devel/lib/ansible/errors/__init__.py){:target="_blank"}, depending on the specific plugin type you're developing you may want to use different ones.
+    2. Use this to convert plugin output to convert output into Python's unicode type (*to_text*) or for wrapping other exceptions into error messages (*to_native*).
     3. This is a non-standard dependency, the user needs to install this beforehand (e.g. `pip3 install netaddr --user`), therefore surrounding it with *try-except*. **Document necessary requirements!**
     4. Example plugin definition, this sorts a given list of IP addresses ( Jinja2 *sort* filter does not work correctly with IPs), it expects a list.
     5. Testing if input is a *list*, otherwise return an error message. Maybe another error type (e.g. *AnsibleFilterTypeError*) is more appropriate? What other exceptions need to be caught?

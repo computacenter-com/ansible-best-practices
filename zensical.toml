@@ -22,7 +22,7 @@ extra_css = [
 nav = [
   {"Ansible Best Practice Guide" = "index.md"},
   {"Mindset" = "mindset/index.md"},
-  {"Get started" = "get-started/index.md"},
+  {"Get started" = "get-started/get-started-steps.md"},
   {"Ansible" = [
       "ansible/index.md",
       {"Installation" = "ansible/installation.md"},
@@ -222,6 +222,12 @@ configurations = [
 # ----------------------------------------------------------------------------
 # Plugins
 # ----------------------------------------------------------------------------
+[project.plugins.git-revision-date-localized]
+type = "custom"
+custom_format = "Last edited on %B %-d, %Y"
+timezone = "Europe/Berlin"
+exclude = [ "**index.md" ]
+
 [project.plugins.minify]
 minify_html = true
 minify_js = true

@@ -104,7 +104,7 @@ recursive-include group_vars *.yml
 graft roles
 ```
 
-Internally, `ansible-sign` makes use of the `distlib.manifest` module of Python’s distlib library.
+Internally, `ansible-sign` makes use of the `distlib.manifest` module of Python's distlib library.
 Take a look at the [`MANIFEST.in` explanation in the Python Packaging User Guide](https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html){:target="_blank"} for additional information.
 
 The commands used in the `MANIFEST.in` file are:

@@ -18,7 +18,7 @@ Ansible is a simple, flexible, and powerful automation tool. Like any powerful t
 </figure>
 
 This document is a knowledgebase and aims to gather good and best practices from Ansible practitioners and experience from multiple Ansible projects.  
-Those guidelines are **opinionated** and are based on the experience of many projects. They are *not* meant to be followed blindly if they don’t fit the reader’s specific use case or needs. Take them as an inspiration and adjust them to your needs.
+Those guidelines are **opinionated** and are based on the experience of many projects. They are *not* meant to be followed blindly if they don't fit the reader's specific use case or needs. Take them as an inspiration and adjust them to your needs.
 
 <div class="grid" markdown>
 
@@ -37,7 +37,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     ---
     The *Zen of Ansible*, some guiding principles to keep in mind when automating with Ansible.
 
-* :material-new-box: &nbsp; [**Get started**](get-started/index.md)
+* :material-new-box: &nbsp; [**Get started**](get-started/get-started-steps.md)
 
     ---
     Starting a new automation project? A step-by-step guide to set up everything for a successful Ansible project.

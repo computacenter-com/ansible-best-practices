@@ -7,7 +7,7 @@ description: How to test your Ansible content during development
 <!-- markdownlint-disable MD024 -->
 # Testing
 
-With many people contributing to the automation, it is crucial to test the automation content in-depth. So when you’re developing new Ansible Content like playbooks, roles and collections, it’s a good idea to test the content in a test environment before using it to automate production infrastructure. Testing ensures the automation works as designed and avoids unpleasant surprises down the road.  
+With many people contributing to the automation, it is crucial to test the automation content in-depth. So when you're developing new Ansible Content like playbooks, roles and collections, it's a good idea to test the content in a test environment before using it to automate production infrastructure. Testing ensures the automation works as designed and avoids unpleasant surprises down the road.  
 Testing automation content is often a challenge, since it requires the deployment of specific testing infrastructure as well as setting up the testing conditions to ensure the tests are relevant.
 
 Consider the following list for testing your Ansible content, with increasing complexity:

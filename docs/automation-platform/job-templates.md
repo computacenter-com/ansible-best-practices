@@ -14,7 +14,7 @@ Along with any extra variables set in the job template and survey, Automation Co
 For compatibility, all variables are  given an `awx` prefix, they are defined by the system and **cannot be overridden**.
 
 * `awx_job_template_id`: The job template ID that this job run uses.
-* `awx_project_revision`: The revision identifier for the source tree that this particular job uses (it is also the same as the job’s field scm_revision).
+* `awx_project_revision`: The revision identifier for the source tree that this particular job uses (it is also the same as the job's field scm_revision).
 * `awx_user_id`: The user ID of the automation controller user that started this job. This is not available for callback or scheduled jobs.
 
 !!! info
