@@ -637,7 +637,7 @@ It makes the most sense to define the *module defaults* at [*play* level, take a
 When using modules like `copy` or `template` you can (and should) set permissions for the files/templates deployed with the `mode` parameter.
 
 For those used to */usr/bin/chmod*, remember that modes are actually octal numbers.  
-Add a **leading zero** (or `1` for setting sticky bit), showing Ansible’s YAML parser it is an octal number **and** quote it (like `"0644"` or `"1777"`), this way Ansible receives a string and can do its own conversion from string into number.
+Add a **leading zero** (or `1` for setting sticky bit), showing Ansible's YAML parser it is an octal number **and** quote it (like `"0644"` or `"1777"`), this way Ansible receives a string and can do its own conversion from string into number.
 
 !!! warning
     Giving Ansible a number without following one of these rules will end up with a decimal number which can have unexpected results.
@@ -677,7 +677,7 @@ Add a **leading zero** (or `1` for setting sticky bit), showing Ansible’s YAML
 
 ### State definition
 
-The `state` parameter is optional to a lot of modules. Whether `state: present` or `state: absent`, it’s always best to leave that parameter in your playbooks to make it clear, especially as some modules support additional states.
+The `state` parameter is optional to a lot of modules. Whether `state: present` or `state: absent`, it's always best to leave that parameter in your playbooks to make it clear, especially as some modules support additional states.
 
 ## Files vs. Templates
 
