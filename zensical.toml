@@ -222,6 +222,12 @@ configurations = [
 # ----------------------------------------------------------------------------
 # Plugins
 # ----------------------------------------------------------------------------
+[project.plugins.git-revision-date-localized]
+type = "custom"
+custom_format = "Last edited on %B %-d, %Y"
+timezone = "Europe/Berlin"
+exclude = [ "**index.md" ]
+
 [project.plugins.minify]
 minify_html = true
 minify_js = true
