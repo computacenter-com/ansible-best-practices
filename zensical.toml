@@ -47,6 +47,8 @@ nav = [
   {"Ansible Development" = [
       "development/index.md",
       {"Version Control" = "development/git.md"},
+      {"Release Management" = "development/semantic-release.md"},
+      {"Dependency Management" = "development/renovate.md"},
       {"Linting" = "development/linting.md"},
       {"Testing" = "development/testing.md"},
       {"Monitoring & Troubleshooting" = "development/monitoring.md"},
