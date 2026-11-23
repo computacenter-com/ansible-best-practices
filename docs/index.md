@@ -57,6 +57,11 @@ The guidelines described here are **opinionated** and are based on the experienc
     ---
     Expand Ansible automation, from Event-Driven Ansible, to ansible-sign and other use cases or projects.
 
+* :material-repeat-variant: &nbsp; [**Project Lifecycle**](project-lifecycle/index.md)
+
+    ---
+    Additional things for successful automation, from version-control with Git, to dependency and release management.
+
 </div>
 
 !!! success

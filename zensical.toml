@@ -21,6 +21,7 @@ extra_css = [
 
 nav = [
   {"Ansible Best Practice Guide" = "index.md"},
+  {"Get started" = "get-started/get-started-steps.md"},
   {"Ansible" = [
       "ansible/index.md",
       {"Installation" = "ansible/installation.md"},
@@ -44,9 +45,6 @@ nav = [
   ]},
   {"Ansible Development" = [
       "development/index.md",
-      {"Version Control" = "development/git.md"},
-      {"Release Management" = "development/semantic-release.md"},
-      {"Dependency Management" = "development/renovate.md"},
       {"Linting" = "development/linting.md"},
       {"Testing" = "development/testing.md"},
       {"Monitoring & Troubleshooting" = "development/monitoring.md"},
@@ -59,6 +57,12 @@ nav = [
     {"Event-Driven Ansible" = "ecosystem/event-driven-ansible.md"},
     {"Ansible Sign" = "ecosystem/ansible-sign.md"},
   ]},
+  {"Project Lifecycle" = [
+    "project-lifecycle/index.md",
+    {"Version Control" = "project-lifecycle/git.md"},
+    {"Release Management" = "project-lifecycle/semantic-release.md"},
+    {"Dependency Management" = "project-lifecycle/renovate.md"},
+  ]}
 ]
 
 # ----------------------------------------------------------------------------
@@ -232,6 +236,9 @@ minify_html = true
 minify_js = true
 
 [project.plugins.meta]
+
+[project.plugins.redirects.redirect_maps]
+"development/git.md" = "project-lifecycle/git.md"
 
 [project.plugins.social]
 enabled = true

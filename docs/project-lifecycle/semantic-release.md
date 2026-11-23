@@ -1,6 +1,7 @@
 ---
 icon: lucide/tag
 description: How to version and release your Ansible content automatically with semantic-release
+status: new
 ---
 
 # Release Management
