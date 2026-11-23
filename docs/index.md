@@ -9,7 +9,8 @@ description: Guiding principles to keep in mind when automating with Ansible
 
 # Welcome!
 
-Ansible is a simple, flexible, and powerful automation tool. Like any powerful tool, there are many ways to use it, some better than others.
+Ansible is a simple, flexible, and powerful automation tool. Like any powerful tool, there are many ways to use it, some better than others.  
+This document is a knowledgebase and aims to gather good and best practices from Ansible practitioners and experience from multiple Ansible projects.  
 
 <figure markdown>
   ![CC Logo](assets/images/ansible-community-logo-black.png#only-light){ width="400" }
@@ -17,12 +18,11 @@ Ansible is a simple, flexible, and powerful automation tool. Like any powerful t
   <figcaption></figcaption>
 </figure>
 
-This document is a knowledgebase and aims to gather good and best practices from Ansible practitioners and experience from multiple Ansible projects.  
-Those guidelines are **opinionated** and are based on the experience of many projects. They are *not* meant to be followed blindly if they don't fit the reader's specific use case or needs. Take them as an inspiration and adjust them to your needs.
+The guidelines described here are **opinionated** and are based on the experience of many projects, they are *not* meant to be followed blindly if they don't fit the reader's specific use case or needs. Take them as an inspiration and adjust them to your needs.
 
 <div class="grid" markdown>
 
-!!! tip "Looking for something specific?"
+!!! question "Looking for something specific?"
     Use the **Search** at the top!
 
 !!! info "Guide is updated constantly!"
@@ -31,11 +31,6 @@ Those guidelines are **opinionated** and are based on the experience of many pro
 </div>
 
 <div class="grid cards" markdown>
-
-* :material-lightbulb: &nbsp; [**Mindset**](mindset/index.md)
-
-    ---
-    The *Zen of Ansible*, some guiding principles to keep in mind when automating with Ansible.
 
 * :material-new-box: &nbsp; [**Get started**](get-started/get-started-steps.md)
 
@@ -68,3 +63,7 @@ Those guidelines are **opinionated** and are based on the experience of many pro
     **If you have good and best practices yourself, please share them, we all can learn.**  
     Open a [documentation request](https://github.com/computacenter-com/ansible-best-practices/issues/new/choose){ target="_blank" } or fork the repository and open a Pull Request afterwards.  
     Take a look at our [Contributing guidelines](https://github.com/computacenter-com/ansible-best-practices/blob/main/.github/CONTRIBUTING.md){ target="_blank" } on how to setup a development environment and additional information.
+
+## Further reading
+
+The [Red Hat Ansible Community of Practice (CoP)](https://redhat-cop.github.io/automation-good-practices/){ target=_blank } has also assembled a comprehensive repository of "good practices" for Ansible content development.
