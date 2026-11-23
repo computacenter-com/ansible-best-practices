@@ -222,6 +222,8 @@ configurations = [
 # ----------------------------------------------------------------------------
 # Plugins
 # ----------------------------------------------------------------------------
+[project.plugins.autorefs]
+
 [project.plugins.git-revision-date-localized]
 type = "custom"
 custom_format = "Last edited on %B %-d, %Y"
