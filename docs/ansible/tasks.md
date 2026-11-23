@@ -844,8 +844,8 @@ ok: [instance1]
 ```
 
 ### Nested loops
-
-While it possible to use *nested* loops (as in a [programming language](../mindset/index.md#ansible-is-not-python){ data-preview }) with some *workarounds*, try to avoid this. If you do not have to execute multiple tasks in the *inner* loop, in most cases, **format the data** to achieve the same result.
+<!-- markdownlint-disable-next-line MD052 -->
+While it possible to use *nested* loops (as in a [programming language][the-zen-of-ansible]{ data-preview }) with some *workarounds*, try to avoid this. If you do not have to execute multiple tasks in the *inner* loop, in most cases, **format the data** to achieve the same result.
 
 ??? example "Example input"
 

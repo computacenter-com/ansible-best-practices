@@ -21,8 +21,6 @@ extra_css = [
 
 nav = [
   {"Ansible Best Practice Guide" = "index.md"},
-  {"Mindset" = "mindset/index.md"},
-  {"Get started" = "get-started/get-started-steps.md"},
   {"Ansible" = [
       "ansible/index.md",
       {"Installation" = "ansible/installation.md"},
@@ -56,7 +54,7 @@ nav = [
       {"Extending" = "development/extending.md"},
       {"Execution Environments" = "development/execution-environment.md"},
   ]},
-  {"Ecosystem" = [
+  {"Ansible Ecosystem" = [
     "ecosystem/index.md",
     {"Event-Driven Ansible" = "ecosystem/event-driven-ansible.md"},
     {"Ansible Sign" = "ecosystem/ansible-sign.md"},
@@ -83,7 +81,6 @@ features = [
     "navigation.indexes",
     "navigation.instant",
     "navigation.instant.prefetch",
-    "navigation.path",
     "navigation.prune",
     "navigation.sections",
     "navigation.tabs",
