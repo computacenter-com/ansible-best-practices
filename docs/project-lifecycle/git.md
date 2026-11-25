@@ -2,6 +2,8 @@
 icon: lucide/git-pull-request-arrow
 description: Small guide for version controlling Ansible content
 ---
+<!-- markdownlint-disable-next-line MD041 MD042 -->
+[](){ #project-lifecycle-version-control }
 
 # Version Control
 
@@ -447,8 +449,8 @@ pre-commit run -a
 #### Offline
 
 The *pre-commit* framework by default needs internet connection to setup the hooks, in disconnected environments you can build the pre-commit hook yourself.
-
-The following script can be used as a starting point, it uses *ansible-lint* from inside a container (see [Lint in Docker Image](linting.md#lint-in-docker-image) how to build it) and also checks for unencrypted files in your commit.
+<!-- markdownlint-disable-next-line MD052 -->
+The following script can be used as a starting point, it uses *ansible-lint* from inside a container (see [Lint in Docker Image][lint-in-docker-image] how to build it) and also checks for unencrypted files in your commit.
 
 ??? example ".git/hooks/pre-commit"
 

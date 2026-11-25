@@ -1,6 +1,7 @@
 ---
-icon: lucide/refresh-cw
+icon: lucide/package-question-mark
 description: How to keep collections, roles and other dependencies up to date with Renovate
+status: new
 ---
 
 # Dependency Management
@@ -75,7 +76,7 @@ Every pull request contains the release notes of the updated dependency, this ma
 A complete list of all available managers is provided in the [Renovate documentation](https://docs.renovatebot.com/modules/manager/){ target=_blank }.
 
 !!! info
-    There is no built-in manager for the [Execution Environment definition file](execution-environment.md#ee-definition-file){ data-preview }, the base image can be updated with a [custom manager](#execution-environment-base-image).
+    There is no built-in manager for the [Execution Environment definition file][ee-definition-file]{ data-preview }, the base image can be updated with a [custom manager](#execution-environment-base-image). <!-- markdownlint-disable-line MD052 -->
 
 ## Installation
 
@@ -220,7 +221,8 @@ All available options are described in the [configuration options](https://docs.
     The versions of *ansible-core* look like *SemVer*, but a **minor** update (e.g. `2.19` → `2.20`) is a major release, which removes deprecated features and may break your playbooks. Check the [porting guides](https://docs.ansible.com/ansible/latest/porting_guides/porting_guides.html){ target=_blank } before merging, the configuration above labels these updates as `breaking-change`.
 
 !!! warning "Automerge only with a CI pipeline"
-    **Only enable `automerge` if your repository has a CI pipeline with [linting](linting.md#ci-pipeline){ data-preview } and [testing](testing.md){ data-preview }!**  
+    <!-- markdownlint-disable-next-line MD052 -->
+    **Only enable `automerge` if your repository has a CI pipeline with [linting][linting-ci-pipeline]{ data-preview } and [testing][ansible-testing]{ data-preview }!**  
     Without any checks, *Renovate* merges every update, even if it breaks your playbooks.
 
 ??? tip "Updates for a specific ansible-core version"

@@ -4,21 +4,6 @@ This topic is split into multiple sections, each section covers a different addi
 
 <div class="grid cards" markdown>
 
-* :lucide-git-pull-request-arrow: &nbsp; [**Version Control**](git.md){ data-preview }
-
-    ---
-    Small guide for version controlling playbooks.
-
-* :lucide-tag: &nbsp; [**Release Management**](semantic-release.md){ data-preview }
-
-    ---
-    How to version and release your Ansible content automatically with semantic-release.
-
-* :lucide-refresh-cw: &nbsp; [**Dependency Management**](renovate.md){ data-preview }
-
-    ---
-    How to keep collections, roles and other dependencies up to date with Renovate.
-
 * :lucide-search-check: &nbsp; [**Linting**](linting.md){ data-preview }
 
     ---
@@ -50,25 +35,3 @@ This topic is split into multiple sections, each section covers a different addi
     How to create your own EEs or extend existing ones.
 
 </div>
-
-## Tools
-
-Each section above make use of an additional tool to support you during your Ansible content development. In most cases the standalone installation, as well as a custom container-based installation and usage method is described.  
-
-The Ansible community provides a Container image bundling all the tools described in the sections above.
-
-```bash
-docker pull quay.io/ansible/creator-ee
-```
-
-For example you could output the version of the installed tools like this:
-
-```bash
-docker run --rm quay.io/ansible/creator-ee ansible-lint --version
-```
-
-```bash
-docker run --rm quay.io/ansible/creator-ee molecule --version
-```
-
-Take a look into the respective sections for more information and additional usage instructions.

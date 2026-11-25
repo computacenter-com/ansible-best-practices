@@ -147,7 +147,9 @@ Lining can and should be done automatically, this way you can't forget to check 
 
 A nice way to check for best practices during your Git workflow is the usage of a *pre-commit* hook. These hooks can be simple bash script, which are run whenever you are committing changes locally to the staging area or a framework/utility like [pre-commit](https://pre-commit.com/){:target="_blank"}.
 
-Take a look at the [Version Control section](git.md#pre-commit) for installing and configuring *pre-commit* hooks.
+Take a look at the [Version Control section][pre-commit] for installing and configuring *pre-commit* hooks. <!-- markdownlint-disable-line MD052 -->
+
+[](){ #linting-ci-pipeline } <!-- markdownlint-disable-line MD042 -->
 
 ### CI Pipeline
 
